@@ -15,6 +15,7 @@ import { AboutPage } from './pages/AboutPage';
 import { MembershipPage } from './pages/MembershipPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { AdminPage } from './pages/AdminPage';
+import { ContactPage } from './pages/ContactPage';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
               <Route path="/membership" element={<MembershipPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/admin" element={<AdminPage />} />
+              <Route path="/contact" element={<ContactPage />} />
             </Routes>
           </main>
           <Footer />
