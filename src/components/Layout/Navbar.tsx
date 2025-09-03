@@ -14,7 +14,9 @@ import {
   BookOpen,
   Users,
   Briefcase,
-  Shield
+  Shield,
+  CreditCard,
+  Award
 } from 'lucide-react';
 import { Button } from '../ui/Button';
 
@@ -138,6 +140,22 @@ export function Navbar() {
                         >
                           <Settings className="inline h-4 w-4 mr-2" />
                           Profile Settings
+                        </Link>
+                        <Link
+                          to="/billing"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          onClick={() => setIsProfileOpen(false)}
+                        >
+                          <CreditCard className="inline h-4 w-4 mr-2" />
+                          Billing
+                        </Link>
+                        <Link
+                          to="/certifications"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          onClick={() => setIsProfileOpen(false)}
+                        >
+                          <Award className="inline h-4 w-4 mr-2" />
+                          Certifications
                         </Link>
                         <button
                           onClick={handleLogout}

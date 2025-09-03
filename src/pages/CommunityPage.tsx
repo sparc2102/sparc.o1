@@ -147,7 +147,9 @@ export function CommunityPage() {
                           </div>
                         </div>
                       </div>
-                      <div className="ml-4">
+                        <Link to={`/community/${post.id}`} className="font-medium hover:text-blue-600">
+                          {post.author}
+                        </Link>
                         <span className="inline-block px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-full">
                           {post.category}
                         </span>

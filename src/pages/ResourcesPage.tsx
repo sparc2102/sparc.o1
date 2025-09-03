@@ -218,7 +218,7 @@ export function ResourcesPage() {
                     </span>
                     <Button size="sm" disabled>
                       <Download className="h-4 w-4 mr-1" />
-                      Download
+                      <Link to={`/resources/${resource.id}`}>Download</Link>
                     </Button>
                   </div>
                 </CardContent>

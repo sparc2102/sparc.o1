@@ -16,6 +16,11 @@ import { MembershipPage } from './pages/MembershipPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { AdminPage } from './pages/AdminPage';
 import { ContactPage } from './pages/ContactPage';
+import { EventDetailPage } from './pages/EventDetailPage';
+import { ResourceDetailPage } from './pages/ResourceDetailPage';
+import { ForumTopicDetailPage } from './pages/ForumTopicDetailPage';
+import { BillingPage } from './pages/BillingPage';
+import { CertificationsPage } from './pages/CertificationsPage';
 
 function App() {
   return (
@@ -38,6 +43,11 @@ function App() {
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/admin" element={<AdminPage />} />
               <Route path="/contact" element={<ContactPage />} />
+              <Route path="/events/:id" element={<EventDetailPage />} />
+              <Route path="/resources/:id" element={<ResourceDetailPage />} />
+              <Route path="/community/:topicId" element={<ForumTopicDetailPage />} />
+              <Route path="/billing" element={<BillingPage />} />
+              <Route path="/certifications" element={<CertificationsPage />} />
             </Routes>
           </main>
           <Footer />

@@ -5,7 +5,7 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'your-anon-key
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-// Database types
+// Database types - Updated for complete schema
 export interface Database {
   public: {
     Tables: {
@@ -27,6 +27,7 @@ export interface Database {
           bio?: string;
           location?: string;
           phone?: string;
+          created_at: string;
         };
         Insert: {
           id?: string;

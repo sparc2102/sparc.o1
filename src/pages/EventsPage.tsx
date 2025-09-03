@@ -161,7 +161,9 @@ export function EventsPage() {
                   {user ? (
                     <Button size="sm">Register</Button>
                   ) : (
-                    <Button size="sm" variant="outline">View Details</Button>
+                    <Link to={`/events/${event.id}`}>
+                      <Button size="sm" variant="outline">View Details</Button>
+                    </Link>
                   )}
                 </div>
               </CardContent>
