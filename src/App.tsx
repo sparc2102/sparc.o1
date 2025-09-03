@@ -21,6 +21,11 @@ import { ResourceDetailPage } from './pages/ResourceDetailPage';
 import { ForumTopicDetailPage } from './pages/ForumTopicDetailPage';
 import { BillingPage } from './pages/BillingPage';
 import { CertificationsPage } from './pages/CertificationsPage';
+import SupportPage from './pages/SupportPage';
+import HelpCenterPage from './pages/HelpCenterPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsOfServicePage from './pages/TermsOfServicePage';
+import AdminPortalPage from './pages/AdminPortalPage';
 
 function App() {
   return (
@@ -48,6 +53,11 @@ function App() {
               <Route path="/community/:topicId" element={<ForumTopicDetailPage />} />
               <Route path="/billing" element={<BillingPage />} />
               <Route path="/certifications" element={<CertificationsPage />} />
+              <Route path="/support" element={<SupportPage />} />
+              <Route path="/help" element={<HelpCenterPage />} />
+              <Route path="/privacy" element={<PrivacyPolicyPage />} />
+              <Route path="/terms" element={<TermsOfServicePage />} />
+              <Route path="/admin-portal" element={<AdminPortalPage />} />
             </Routes>
           </main>
           <Footer />

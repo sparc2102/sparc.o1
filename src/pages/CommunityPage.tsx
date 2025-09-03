@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
@@ -11,7 +12,6 @@ import {
   Eye,
   ThumbsUp,
   Reply,
-  Filter,
   TrendingUp,
   Clock,
   User,
@@ -53,7 +53,6 @@ export function CommunityPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-4">Community Forums</h1>
           <p className="text-lg text-gray-600">
@@ -61,7 +60,6 @@ export function CommunityPage() {
           </p>
         </div>
 
-        {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {forumStats.map((stat, index) => {
             const Icon = stat.icon;
@@ -83,9 +81,7 @@ export function CommunityPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Main Content */}
           <div className="lg:col-span-3">
-            {/* Search and Filters */}
             <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
               <div className="flex flex-col md:flex-row gap-4 mb-4">
                 <div className="flex-1">
@@ -120,13 +116,12 @@ export function CommunityPage() {
               </div>
             </div>
 
-            {/* Forum Posts */}
             <div className="space-y-4">
               {filteredPosts.map((post) => (
                 <Card key={post.id} className="hover:shadow-md transition-shadow">
                   <CardContent className="p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex-1">
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="flex-1 mr-4">
                         <h3 className="text-lg font-semibold text-gray-900 mb-2 hover:text-blue-600 cursor-pointer">
                           {post.title}
                         </h3>
@@ -147,13 +142,9 @@ export function CommunityPage() {
                           </div>
                         </div>
                       </div>
-                        <Link to={`/community/${post.id}`} className="font-medium hover:text-blue-600">
-                          {post.author}
-                        </Link>
-                        <span className="inline-block px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-full">
-                          {post.category}
-                        </span>
-                      </div>
+                      <span className="inline-block px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-full">
+                        {post.category}
+                      </span>
                     </div>
                     
                     <div className="flex items-center justify-between pt-4 border-t border-gray-200">
@@ -209,9 +200,7 @@ export function CommunityPage() {
             )}
           </div>
 
-          {/* Sidebar */}
           <div className="space-y-6">
-            {/* Categories */}
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Popular Categories</CardTitle>
@@ -235,7 +224,6 @@ export function CommunityPage() {
               </CardContent>
             </Card>
 
-            {/* Guidelines */}
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Community Guidelines</CardTitle>
@@ -262,7 +250,6 @@ export function CommunityPage() {
               </CardContent>
             </Card>
 
-            {/* Top Contributors */}
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Top Contributors</CardTitle>
