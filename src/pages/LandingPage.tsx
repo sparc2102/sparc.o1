@@ -111,12 +111,12 @@ export function LandingPage() {
               ) : (
                 <>
                   <Link to="/register">
-                    <Button size="lg" className="bg-white text-blue-700 hover:bg-blue-50">
+                    <Button size="lg" className="bg-red text-blue-700 hover:bg-blue-50">
                       Join SPARC Today <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>
                   </Link>
                   <Link to="/about">
-                    <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-700">
+                    <Button size="lg" variant="outline" className="border-white text-red hover:bg-white hover:text-blue-700">
                       Learn More
                     </Button>
                   </Link>
@@ -341,12 +341,12 @@ export function LandingPage() {
           {!user && (
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/register">
-                <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50">
+                <Button size="lg" className="bg-red text-blue-600 hover:bg-blue-50">
                   Start Free with Genesis
                 </Button>
               </Link>
               <Link to="/contact">
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
+                <Button size="lg" variant="outline" className="border-white text-blue hover:bg-white hover:text-blue-600">
                   Contact Us
                 </Button>
               </Link>
