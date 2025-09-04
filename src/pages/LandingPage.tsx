@@ -101,13 +101,21 @@ export function LandingPage() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               {user ? (
-                <Button 
-                  size="lg" 
-                  className="bg-white text-blue-700 hover:bg-blue-50"
-                  onClick={() => navigate('/dashboard')}
-                >
-                  Go to Dashboard <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
+                <Button
+  size="lg"
+  className="
+    bg-gradient-to-r from-blue-600 to-blue-700 
+    text-white font-semibold 
+    shadow-md 
+    hover:from-blue-700 hover:to-blue-800 
+    hover:shadow-lg 
+    transition-all duration-300 ease-in-out 
+    rounded-xl
+  "
+  onClick={() => navigate('/dashboard')}
+>
+  Go to Dashboard <ArrowRight className="ml-2 h-5 w-5" />
+</Button>
               ) : (
                 <>
                   <Link to="/register">

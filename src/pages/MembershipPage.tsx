@@ -251,12 +251,12 @@ export function MembershipPage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link to="/register">
-                  <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50">
+                  <Button size="lg" className="bg-blue text-blue-600 hover:bg-blue-50">
                     Join Now - Free Genesis
                   </Button>
                 </Link>
                 <Link to="/contact">
-                  <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
+                  <Button size="lg" variant="outline" className="border-blue text-blue hover:bg-blue hover:text-blue-600">
                     Questions? Contact Us
                   </Button>
                 </Link>

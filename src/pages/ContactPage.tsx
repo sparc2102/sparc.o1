@@ -512,11 +512,11 @@ export function ContactPage() {
               </div>
               
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Button variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
+                <Button variant="outline" className="border-white text-blue hover:bg-white hover:text-blue-600">
                   <Globe className="h-4 w-4 mr-2" />
                   Visit Help Center
                 </Button>
-                <Button variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
+                <Button variant="outline" className="border-white text-blue hover:bg-white hover:text-blue-600">
                   <Users className="h-4 w-4 mr-2" />
                   Join Community
                 </Button>

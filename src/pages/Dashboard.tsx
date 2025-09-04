@@ -18,6 +18,9 @@ import {
 } from 'lucide-react';
 import { mockEvents, mockResources, membershipTiers } from '../data/mockData';
 import { format } from 'date-fns';
+import ProgressTracker from '../components/ProgressTracker';
+import CommunityActivity from '../components/CommunityActivity';
+import NotificationsCenter from '../components/NotificationsCenter';
 
 export function Dashboard() {
   const { user } = useAuth();
@@ -252,10 +255,40 @@ export function Dashboard() {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Progress Tracker */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Progress Tracker</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ProgressTracker userId={user.id} />
+              </CardContent>
+            </Card>
+
+            {/* Community Activity */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Community Activity</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CommunityActivity />
+              </CardContent>
+            </Card>
           </div>
 
           {/* Sidebar */}
           <div className="space-y-6">
+            {/* Notifications Center */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Notifications Center</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <NotificationsCenter />
+              </CardContent>
+            </Card>
+
             {/* Membership Status */}
             <Card>
               <CardHeader>

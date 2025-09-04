@@ -26,6 +26,7 @@ import HelpCenterPage from './pages/HelpCenterPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsOfServicePage from './pages/TermsOfServicePage';
 import AdminPortalPage from './pages/AdminPortalPage';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
@@ -38,15 +39,15 @@ function App() {
               <Route path="/" element={<LandingPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
               <Route path="/events" element={<EventsPage />} />
               <Route path="/resources" element={<ResourcesPage />} />
               <Route path="/community" element={<CommunityPage />} />
               <Route path="/careers" element={<CareersPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/membership" element={<MembershipPage />} />
-              <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/admin" element={<AdminPage />} />
+              <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+              <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/events/:id" element={<EventDetailPage />} />
               <Route path="/resources/:id" element={<ResourceDetailPage />} />
