@@ -14,7 +14,7 @@ import {
   Save,
   X,
   Award,
-  Shield,
+  Flame,
   Camera,
   Settings,
   Bell,
@@ -125,7 +125,7 @@ export function ProfilePage() {
                 <p className="text-gray-600 mb-4">{user.email}</p>
                 
                 <div className={`inline-flex items-center px-3 py-1 rounded-full border ${tierColors.bg} ${tierColors.text} ${tierColors.border} mb-4`}>
-                  <Shield className="h-4 w-4 mr-2" />
+                  <Flame className="h-4 w-4 mr-2" />
                   {user.membershipTier.charAt(0).toUpperCase() + user.membershipTier.slice(1)} Member
                 </div>
 

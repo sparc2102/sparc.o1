@@ -12,7 +12,7 @@ import {
   Globe,
   Users,
   Building,
-  Shield,
+  Flame,
   ExternalLink
 } from 'lucide-react';
 
@@ -151,7 +151,7 @@ export function ContactPage() {
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <Shield className="h-16 w-16 text-blue-200 mx-auto mb-6" />
+          <Flame className="h-16 w-16 text-blue-200 mx-auto mb-6" />
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Contact SPARC</h1>
           <p className="text-xl text-blue-100 max-w-3xl mx-auto">
             We're here to help you advance your pharmaceutical career. Get in touch with our team 

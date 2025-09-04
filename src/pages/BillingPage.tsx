@@ -14,7 +14,7 @@ import {
   Trash2,
   Plus,
   Receipt,
-  Shield,
+  Flame,
   TrendingUp,
   Clock
 } from 'lucide-react';
@@ -29,7 +29,7 @@ export function BillingPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <Card className="max-w-md">
           <CardContent className="p-6 text-center">
-            <Shield className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+            <Flame className="h-12 w-12 text-blue-600 mx-auto mb-4" />
             <h2 className="text-lg font-semibold text-gray-900 mb-2">Access Restricted</h2>
             <p className="text-gray-600 mb-4">Please sign in to view your billing information.</p>
           </CardContent>

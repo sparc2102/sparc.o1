@@ -14,7 +14,7 @@ import {
   BookOpen,
   Users,
   Briefcase,
-  Shield,
+  Flame,
   CreditCard,
   Award
 } from 'lucide-react';
@@ -66,9 +66,9 @@ export function Navbar() {
           <div className="flex">
             <Link to="/" className="flex-shrink-0 flex items-center">
               <div className="flex items-center space-x-2">
-                <Shield className="h-8 w-8 text-blue-600" />
+                <Flame className="h-8 w-8 text-blue-600" />
                 <div className="text-xl font-bold text-gray-900">SPARC</div>
-                <div className="text-sm text-gray-500">by ZANE ProEd</div>
+               
               </div>
             </Link>
 

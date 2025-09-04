@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Shield, Mail, Phone, MapPin } from 'lucide-react';
+import { Flame, Mail, Phone, MapPin } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -9,7 +9,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <Shield className="h-8 w-8 text-blue-400" />
+              <Flame className="h-8 w-8 text-blue-400" />
               <div>
                 <div className="text-xl font-bold">SPARC</div>
                 <div className="text-sm text-gray-300">by ZANE ProEd</div>

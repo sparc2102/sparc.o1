@@ -5,7 +5,7 @@ import { Button } from '../components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
 import { membershipTiers, mockEvents } from '../data/mockData';
 import { 
-  Shield, 
+  Flame, 
   Users, 
   Calendar, 
   BookOpen, 
@@ -86,7 +86,7 @@ export function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center">
             <div className="flex justify-center mb-6">
-              <Shield className="h-20 w-20 text-blue-200" />
+              <Flame className="h-20 w-20 text-blue-200" />
             </div>
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
               Welcome to <span className="text-blue-200">SPARC</span>
