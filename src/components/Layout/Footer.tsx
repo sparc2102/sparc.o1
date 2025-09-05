@@ -12,7 +12,7 @@ export function Footer() {
               <img 
                 src="/footer_logo.png" 
                 alt="SPARC Logo" 
-                className="h-20 w-20 object-contain"
+                className="h-28 w-28 object-contain"
               />
               <div>
                 <div className="text-xl font-bold">SPARC</div>

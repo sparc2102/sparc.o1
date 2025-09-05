@@ -68,7 +68,7 @@ export function Navbar() {
                 <img 
                   src="/logo.png" 
                   alt="SPARC Logo" 
-                  className="h-20 w-20 object-contain"
+                  className="h-28 w-28 object-contain"
                 />
               </div>
             </Link>
