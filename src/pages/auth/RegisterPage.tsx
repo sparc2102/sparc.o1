@@ -5,12 +5,28 @@ import { Button } from '../../components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card';
 import { membershipTiers } from '../../data/mockData';
 import { Flame, CheckCircle } from 'lucide-react';
+import { MembershipTier } from '../../types';
+
+interface FormData {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  membershipTier: string;
+  university: string;
+  graduationYear: string;
+  major: string;
+  company: string;
+  position: string;
+  phone: string;
+  agreedToTerms: boolean;
+}
 
 export function RegisterPage() {
   const location = useLocation();
   const selectedTier = location.state?.selectedTier || 'genesis';
   
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     password: '',
@@ -31,13 +47,15 @@ export function RegisterPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
+    const checked = 'checked' in e.target ? e.target.checked : false;
+    
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
+      [name]: type === 'checkbox' ? checked : (name === 'membershipTier' ? value as unknown as MembershipTier : value)
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
 
@@ -51,11 +69,29 @@ export function RegisterPage() {
       return;
     }
 
-    const success = await register(formData);
-    if (success) {
-      navigate('/dashboard');
-    } else {
-      setError('Registration failed. Email may already be in use.');
+    // Create registration data object with proper typing
+    const registrationData = {
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+      membershipTier: formData.membershipTier,
+      ...(formData.university && { university: formData.university }),
+      ...(formData.graduationYear && { graduationYear: formData.graduationYear }),
+      ...(formData.major && { major: formData.major }),
+      ...(formData.company && { company: formData.company }),
+      ...(formData.position && { position: formData.position }),
+      ...(formData.phone && { phone: formData.phone }),
+    };
+
+    try {
+      const success = await register(registrationData as any);
+      if (success) {
+        navigate('/dashboard');
+      } else {
+        setError('Registration failed. Email may already be in use.');
+      }
+    } catch (error) {
+      setError('Registration failed. Please try again.');
     }
   };
 
@@ -312,10 +348,10 @@ export function RegisterPage() {
                         </Button>
                         <Button 
                           type="submit" 
-                          className="w-full" 
-                          isLoading={isLoading}
+                          className="w-full"
+                          disabled={isLoading}
                         >
-                          Create Account
+                          {isLoading ? 'Creating Account...' : 'Create Account'}
                         </Button>
                       </div>
                     </>

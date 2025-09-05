@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { User } from '../types';
 import { supabase } from '../lib/supabase';
 
+export type MembershipTier = "genesis" | "professional" | "fellows";
+
 type ExtendedUser = User & {
   name?: string;
   membershipTier?: string;
@@ -9,16 +11,37 @@ type ExtendedUser = User & {
   profileComplete?: boolean;
 };
 
+interface RegistrationData {
+  name: string;
+  email: string;
+  password: string;
+  membershipTier: string;
+  university?: string;
+  graduationYear?: string;
+  major?: string;
+  company?: string;
+  position?: string;
+  phone?: string;
+}
+
 interface AuthContextType {
   user: ExtendedUser | null;
   login: (email: string, password: string) => Promise<boolean>;
-  register: () => Promise<boolean>;
+  register: (userData: RegistrationData) => Promise<boolean>;
   logout: () => void;
   updateProfile: (userData: Partial<User>) => void;
   isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
+
+// Define a type for membership tiers
+const validateMembershipTier = (tier: string): "genesis" | "professional" | "fellows" => {
+  if (tier === "genesis" || tier === "professional" || tier === "fellows") {
+    return tier;
+  }
+  throw new Error("Invalid membership tier");
+};
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<ExtendedUser | null>(null);
@@ -33,7 +56,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    // Correct the subscription handling
     const authListener = supabase.auth.onAuthStateChange((_, session) => {
       if (session?.user) {
         const extendedUser: ExtendedUser = {
@@ -68,9 +90,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const extendedUser: ExtendedUser = {
       ...data.user,
-      email: data.user.email || '', // Fallback to empty string if undefined
+      email: data.user.email || '',
       name: data.user?.user_metadata?.name || '',
-      membershipTier: data.user?.user_metadata?.membershipTier || 'genesis',
+      membershipTier: (data.user?.user_metadata?.membershipTier as MembershipTier) || 'genesis',
       joinDate: new Date().toISOString(),
       profileComplete: false
     };
@@ -81,9 +103,72 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return true;
   };
 
-  const register = async (): Promise<boolean> => {
-    setIsLoading(false);
-    return false; // Placeholder implementation
+  const register = async (userData: RegistrationData): Promise<boolean> => {
+    setIsLoading(true);
+    
+    try {
+      // Sign up the user with Supabase Auth
+      const { data, error } = await supabase.auth.signUp({
+        email: userData.email,
+        password: userData.password,
+        options: {
+          data: {
+            name: userData.name,
+            membershipTier: validateMembershipTier(userData.membershipTier),
+            university: userData.university,
+            graduationYear: userData.graduationYear,
+            major: userData.major,
+            company: userData.company,
+            position: userData.position,
+            phone: userData.phone,
+          }
+        }
+      });
+
+      if (error) {
+        console.error('Registration error:', error);
+        setIsLoading(false);
+        return false;
+      }
+
+      // If signup successful, create extended user
+      if (data.user) {
+        const extendedUser: ExtendedUser = {
+          ...data.user,
+          email: data.user.email || '',
+          name: userData.name,
+          membershipTier: userData.membershipTier,
+          joinDate: new Date().toISOString(),
+          profileComplete: true
+        };
+
+        setUser(extendedUser);
+        localStorage.setItem('sparc_user', JSON.stringify(extendedUser));
+        
+        // Optionally, you can also store additional profile data in a profiles table
+        // await supabase.from('profiles').insert({
+        //   id: data.user.id,
+        //   name: userData.name,
+        //   membership_tier: userData.membershipTier,
+        //   university: userData.university,
+        //   graduation_year: userData.graduationYear,
+        //   major: userData.major,
+        //   company: userData.company,
+        //   position: userData.position,
+        //   phone: userData.phone,
+        // });
+
+        setIsLoading(false);
+        return true;
+      }
+
+      setIsLoading(false);
+      return false;
+    } catch (error) {
+      console.error('Registration failed:', error);
+      setIsLoading(false);
+      return false;
+    }
   };
 
   const logout = async () => {

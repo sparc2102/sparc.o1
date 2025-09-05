@@ -16,7 +16,8 @@ import {
   Star,
   ExternalLink,
   BookOpen,
-  UserCheck
+  UserCheck,
+  FileText
 } from 'lucide-react';
 import { format } from 'date-fns';
 

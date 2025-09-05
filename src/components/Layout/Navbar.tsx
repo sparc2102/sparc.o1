@@ -66,8 +66,8 @@ export function Navbar() {
           <div className="flex">
             <Link to="/" className="flex-shrink-0 flex items-center">
               <div className="flex items-center space-x-2">
-                <Flame className="h-8 w-8 text-blue-600" />
-                <div className="text-xl font-bold text-gray-900">SPARC</div>
+                <Flame className="h-8 w-8 text-red-600" />
+                <div className="text-xl font-bold text-red-900">SPARC</div>
                
               </div>
             </Link>
