@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { User } from '../types';
 import { supabase } from '../lib/supabase';
+const supabaseClient = supabase!;
 
 export type MembershipTier = "genesis" | "professional" | "fellows";
 
@@ -85,7 +86,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
 
     if (!supabase) {
-      console.error('Supabase client is not initialized.');
       setIsLoading(false);
       return false;
     }
@@ -97,47 +97,51 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return false;
     }
 
-    const extendedUser: ExtendedUser = {
-      ...data.user,
-      email: data.user.email || '',
-      name: data.user?.user_metadata?.name || '',
-      membershipTier: (data.user?.user_metadata?.membershipTier as MembershipTier) || 'genesis',
-      joinDate: new Date().toISOString(),
-      profileComplete: false
-    };
+    if (data.user) {
+      const { id } = data.user; // Supabase UID
 
-    setUser(extendedUser);
-    localStorage.setItem('sparc_user', JSON.stringify(extendedUser));
+      // Fetch user details from the `users` table
+      const { data: userData, error: fetchError } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+      if (fetchError) {
+        console.error('Error fetching user data:', fetchError);
+        setIsLoading(false);
+        return false;
+      }
+
+      const extendedUser: ExtendedUser = {
+        ...userData,
+        email: data.user.email || '',
+      };
+
+      setUser(extendedUser);
+      localStorage.setItem('sparc_user', JSON.stringify(extendedUser));
+      setIsLoading(false);
+      return true;
+    }
+
     setIsLoading(false);
-    return true;
+    return false;
   };
 
   const register = async (userData: RegistrationData): Promise<boolean> => {
     setIsLoading(true);
 
-    if (!supabase) {
-      console.error('Supabase client is not initialized.');
-      setIsLoading(false);
-      return false;
-    }
-    
     try {
       // Sign up the user with Supabase Auth
-      const { data, error } = await supabase.auth.signUp({
+      const { data, error } = await supabaseClient.auth.signUp({
         email: userData.email,
         password: userData.password,
         options: {
           data: {
             name: userData.name,
             membershipTier: validateMembershipTier(userData.membershipTier),
-            university: userData.university,
-            graduationYear: userData.graduationYear,
-            major: userData.major,
-            company: userData.company,
-            position: userData.position,
-            phone: userData.phone,
-          }
-        }
+          },
+        },
       });
 
       if (error) {
@@ -146,32 +150,46 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return false;
       }
 
-      // If signup successful, create extended user
       if (data.user) {
-        const extendedUser: ExtendedUser = {
-          ...data.user,
-          email: data.user.email || '',
-          name: userData.name,
-          membershipTier: validateMembershipTier(userData.membershipTier),
-          joinDate: new Date().toISOString(),
-          profileComplete: true
-        };
+        const { id } = data.user; // Supabase UID
 
-        setUser(extendedUser);
-        localStorage.setItem('sparc_user', JSON.stringify(extendedUser));
-        
-        // Optionally, you can also store additional profile data in a profiles table
-        // await supabase.from('profiles').insert({
-        //   id: data.user.id,
-        //   name: userData.name,
-        //   membership_tier: userData.membershipTier,
-        //   university: userData.university,
-        //   graduation_year: userData.graduationYear,
-        //   major: userData.major,
-        //   company: userData.company,
-        //   position: userData.position,
-        //   phone: userData.phone,
-        // });
+        // Check if the user already exists in the `users` table
+        const { data: existingUser, error: fetchError } = await supabaseClient
+          .from('users')
+          .select('id')
+          .eq('id', id)
+          .single();
+
+        if (fetchError && fetchError.code !== 'PGRST116') {
+          console.error('Error checking existing user:', fetchError);
+          setIsLoading(false);
+          return false;
+        }
+
+        // Insert user details into the `users` table if they don’t exist
+        if (!existingUser) {
+          const { error: insertError } = await supabaseClient.from('users').insert({
+            id,
+            email: userData.email,
+            name: userData.name,
+            membership_tier: userData.membershipTier,
+            university: userData.university,
+            graduation_year: userData.graduationYear ? Number(userData.graduationYear) : null,
+            major: userData.major,
+            company: userData.company,
+            position: userData.position,
+            phone: userData.phone,
+            join_date: new Date().toISOString(),
+            profile_complete: true,
+          });
+
+          if (insertError) {
+            console.error('Error inserting user into users table:', insertError);
+            alert(JSON.stringify(insertError, null, 2)); // Show full error in alert for debugging
+            setIsLoading(false);
+            return false;
+          }
+        }
 
         setIsLoading(false);
         return true;
@@ -194,8 +212,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem('sparc_user');
   };
 
-  const updateProfile = (userData: Partial<User>) => {
+  const updateProfile = async (userData: Partial<User>) => {
     if (user) {
+      const { id } = user; // Supabase UID
+
+      const { error } = await supabaseClient
+        .from('users')
+        .update(userData)
+        .eq('id', id);
+
+      if (error) {
+        console.error('Error updating user profile:', error);
+        return;
+      }
+
       const updatedUser = { ...user, ...userData };
       setUser(updatedUser);
       localStorage.setItem('sparc_user', JSON.stringify(updatedUser));

@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth, MembershipTier } from '../../contexts/AuthContext';
 import { Button } from '../../components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card';
 import { membershipTiers } from '../../data/mockData';
 import { GraduationCap, CheckCircle } from 'lucide-react';
-import { MembershipTier } from '../../types';
 
 interface FormData {
   name: string;
@@ -51,7 +50,7 @@ export function RegisterPage() {
     
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : (name === 'membershipTier' ? value as unknown as MembershipTier : value)
+      [name]: type === 'checkbox' ? checked : value
     }));
   };
 
@@ -69,28 +68,29 @@ export function RegisterPage() {
       return;
     }
 
-    // Create registration data object with proper typing
+    // Create registration data object
     const registrationData = {
       name: formData.name,
       email: formData.email,
       password: formData.password,
       membershipTier: formData.membershipTier,
-      ...(formData.university && { university: formData.university }),
-      ...(formData.graduationYear && { graduationYear: formData.graduationYear }),
-      ...(formData.major && { major: formData.major }),
-      ...(formData.company && { company: formData.company }),
-      ...(formData.position && { position: formData.position }),
-      ...(formData.phone && { phone: formData.phone }),
+      university: formData.university || undefined,
+      graduationYear: formData.graduationYear || undefined,
+      major: formData.major || undefined,
+      company: formData.company || undefined,
+      position: formData.position || undefined,
+      phone: formData.phone || undefined,
     };
 
     try {
-      const success = await register(registrationData as any);
+      const success = await register(registrationData);
       if (success) {
         navigate('/dashboard');
       } else {
-        setError('Registration failed. Email may already be in use.');
+        setError('Registration failed. Email may already be in use or there was a database error.');
       }
     } catch (error) {
+      console.error('Registration error:', error);
       setError('Registration failed. Please try again.');
     }
   };

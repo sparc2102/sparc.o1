@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { useAuth, User } from '../contexts/AuthContext';
+import { useState, useEffect } from 'react';
+import { useAuth } from '../contexts/AuthContext';
+import { supabase } from '../lib/supabase';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { 
@@ -24,25 +25,29 @@ import {
 } from 'lucide-react';
 
 export function ProfilePage() {
-  const { user, updateProfile, isLoading } = useAuth();
+  const { user } = useAuth();
+  const [profile, setProfile] = useState<any>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [formData, setFormData] = useState({
-    name: user?.name || '',
-    email: user?.email || '',
-    phone: user?.phone || '',
-    bio: user?.bio || '',
-    location: user?.location || '',
-    university: user?.university || '',
-    graduation_year: user?.graduationYear?.toString() || '',
-    major: user?.major || '',
-    company: user?.company || '',
-    position: user?.position || ''
-  });
 
-  if (!user) {
+  useEffect(() => {
+    async function fetchProfile() {
+      if (user && user.id && supabase) {
+        const { data, error } = await supabase
+          .from('users')
+          .select('*')
+          .eq('id', user.id)
+          .single();
+        if (data) setProfile(data);
+        if (error) setError('Failed to load profile.');
+      }
+    }
+    fetchProfile();
+  }, [user]);
+
+  if (!profile) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -57,27 +62,31 @@ export function ProfilePage() {
     setError('');
     setSuccess('');
     setIsSaving(true);
-
     try {
-      const updateData: Partial<User> = {
-        name: formData.name,
-        phone: formData.phone || undefined, // Replace null with undefined
-        bio: formData.bio || undefined, // Replace null with undefined
-        location: formData.location || undefined, // Replace null with undefined
-        university: formData.university || undefined, // Replace null with undefined
-        graduationYear: formData.graduation_year || undefined, // Use string or undefined
-        major: formData.major || undefined, // Replace null with undefined
-        company: formData.company || undefined, // Replace null with undefined
-        position: formData.position || undefined, // Replace null with undefined
+      const updateData = {
+        name: profile.name,
+        phone: profile.phone || undefined,
+        bio: profile.bio || undefined,
+        location: profile.location || undefined,
+        university: profile.university || undefined,
+        graduation_year: profile.graduation_year ? Number(profile.graduation_year) : null,
+        major: profile.major || undefined,
+        company: profile.company || undefined,
+        position: profile.position || undefined,
       };
-
-      const result = await updateProfile(updateData);
-      
-      // Assume updateProfile returns void, so always show success unless an error is thrown
-      setSuccess('Profile updated successfully!');
-      setIsEditing(false);
-      // Clear success message after 3 seconds
-      setTimeout(() => setSuccess(''), 3000);
+      if (supabase && user && user.id) {
+        const { error: updateError } = await supabase
+          .from('users')
+          .update(updateData)
+          .eq('id', user.id);
+        if (updateError) {
+          setError('Failed to update profile.');
+        } else {
+          setSuccess('Profile updated successfully!');
+          setIsEditing(false);
+          setTimeout(() => setSuccess(''), 3000);
+        }
+      }
     } catch (error) {
       setError('An error occurred while updating your profile.');
     } finally {
@@ -86,19 +95,6 @@ export function ProfilePage() {
   };
 
   const handleCancel = () => {
-    // Reset form data to current user data
-    setFormData({
-      name: user.name,
-      email: user.email,
-      phone: user.phone || '',
-      bio: user.bio || '',
-      location: user.location || '',
-      university: user.university || '',
-      graduation_year: user.graduationYear?.toString() || '',
-      major: user.major || '',
-      company: user.company || '',
-      position: user.position || ''
-    });
     setIsEditing(false);
     setError('');
     setSuccess('');
@@ -112,15 +108,21 @@ export function ProfilePage() {
       default: return { bg: 'bg-gray-100', text: 'text-gray-700', border: 'border-gray-200' };
     }
   };
+  const tierColors = getTierColor(profile.membership_tier);
 
-  const tierColors = getTierColor(user.membershipTier);
+  // Helper for safe date formatting
+  const formatDate = (dateStr: string | null | undefined) => {
+    if (!dateStr) return '';
+    const d = new Date(dateStr);
+    return isNaN(d.getTime()) ? '' : d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  };
 
   const calculateProfileComplete = () => {
-    const requiredFields = [user.name, user.email];
-    const optionalFields = [user.phone, user.bio, user.location];
-    const tierSpecificFields = user.membershipTier === 'genesis' 
-      ? [user.university, user.major] 
-      : [user.company, user.position];
+    const requiredFields = [profile.name, profile.email];
+    const optionalFields = [profile.phone, profile.bio, profile.location];
+    const tierSpecificFields = profile.membership_tier === 'genesis' 
+      ? [profile.university, profile.major] 
+      : [profile.company, profile.position];
     
     const allFields = [...requiredFields, ...optionalFields, ...tierSpecificFields];
     const filledFields = allFields.filter(field => field && field.toString().trim() !== '').length;
@@ -142,8 +144,8 @@ export function ProfilePage() {
       ]
     },
     {
-      title: user.membershipTier === 'genesis' ? 'Academic Information' : 'Professional Information',
-      fields: user.membershipTier === 'genesis' 
+      title: profile.membership_tier === 'genesis' ? 'Academic Information' : 'Professional Information',
+      fields: profile.membership_tier === 'genesis' 
         ? [
             { key: 'university', label: 'University', icon: GraduationCap },
             { key: 'graduation_year', label: 'Graduation Year', icon: Calendar },
@@ -203,16 +205,16 @@ export function ProfilePage() {
                   </button>
                 </div>
                 
-                <h2 className="text-xl font-semibold text-gray-900 mb-1">{user.name}</h2>
-                <p className="text-gray-600 mb-4">{user.email}</p>
+                <h2 className="text-xl font-semibold text-gray-900 mb-1">{profile.name}</h2>
+                <p className="text-gray-600 mb-4">{profile.email}</p>
                 
                 <div className={`inline-flex items-center px-3 py-1 rounded-full border ${tierColors.bg} ${tierColors.text} ${tierColors.border} mb-4`}>
                   <Flame className="h-4 w-4 mr-2" />
-                  {user.membershipTier.charAt(0).toUpperCase() + user.membershipTier.slice(1)} Member
+                  {profile.membership_tier.charAt(0).toUpperCase() + profile.membership_tier.slice(1)} Member
                 </div>
 
                 <div className="text-sm text-gray-600 mb-4">
-                  Member since {new Date(user.joinDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                  Member since {formatDate(profile.join_date)}
                 </div>
 
                 <div className="space-y-2">
@@ -300,8 +302,8 @@ export function ProfilePage() {
                                 <textarea
                                   id={field.key}
                                   rows={3}
-                                  value={formData[field.key as keyof typeof formData]}
-                                  onChange={(e) => setFormData(prev => ({ ...prev, [field.key]: e.target.value }))}
+                                  value={profile[field.key as keyof typeof profile]}
+                                  onChange={(e) => setProfile((prev: Record<string, any>) => ({ ...prev, [field.key]: e.target.value }))}
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                   placeholder={`Enter your ${field.label.toLowerCase()}`}
                                 />
@@ -309,8 +311,8 @@ export function ProfilePage() {
                                 <input
                                   type={field.key === 'email' ? 'email' : field.key === 'graduation_year' ? 'number' : 'text'}
                                   id={field.key}
-                                  value={formData[field.key as keyof typeof formData]}
-                                  onChange={(e) => setFormData(prev => ({ ...prev, [field.key]: e.target.value }))}
+                                  value={profile[field.key as keyof typeof profile]}
+                                  onChange={(e) => setProfile((prev: Record<string, any>) => ({ ...prev, [field.key]: e.target.value }))}
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                   placeholder={`Enter your ${field.label.toLowerCase()}`}
                                   required={field.required}
@@ -318,8 +320,8 @@ export function ProfilePage() {
                               )
                             ) : (
                               <div className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-gray-900">
-                                {formData[field.key as keyof typeof formData] || 
-                                 (field.disabled ? formData[field.key as keyof typeof formData] : 'Not provided')}
+                                {profile[field.key as keyof typeof profile] || 
+                                 (field.disabled ? profile[field.key as keyof typeof profile] : 'Not provided')}
                               </div>
                             )}
                           </div>
@@ -344,7 +346,7 @@ export function ProfilePage() {
                       </label>
                       <div className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-md">
                         <span className={`inline-flex items-center px-2 py-1 rounded-full text-sm ${tierColors.bg} ${tierColors.text}`}>
-                          {user.membershipTier.charAt(0).toUpperCase() + user.membershipTier.slice(1)}
+                          {profile.membership_tier.charAt(0).toUpperCase() + profile.membership_tier.slice(1)}
                         </span>
                       </div>
                     </div>
@@ -354,7 +356,7 @@ export function ProfilePage() {
                         Join Date
                       </label>
                       <div className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-gray-900">
-                        {new Date(user.joinDate).toLocaleDateString()}
+                        {formatDate(profile.join_date)}
                       </div>
                     </div>
                   </div>

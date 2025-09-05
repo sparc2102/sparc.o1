@@ -1,4 +1,3 @@
-import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
@@ -124,7 +123,13 @@ export function Dashboard() {
                   </div>
                   <div className="flex items-center">
                     <Clock className="h-5 w-5 mr-2" />
-                    <span>Member since {format(new Date(user.joinDate), 'MMM yyyy')}</span>
+                   <span>
+  Member since {
+    user.joinDate && !isNaN(new Date(user.joinDate).getTime())
+      ? format(new Date(user.joinDate), 'MMM yyyy')
+      : 'N/A'
+  }
+</span>
                   </div>
                 </div>
               </div>

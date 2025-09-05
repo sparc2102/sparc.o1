@@ -446,24 +446,46 @@ export function LandingPage() {
           </p>
           {!user && (
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up delay-400">
-              <Link to="/register">
-                <Button 
-                  size="lg" 
-                  className="bg-blue text-blue-600 hover:bg-blue-50 hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-2xl group"
-                >
-                  Start Free with Genesis
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
-                </Button>
-              </Link>
-              <Link to="/contact">
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="border-white text-blue hover:bg-blue hover:text-blue-600 hover:scale-110 transition-all duration-300 backdrop-blur-sm"
-                >
-                  Contact Us
-                </Button>
-              </Link>
+             <Link to="/register">
+  <Button 
+    size="lg" 
+    className="
+      bg-gradient-to-r from-blue-500 to-blue-700 
+      text-white font-semibold 
+      shadow-md 
+      hover:from-blue-600 hover:to-blue-800 
+      hover:shadow-xl hover:scale-110
+      transition-all duration-300 ease-in-out 
+      rounded-xl
+      group
+    "
+  >
+    Start Free with Genesis
+    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+  </Button>
+</Link>
+
+<Link to="/contact">
+  <Button 
+    size="lg" 
+    className="
+      bg-blue-100 
+      text-blue-700 font-semibold 
+      border border-blue-700
+      shadow-md
+      hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-800 
+      hover:text-white 
+      hover:shadow-xl hover:scale-110
+      transition-all duration-300 ease-in-out 
+      rounded-xl
+      group
+    "
+  >
+    Contact Us
+    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+  </Button>
+</Link>
+
             </div>
           )}
         </div>
