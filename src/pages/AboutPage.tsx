@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
 import { Button } from '../components/ui/Button';
 import { Link } from 'react-router-dom';
 import { 
-  Flame, 
+  GraduationCap, 
   Target, 
   Users, 
   Award,
@@ -41,17 +41,14 @@ export function AboutPage() {
   ];
 
   const milestones = [
-    { year: '2020', title: 'SPARC Founded', description: 'Launched by ZANE ProEd with 50 founding members' },
-    { year: '2021', title: '1,000 Members', description: 'Reached our first major membership milestone' },
-    { year: '2022', title: 'Global Expansion', description: 'Extended programs to Europe and Asia-Pacific' },
-    { year: '2023', title: '100+ Events', description: 'Hosted over 100 professional development events' },
-    { year: '2024', title: '10,000+ Members', description: 'Became the leading pharmaceutical professional society' }
+    { year: '2025', title: 'SPARC Founded', description: 'Launched by ZANE ProEd with 18 founding members' },
+  
   ];
 
   const leadership = [
     {
       name: 'Dr. Elena Rodriguez',
-      title: 'Founder & CEO, ZANE ProEd',
+      title: 'Founder & CEO, SPARC',
       bio: 'Former pharmaceutical executive with 20+ years experience at leading biotech companies.',
       avatar: 'ER'
     },
@@ -75,7 +72,7 @@ export function AboutPage() {
       <section className="bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <Flame className="h-16 w-16 text-blue-200 mx-auto mb-6" />
+            <GraduationCap className="h-16 w-16 text-blue-200 mx-auto mb-6" />
             <h1 className="text-4xl md:text-5xl font-bold mb-6">About SPARC</h1>
             <p className="text-xl text-blue-100 max-w-3xl mx-auto">
               The Society for Pharma Advancement & Research Collaboration is the gold standard 
@@ -303,12 +300,12 @@ export function AboutPage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link to="/register">
-                  <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50">
+                  <Button size="lg" className="bg-blue text-blue-600 hover:bg-blue-50">
                     Join SPARC Today
                   </Button>
                 </Link>
                 <Link to="/membership">
-                  <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
+                  <Button size="lg" variant="outline" className="border-white text-blue hover:bg-white hover:text-blue-600">
                     Learn About Membership
                   </Button>
                 </Link>

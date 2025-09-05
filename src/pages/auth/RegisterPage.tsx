@@ -4,7 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../../components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card';
 import { membershipTiers } from '../../data/mockData';
-import { Flame, CheckCircle } from 'lucide-react';
+import { GraduationCap, CheckCircle } from 'lucide-react';
 import { MembershipTier } from '../../types';
 
 interface FormData {
@@ -102,7 +102,7 @@ export function RegisterPage() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
-            <Flame className="h-12 w-12 text-blue-600" />
+            <GraduationCap className="h-12 w-12 text-blue-600" />
           </div>
           <h2 className="text-3xl font-bold text-gray-900">Join SPARC</h2>
           <p className="mt-2 text-gray-600">

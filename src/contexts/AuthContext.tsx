@@ -137,7 +137,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           ...data.user,
           email: data.user.email || '',
           name: userData.name,
-          membershipTier: userData.membershipTier,
+          membershipTier: validateMembershipTier(userData.membershipTier),
           joinDate: new Date().toISOString(),
           profileComplete: true
         };
@@ -206,3 +206,5 @@ export function useAuth() {
   }
   return context;
 }
+export type { User };
+

@@ -130,13 +130,13 @@ export function LandingPage() {
               ) : (
                 <>
                   <Link to="/register">
-                    <Button size="lg" className="bg-white text-blue-700 hover:bg-blue-50 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group">
+                    <Button size="lg" className="bg-blue text-blue-700 hover:bg-blue-50 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group">
                       Join SPARC Today 
                       <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
                     </Button>
                   </Link>
                   <Link to="/about">
-                    <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-700 hover:scale-105 transition-all duration-300 backdrop-blur-sm">
+                    <Button size="lg" variant="outline" className="border-white text-blue hover:bg-white hover:text-blue-700 hover:scale-105 transition-all duration-300 backdrop-blur-sm">
                       Learn More
                     </Button>
                   </Link>
@@ -419,7 +419,7 @@ export function LandingPage() {
               <Link to="/register">
                 <Button 
                   size="lg" 
-                  className="bg-white text-blue-600 hover:bg-blue-50 hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-2xl group"
+                  className="bg-blue text-blue-600 hover:bg-blue-50 hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-2xl group"
                 >
                   Start Free with Genesis
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
@@ -429,7 +429,7 @@ export function LandingPage() {
                 <Button 
                   size="lg" 
                   variant="outline" 
-                  className="border-white text-white hover:bg-white hover:text-blue-600 hover:scale-110 transition-all duration-300 backdrop-blur-sm"
+                  className="border-white text-blue hover:bg-blue hover:text-blue-600 hover:scale-110 transition-all duration-300 backdrop-blur-sm"
                 >
                   Contact Us
                 </Button>

@@ -12,7 +12,8 @@ import {
   Search,
   Play,
   UserCheck,
-  Globe
+  Globe,
+  Link
 } from 'lucide-react';
 import { format } from 'date-fns';
 

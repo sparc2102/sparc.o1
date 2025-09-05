@@ -14,7 +14,8 @@ import {
   File,
   Star,
   Eye,
-  Calendar
+  Calendar,
+  Link
 } from 'lucide-react';
 import { format } from 'date-fns';
 

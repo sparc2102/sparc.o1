@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import React, { useState } from 'react';
+import { useAuth, User } from '../contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { 
-  User, 
+  User as UserIcon, 
   Mail, 
   Phone, 
   MapPin, 
@@ -18,12 +18,17 @@ import {
   Camera,
   Settings,
   Bell,
-  Lock
+  Lock,
+  AlertCircle,
+  CheckCircle
 } from 'lucide-react';
 
 export function ProfilePage() {
-  const { user, updateProfile } = useAuth();
+  const { user, updateProfile, isLoading } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [formData, setFormData] = useState({
     name: user?.name || '',
     email: user?.email || '',
@@ -31,20 +36,57 @@ export function ProfilePage() {
     bio: user?.bio || '',
     location: user?.location || '',
     university: user?.university || '',
-    graduationYear: user?.graduationYear || '',
+    graduation_year: user?.graduationYear?.toString() || '',
     major: user?.major || '',
     company: user?.company || '',
     position: user?.position || ''
   });
 
-  if (!user) return null;
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading profile...</p>
+        </div>
+      </div>
+    );
+  }
 
-  const handleSave = () => {
-    updateProfile(formData);
-    setIsEditing(false);
+  const handleSave = async () => {
+    setError('');
+    setSuccess('');
+    setIsSaving(true);
+
+    try {
+      const updateData: Partial<User> = {
+        name: formData.name,
+        phone: formData.phone || undefined, // Replace null with undefined
+        bio: formData.bio || undefined, // Replace null with undefined
+        location: formData.location || undefined, // Replace null with undefined
+        university: formData.university || undefined, // Replace null with undefined
+        graduationYear: formData.graduation_year || undefined, // Use string or undefined
+        major: formData.major || undefined, // Replace null with undefined
+        company: formData.company || undefined, // Replace null with undefined
+        position: formData.position || undefined, // Replace null with undefined
+      };
+
+      const result = await updateProfile(updateData);
+      
+      // Assume updateProfile returns void, so always show success unless an error is thrown
+      setSuccess('Profile updated successfully!');
+      setIsEditing(false);
+      // Clear success message after 3 seconds
+      setTimeout(() => setSuccess(''), 3000);
+    } catch (error) {
+      setError('An error occurred while updating your profile.');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleCancel = () => {
+    // Reset form data to current user data
     setFormData({
       name: user.name,
       email: user.email,
@@ -52,12 +94,14 @@ export function ProfilePage() {
       bio: user.bio || '',
       location: user.location || '',
       university: user.university || '',
-      graduationYear: user.graduationYear || '',
+      graduation_year: user.graduationYear?.toString() || '',
       major: user.major || '',
       company: user.company || '',
       position: user.position || ''
     });
     setIsEditing(false);
+    setError('');
+    setSuccess('');
   };
 
   const getTierColor = (tier: string) => {
@@ -71,15 +115,30 @@ export function ProfilePage() {
 
   const tierColors = getTierColor(user.membershipTier);
 
+  const calculateProfileComplete = () => {
+    const requiredFields = [user.name, user.email];
+    const optionalFields = [user.phone, user.bio, user.location];
+    const tierSpecificFields = user.membershipTier === 'genesis' 
+      ? [user.university, user.major] 
+      : [user.company, user.position];
+    
+    const allFields = [...requiredFields, ...optionalFields, ...tierSpecificFields];
+    const filledFields = allFields.filter(field => field && field.toString().trim() !== '').length;
+    
+    return Math.round((filledFields / allFields.length) * 100);
+  };
+
+  const profileCompleteness = calculateProfileComplete();
+
   const profileSections = [
     {
       title: 'Personal Information',
       fields: [
-        { key: 'name', label: 'Full Name', icon: User, required: true },
+        { key: 'name', label: 'Full Name', icon: UserIcon, required: true },
         { key: 'email', label: 'Email Address', icon: Mail, required: true, disabled: true },
         { key: 'phone', label: 'Phone Number', icon: Phone },
         { key: 'location', label: 'Location', icon: MapPin },
-        { key: 'bio', label: 'Biography', icon: User, type: 'textarea' }
+        { key: 'bio', label: 'Biography', icon: UserIcon, type: 'textarea' }
       ]
     },
     {
@@ -87,7 +146,7 @@ export function ProfilePage() {
       fields: user.membershipTier === 'genesis' 
         ? [
             { key: 'university', label: 'University', icon: GraduationCap },
-            { key: 'graduationYear', label: 'Graduation Year', icon: Calendar },
+            { key: 'graduation_year', label: 'Graduation Year', icon: Calendar },
             { key: 'major', label: 'Major/Field of Study', icon: GraduationCap }
           ]
         : [
@@ -107,15 +166,38 @@ export function ProfilePage() {
           <p className="text-gray-600">Manage your personal information and membership details</p>
         </div>
 
+        {/* Success/Error Messages */}
+        {success && (
+          <div className="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-md flex items-center">
+            <CheckCircle className="h-5 w-5 mr-2" />
+            {success}
+          </div>
+        )}
+
+        {error && (
+          <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md flex items-center">
+            <AlertCircle className="h-5 w-5 mr-2" />
+            {error}
+          </div>
+        )}
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Profile Overview */}
           <div className="lg:col-span-1">
             <Card>
               <CardContent className="p-6 text-center">
                 <div className="relative mb-6">
-                  <div className="h-24 w-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto">
-                    <User className="h-12 w-12 text-gray-400" />
-                  </div>
+                    <div className="h-24 w-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto">
+                    {user?.avatar ? (
+                      <img 
+                      src={user.avatar} 
+                      alt="Profile" 
+                      className="h-24 w-24 rounded-full object-cover"
+                      />
+                    ) : (
+                      <UserIcon className="h-12 w-12 text-gray-400" />
+                    )}
+                    </div>
                   <button className="absolute bottom-0 right-1/2 transform translate-x-8 bg-blue-600 text-white rounded-full p-2 hover:bg-blue-700 transition-colors">
                     <Camera className="h-4 w-4" />
                   </button>
@@ -136,14 +218,14 @@ export function ProfilePage() {
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span>Profile Complete</span>
-                    <span className={user.profileComplete ? 'text-green-600' : 'text-orange-600'}>
-                      {user.profileComplete ? '100%' : '75%'}
+                    <span className={profileCompleteness === 100 ? 'text-green-600' : 'text-orange-600'}>
+                      {profileCompleteness}%
                     </span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div 
-                      className={`h-2 rounded-full ${user.profileComplete ? 'bg-green-500' : 'bg-orange-500'}`}
-                      style={{ width: user.profileComplete ? '100%' : '75%' }}
+                      className={`h-2 rounded-full ${profileCompleteness === 100 ? 'bg-green-500' : 'bg-orange-500'}`}
+                      style={{ width: `${profileCompleteness}%` }}
                     ></div>
                   </div>
                 </div>
@@ -181,11 +263,20 @@ export function ProfilePage() {
                         </Button>
                       ) : (
                         <div className="flex space-x-2">
-                          <Button size="sm" onClick={handleSave}>
+                          <Button 
+                            size="sm" 
+                            onClick={handleSave}
+                            disabled={isSaving}
+                          >
                             <Save className="h-4 w-4 mr-2" />
-                            Save
+                            {isSaving ? 'Saving...' : 'Save'}
                           </Button>
-                          <Button variant="outline" size="sm" onClick={handleCancel}>
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            onClick={handleCancel}
+                            disabled={isSaving}
+                          >
                             <X className="h-4 w-4 mr-2" />
                             Cancel
                           </Button>
@@ -216,7 +307,7 @@ export function ProfilePage() {
                                 />
                               ) : (
                                 <input
-                                  type={field.key === 'email' ? 'email' : 'text'}
+                                  type={field.key === 'email' ? 'email' : field.key === 'graduation_year' ? 'number' : 'text'}
                                   id={field.key}
                                   value={formData[field.key as keyof typeof formData]}
                                   onChange={(e) => setFormData(prev => ({ ...prev, [field.key]: e.target.value }))}
