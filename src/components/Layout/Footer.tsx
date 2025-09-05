@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Flame, Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -9,7 +9,11 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <Flame className="h-8 w-8 text-blue-400" />
+              <img 
+                src="/footer_logo.png" 
+                alt="SPARC Logo" 
+                className="h-20 w-20 object-contain"
+              />
               <div>
                 <div className="text-xl font-bold">SPARC</div>
                 <div className="text-sm text-gray-300">by ZANE ProEd</div>
@@ -76,7 +80,7 @@ export function Footer() {
 
         <div className="border-t border-gray-700 mt-8 pt-8 text-center">
           <p className="text-gray-300">
-            &copy; 2024 SPARC by ZANE ProEd. All rights reserved. | The gold standard for community-driven advancement in pharmaceutical sciences.
+            &copy; 2025 SPARC by ZANE ProEd. All rights reserved. | The gold standard for community-driven advancement in pharmaceutical sciences.
           </p>
         </div>
       </div>

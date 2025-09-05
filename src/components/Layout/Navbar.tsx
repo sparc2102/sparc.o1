@@ -61,16 +61,15 @@ export function Navbar() {
   return (
     <nav className="bg-white shadow-lg border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-30">
+        <div className="flex justify-between h-32">
           <div className="flex">
             <Link to="/" className="flex-shrink-0 flex items-center">
               <div className="flex items-center space-x-2">
                 <img 
-                  src="/og-image.png" 
+                  src="/logo.png" 
                   alt="SPARC Logo" 
                   className="h-20 w-20 object-contain"
                 />
-                
               </div>
             </Link>
 
