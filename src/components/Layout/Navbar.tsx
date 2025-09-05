@@ -14,7 +14,6 @@ import {
   BookOpen,
   Users,
   Briefcase,
-  Flame,
   CreditCard,
   Award
 } from 'lucide-react';
@@ -66,9 +65,11 @@ export function Navbar() {
           <div className="flex">
             <Link to="/" className="flex-shrink-0 flex items-center">
               <div className="flex items-center space-x-2">
-                <Flame className="h-8 w-8 text-red-600" />
-                <div className="text-xl font-bold text-red-900">SPARC</div>
-               
+                <img 
+                  src="/og-image.png" 
+                  alt="SPARC Logo" 
+                  className="h-24 w-24 object-contain"
+                />
               </div>
             </Link>
 
