@@ -129,17 +129,46 @@ export function LandingPage() {
                 </Button>
               ) : (
                 <>
-                  <Link to="/register">
-                    <Button size="lg" className="bg-blue text-blue-700 hover:bg-blue-50 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group">
-                      Join SPARC Today 
-                      <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
-                    </Button>
-                  </Link>
-                  <Link to="/about">
-                    <Button size="lg" variant="outline" className="border-white text-blue hover:bg-white hover:text-blue-700 hover:scale-105 transition-all duration-300 backdrop-blur-sm">
-                      Learn More
-                    </Button>
-                  </Link>
+                 <Link to="/register">
+  <Button
+    size="lg"
+    className="
+      bg-gradient-to-r from-blue-500 to-blue-700 
+      text-white font-semibold 
+      shadow-md 
+      hover:from-blue-600 hover:to-blue-800 
+      hover:shadow-xl hover:scale-105
+      transition-all duration-300 ease-in-out 
+      rounded-xl
+      group
+    "
+  >
+    Join SPARC Today 
+    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+  </Button>
+</Link>
+
+<Link to="/about">
+  <Button
+    size="lg"
+    className="
+      bg-gradient-to-r from-gray-100 to-gray-200 
+      text-black font-semibold 
+      border border-blue-700
+      shadow-md
+      hover:from-blue-600 hover:to-blue-800 
+      hover:text-white 
+      hover:shadow-xl hover:scale-105
+      transition-all duration-300 ease-in-out 
+      rounded-xl
+      group
+    "
+  >
+    Learn More
+    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+  </Button>
+</Link>
+
                 </>
               )}
             </div>
