@@ -152,11 +152,11 @@ export function LandingPage() {
   <Button
     size="lg"
     className="
-      bg-white 
-      text-black font-bold 
+      bg-blue-100 
+      text-blue-700 font-semibold 
       border border-blue-700
       shadow-md
-      hover:from-blue-600 hover:to-blue-800 
+      hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-800 
       hover:text-white 
       hover:shadow-xl hover:scale-105
       transition-all duration-300 ease-in-out 
@@ -168,6 +168,7 @@ export function LandingPage() {
     <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
   </Button>
 </Link>
+
 
                 </>
               )}
