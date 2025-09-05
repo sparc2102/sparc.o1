@@ -56,6 +56,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
+    if (!supabase) return;
+
     const authListener = supabase.auth.onAuthStateChange((_, session) => {
       if (session?.user) {
         const extendedUser: ExtendedUser = {
@@ -81,6 +83,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true);
+
+    if (!supabase) {
+      console.error('Supabase client is not initialized.');
+      setIsLoading(false);
+      return false;
+    }
+
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
@@ -105,6 +114,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const register = async (userData: RegistrationData): Promise<boolean> => {
     setIsLoading(true);
+
+    if (!supabase) {
+      console.error('Supabase client is not initialized.');
+      setIsLoading(false);
+      return false;
+    }
     
     try {
       // Sign up the user with Supabase Auth
@@ -172,7 +187,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = async () => {
-    await supabase.auth.signOut();
+    if (supabase) {
+      await supabase.auth.signOut();
+    }
     setUser(null);
     localStorage.removeItem('sparc_user');
   };

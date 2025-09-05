@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { Navbar } from './components/Layout/Navbar';
@@ -27,6 +26,7 @@ import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsOfServicePage from './pages/TermsOfServicePage';
 import AdminPortalPage from './pages/AdminPortalPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
 
 function App() {
   return (
@@ -59,6 +59,7 @@ function App() {
               <Route path="/privacy" element={<PrivacyPolicyPage />} />
               <Route path="/terms" element={<TermsOfServicePage />} />
               <Route path="/admin-portal" element={<AdminPortalPage />} />
+              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             </Routes>
           </main>
           <Footer />
