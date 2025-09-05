@@ -152,8 +152,8 @@ export function LandingPage() {
   <Button
     size="lg"
     className="
-      bg-gradient-to-r from-gray-100 to-gray-200 
-      text-black font-semibold 
+      bg-white 
+      text-black font-bold 
       border border-blue-700
       shadow-md
       hover:from-blue-600 hover:to-blue-800 
