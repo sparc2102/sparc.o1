@@ -27,6 +27,8 @@ import TermsOfServicePage from './pages/TermsOfServicePage';
 import AdminPortalPage from './pages/AdminPortalPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
+import { AuthCallback } from './pages/auth/AuthCallback';
+
 
 function App() {
   return (
@@ -60,6 +62,7 @@ function App() {
               <Route path="/terms" element={<TermsOfServicePage />} />
               <Route path="/admin-portal" element={<AdminPortalPage />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+              <Route path="/auth/callback" element={<AuthCallback />} />
             </Routes>
           </main>
           <Footer />

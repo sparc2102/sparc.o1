@@ -4,7 +4,7 @@ import { useAuth, MembershipTier } from '../../contexts/AuthContext';
 import { Button } from '../../components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card';
 import { membershipTiers } from '../../data/mockData';
-import { GraduationCap, CheckCircle } from 'lucide-react';
+import { GraduationCap, CheckCircle, Eye, EyeOff } from 'lucide-react';
 
 interface FormData {
   name: string;
@@ -22,6 +22,11 @@ interface FormData {
 }
 
 export function RegisterPage() {
+  const [step1Touched, setStep1Touched] = useState<{ name: boolean; email: boolean; password: boolean; confirmPassword: boolean }>({ name: false, email: false, password: false, confirmPassword: false });
+  const [step1PasswordError, setStep1PasswordError] = useState('');
+  const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const location = useLocation();
   const selectedTier = location.state?.selectedTier || 'genesis';
   
@@ -85,7 +90,7 @@ export function RegisterPage() {
     try {
       const success = await register(registrationData);
       if (success) {
-        navigate('/dashboard');
+        setShowConfirmationPopup(true);
       } else {
         setError('Registration failed. Email may already be in use or there was a database error.');
       }
@@ -99,6 +104,20 @@ export function RegisterPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      {showConfirmationPopup && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-40">
+          <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full text-center">
+            <h3 className="text-xl font-bold mb-4 text-blue-700">Confirmation Email Sent</h3>
+            <p className="mb-6 text-gray-700">
+              A confirmation email has been sent to your email address.<br />
+              Please confirm your email and then log in to the app.
+            </p>
+            <Button className="w-full" onClick={() => { setShowConfirmationPopup(false); navigate('/login'); }}>
+              Go to Login
+            </Button>
+          </div>
+        </div>
+      )}
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
@@ -147,8 +166,8 @@ export function RegisterPage() {
                             type="text"
                             required
                             value={formData.name}
-                            onChange={handleInputChange}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            onChange={e => { handleInputChange(e); setStep1Touched(t => ({ ...t, name: true })); }}
+                            className={`mt-1 block w-full px-4 py-2 rounded-lg shadow-sm border-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 bg-white ${step1Touched.name && !formData.name ? 'border-red-500' : 'border-gray-200'}`}
                           />
                         </div>
                         <div>
@@ -161,40 +180,56 @@ export function RegisterPage() {
                             type="email"
                             required
                             value={formData.email}
-                            onChange={handleInputChange}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            onChange={e => { handleInputChange(e); setStep1Touched(t => ({ ...t, email: true })); }}
+                            className={`mt-1 block w-full px-4 py-2 rounded-lg shadow-sm border-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 bg-white ${step1Touched.email && !formData.email ? 'border-red-500' : 'border-gray-200'}`}
                           />
                         </div>
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
+                        <div className="relative">
                           <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                             Password *
                           </label>
                           <input
                             id="password"
                             name="password"
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             required
                             value={formData.password}
-                            onChange={handleInputChange}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            onChange={e => { handleInputChange(e); setStep1Touched(t => ({ ...t, password: true })); }}
+                            className={`mt-1 block w-full px-4 py-2 rounded-lg shadow-sm border-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 pr-10 transition duration-150 bg-white ${step1Touched.password && !formData.password ? 'border-red-500' : 'border-gray-200'}`}
                           />
+                          <button
+                            type="button"
+                            className="absolute top-8 right-3 text-gray-500 focus:outline-none"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                            tabIndex={-1}
+                          >
+                            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                          </button>
                         </div>
-                        <div>
+                        <div className="relative">
                           <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
                             Confirm Password *
                           </label>
                           <input
                             id="confirmPassword"
                             name="confirmPassword"
-                            type="password"
+                            type={showConfirmPassword ? "text" : "password"}
                             required
                             value={formData.confirmPassword}
-                            onChange={handleInputChange}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            onChange={e => { handleInputChange(e); setStep1Touched(t => ({ ...t, confirmPassword: true })); }}
+                            className={`mt-1 block w-full px-4 py-2 rounded-lg shadow-sm border-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 pr-10 transition duration-150 bg-white ${step1Touched.confirmPassword && !formData.confirmPassword ? 'border-red-500' : 'border-gray-200'}`}
                           />
+                          <button
+                            type="button"
+                            className="absolute top-8 right-3 text-gray-500 focus:outline-none"
+                            onClick={() => setShowConfirmPassword((prev) => !prev)}
+                            tabIndex={-1}
+                          >
+                            {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                          </button>
                         </div>
                       </div>
 
@@ -217,9 +252,27 @@ export function RegisterPage() {
                         </select>
                       </div>
 
+                      {step1PasswordError && (
+                        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded-md mb-2">
+                          {step1PasswordError}
+                        </div>
+                      )}
                       <Button 
                         type="button" 
-                        onClick={() => setStep(2)} 
+                        onClick={() => {
+                          setStep1Touched({ name: true, email: true, password: true, confirmPassword: true });
+                          if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
+                            // Do not proceed, just highlight fields
+                            setStep1PasswordError('');
+                            return;
+                          }
+                          if (formData.password !== formData.confirmPassword) {
+                            setStep1PasswordError('Passwords do not match');
+                            return;
+                          }
+                          setStep1PasswordError('');
+                          setStep(2);
+                        }} 
                         className="w-full"
                       >
                         Continue
