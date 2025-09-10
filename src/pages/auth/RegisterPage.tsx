@@ -363,19 +363,41 @@ export function RegisterPage() {
                         <label htmlFor="membershipTier" className="block text-sm font-medium text-gray-700">
                           Membership Tier
                         </label>
-                        <select
-                          id="membershipTier"
-                          name="membershipTier"
-                          value={formData.membershipTier}
-                          onChange={handleInputChange}
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        >
-                          {membershipTiers.map(tier => (
-                            <option key={tier.id} value={tier.id}>
-                              {tier.name} - {tier.price}
-                            </option>
-                          ))}
-                        </select>
+                        <div className="mt-1 grid grid-cols-1 gap-2">
+                          {membershipTiers.map(tier => {
+                            const isGenesis = tier.id === 'genesis';
+                            const isDisabled = !isGenesis;
+                            return (
+                              <div
+                                key={tier.id}
+                                className={`flex items-center px-4 py-3 rounded-lg border-2 transition-all duration-150 cursor-pointer ${isGenesis ? 'border-blue-600 bg-white' : 'border-gray-200 bg-gray-100 opacity-60'} ${formData.membershipTier === tier.id ? 'ring-2 ring-blue-500' : ''}`}
+                                onClick={() => {
+                                  if (isGenesis) {
+                                    setFormData(prev => ({ ...prev, membershipTier: tier.id }));
+                                  }
+                                }}
+                                style={{ pointerEvents: isDisabled ? 'none' : 'auto' }}
+                              >
+                                <input
+                                  type="radio"
+                                  name="membershipTier"
+                                  value={tier.id}
+                                  checked={formData.membershipTier === tier.id}
+                                  disabled={isDisabled}
+                                  className="mr-3"
+                                  readOnly
+                                />
+                                <div className="flex flex-col">
+                                  <span className="font-semibold text-gray-900">{tier.name} - {tier.price}</span>
+                                  <span className="text-xs text-gray-500">{tier.duration}</span>
+                                  {!isGenesis && (
+                                    <span className="text-xs text-yellow-600 font-medium mt-1">Coming Soon</span>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
                       </div>
 
                       {step1PasswordError && (

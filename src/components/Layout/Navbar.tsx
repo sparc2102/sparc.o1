@@ -193,7 +193,7 @@ export function Navbar() {
                 <Link to="/login">
                   <Button variant="ghost">Sign In</Button>
                 </Link>
-                <Link to="/register">
+                <Link to="/sparcform">
                   <Button>Join SPARC</Button>
                 </Link>
               </div>

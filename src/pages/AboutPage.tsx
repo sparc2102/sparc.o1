@@ -299,7 +299,7 @@ export function AboutPage() {
                 Become part of the leading network of pharmaceutical professionals worldwide
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/register">
+                <Link to="/sparcform">
                   <Button size="lg" className="bg-blue text-blue-600 hover:bg-blue-50">
                     Join SPARC Today
                   </Button>

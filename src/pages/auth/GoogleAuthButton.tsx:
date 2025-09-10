@@ -1,0 +1,39 @@
+import React from "react"
+import { supabase } from "../../lib/supabaseClient"
+import { FcGoogle } from "react-icons/fc"
+
+type GoogleAuthButtonProps = {
+  buttonText?: string
+  redirectTo?: string
+  className?: string
+  onError?: (error: string) => void
+}
+
+export function GoogleAuthButton({
+  buttonText = "Sign in with Google",
+  redirectTo = "/dashboard",
+  className = "",
+  onError,
+}: GoogleAuthButtonProps) {
+  const handleGoogleSignIn = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: `${window.location.origin}${redirectTo}` },
+    })
+
+    if (error) {
+      console.error("Google sign-in error:", error.message)
+      onError?.(error.message)
+    }
+  }
+
+  return (
+    <button
+      onClick={handleGoogleSignIn}
+      className={`flex items-center justify-center gap-2 w-full border border-gray-300 rounded-md px-4 py-2 text-gray-700 hover:bg-gray-50 ${className}`}
+    >
+      <FcGoogle className="w-5 h-5" />
+      {buttonText}
+    </button>
+  )
+}

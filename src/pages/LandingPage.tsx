@@ -23,12 +23,6 @@ export function LandingPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const stats = [
-    { label: 'Active Members', value: '10K+', icon: Users },
-    { label: 'Events Hosted', value: '500+', icon: Calendar },
-    { label: 'Resources Available', value: '1K+', icon: BookOpen },
-    { label: 'Career Placements', value: '2K+', icon: Award }
-  ];
 
   const testimonials = [
     {
@@ -129,7 +123,7 @@ export function LandingPage() {
                 </Button>
               ) : (
                 <>
-                 <Link to="/register">
+                 <Link to="/sparcform">
   <Button
     size="lg"
     className="
@@ -177,31 +171,7 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* Stats Section with Enhanced Hover Effects */}
-      <section className="py-16 bg-gradient-to-r from-gray-50 via-white to-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => {
-              const Icon = stat.icon;
-              return (
-                <div 
-                  key={index} 
-                  className="text-center group cursor-pointer transform hover:scale-110 transition-all duration-300 hover:bg-gradient-to-br hover:from-blue-50 hover:to-purple-50 rounded-xl p-4 hover:shadow-lg"
-                >
-                  <div className="relative">
-                    <Icon className="h-8 w-8 text-blue-600 mx-auto mb-2 group-hover:text-purple-600 transition-colors duration-300 transform group-hover:scale-110 group-hover:rotate-12" />
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full blur-lg opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
-                  </div>
-                  <div className="text-2xl md:text-3xl font-bold text-gray-900 mb-1 group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-purple-600 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
-                    {stat.value}
-                  </div>
-                  <div className="text-gray-600 group-hover:text-gray-700 transition-colors duration-300">{stat.label}</div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+     
 
       {/* Features Section with Enhanced Animations */}
       <section className="py-20 bg-gradient-to-b from-white to-gray-50">
@@ -294,7 +264,7 @@ export function LandingPage() {
                     <strong>Eligibility:</strong> {tier.eligibility}
                   </div>
                   {!user && (
-                    <Link to="/register" state={{ selectedTier: tier.id }}>
+                    <Link to="/sparcform" state={{ selectedTier: tier.id }}>
                       <Button 
                         className={`w-full transform hover:scale-105 transition-all duration-300 group-hover:shadow-lg ${
                           tier.popular 
@@ -446,7 +416,7 @@ export function LandingPage() {
           </p>
           {!user && (
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up delay-400">
-             <Link to="/register">
+             <Link to="/sparcform">
   <Button 
     size="lg" 
     className="

@@ -124,7 +124,7 @@ export function MembershipPage() {
                     <div className="text-sm text-gray-600">{tier.eligibility}</div>
                   </div>
 
-                  <Link to="/register" state={{ selectedTier: tier.id }}>
+                  <Link to="/sparcform" state={{ selectedTier: tier.id }}>
                     <Button 
                       className="w-full" 
                       variant={tier.popular ? 'primary' : 'outline'}
@@ -250,7 +250,7 @@ export function MembershipPage() {
                 Join thousands of pharmaceutical professionals advancing their careers with SPARC
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/register">
+                <Link to="/sparcform">
                   <Button size="lg" className="bg-blue text-blue-600 hover:bg-blue-50">
                     Join Now - Free Genesis
                   </Button>
