@@ -143,41 +143,6 @@ export function AboutPage() {
           </div>
         </section>
 
-        {/* Our Impact */}
-        <section className="mb-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Impact</h2>
-            <p className="text-lg text-gray-600">
-              Transforming careers and advancing pharmaceutical sciences globally
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card className="text-center">
-              <CardContent className="p-6">
-                <div className="text-3xl font-bold text-blue-600 mb-2">10,000+</div>
-                <div className="text-gray-600">Active Members</div>
-              </CardContent>
-            </Card>
-            <Card className="text-center">
-              <CardContent className="p-6">
-                <div className="text-3xl font-bold text-green-600 mb-2">500+</div>
-                <div className="text-gray-600">Events Hosted</div>
-              </CardContent>
-            </Card>
-            <Card className="text-center">
-              <CardContent className="p-6">
-                <div className="text-3xl font-bold text-purple-600 mb-2">2,000+</div>
-                <div className="text-gray-600">Career Placements</div>
-              </CardContent>
-            </Card>
-            <Card className="text-center">
-              <CardContent className="p-6">
-                <div className="text-3xl font-bold text-orange-600 mb-2">50+</div>
-                <div className="text-gray-600">Countries Reached</div>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
 
         {/* Timeline */}
         <section className="mb-16">

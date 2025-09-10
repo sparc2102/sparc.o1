@@ -26,21 +26,28 @@ export default function SparcForm() {
       s.onerror = v;
       d.body.appendChild(s);
     }
+
+    // ✅ Listen for Tally submission
+    const handleMessage = (event: MessageEvent) => {
+      if (event.origin === "https://tally.so") {
+        if (event.data?.type === "TALLY_FORM_SUBMIT") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
   }, []);
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      {/* Page Heading */}
       <div className="bg-white shadow-sm py-6 px-4 text-center">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
           SPARC Membership Registration
         </h1>
-        <p className="mt-2 text-gray-500">
-          Please fill out the form below to complete your membership.
-        </p>
       </div>
 
-      {/* Main Content */}
       <main className="flex-grow flex items-center justify-center p-4">
         <div className="w-full max-w-5xl">
           <iframe

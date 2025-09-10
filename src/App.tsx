@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import ScrollToTop from './components/ScrollToTop';
 import { AuthProvider } from './contexts/AuthContext';
 import { Navbar } from './components/Layout/Navbar';
 import { Footer } from './components/Layout/Footer';
@@ -35,6 +36,7 @@ function App() {
     <AuthProvider>
       <Router>
         <div className="min-h-screen flex flex-col">
+          <ScrollToTop />
           <Navbar />
           <main className="flex-grow">
             <Routes>

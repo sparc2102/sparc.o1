@@ -368,79 +368,7 @@ export function ContactPage() {
           </div>
         </div>
 
-        {/* Regional Chapters */}
-        <section className="mt-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Regional Chapters</h2>
-            <p className="text-lg text-gray-600">
-              Connect with SPARC members in your area through our regional chapters
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {regionalChapters.map((chapter, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle className="text-lg">{chapter.region}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div>
-                      <p className="font-medium text-gray-900">{chapter.coordinator}</p>
-                      <p className="text-sm text-gray-600">Regional Coordinator</p>
-                    </div>
-                    <div className="space-y-2">
-                      <a 
-                        href={`mailto:${chapter.email}`}
-                        className="flex items-center text-sm text-blue-600 hover:text-blue-800"
-                      >
-                        <Mail className="h-4 w-4 mr-2" />
-                        {chapter.email}
-                      </a>
-                      <a 
-                        href={`tel:${chapter.phone}`}
-                        className="flex items-center text-sm text-gray-600 hover:text-gray-800"
-                      >
-                        <Phone className="h-4 w-4 mr-2" />
-                        {chapter.phone}
-                      </a>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-700 mb-1">Major Cities:</p>
-                      <div className="flex flex-wrap gap-1">
-                        {chapter.cities.map(city => (
-                          <span key={city} className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">
-                            {city}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        {/* Map Placeholder */}
-        <section className="mt-16">
-          <Card>
-            <CardHeader>
-              <CardTitle>Find Us</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-64 bg-gray-200 rounded-lg flex items-center justify-center">
-                <div className="text-center">
-                  <MapPin className="h-12 w-12 text-gray-400 mx-auto mb-2" />
-                  <p className="text-gray-600 font-medium">Interactive Map</p>
-                  <p className="text-sm text-gray-500">
-                    SPARC Headquarters - Mumbai, India.
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
+    
 
         {/* FAQ Section */}
         <section className="mt-16">
@@ -479,7 +407,7 @@ export function ContactPage() {
               
               <div className="flex justify-center space-x-6 mb-6">
                 <a 
-                  href="https://linkedin.com/company/sparc-pharma" 
+                  href="https://www.linkedin.com/company/sparcglobal/" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full p-3 transition-colors"
@@ -489,13 +417,13 @@ export function ContactPage() {
                   </svg>
                 </a>
                 <a 
-                  href="https://twitter.com/sparc_pharma" 
+                  href="https://www.instagram.com/sparc.ig?igsh=MWVyZXB3N252ZTV5bA==" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full p-3 transition-colors"
                 >
                   <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+                    <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.13-.88a1.13 1.13 0 1 1-2.25 0 1.13 1.13 0 0 1 2.25 0z"/>
                   </svg>
                 </a>
                 <a 
@@ -519,106 +447,6 @@ export function ContactPage() {
                   <Users className="h-4 w-4 mr-2" />
                   Join Community
                 </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Regional Chapters */}
-        <section className="mt-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Regional Chapters</h2>
-            <p className="text-lg text-gray-600">
-              Connect with SPARC members in your area through our regional chapters
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {regionalChapters.map((chapter, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle className="text-lg">{chapter.region}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div>
-                      <p className="font-medium text-gray-900">{chapter.coordinator}</p>
-                      <p className="text-sm text-gray-600">Regional Coordinator</p>
-                    </div>
-                    <div className="space-y-2">
-                      <a 
-                        href={`mailto:${chapter.email}`}
-                        className="flex items-center text-sm text-blue-600 hover:text-blue-800"
-                      >
-                        <Mail className="h-4 w-4 mr-2" />
-                        {chapter.email}
-                      </a>
-                      <a 
-                        href={`tel:${chapter.phone}`}
-                        className="flex items-center text-sm text-gray-600 hover:text-gray-800"
-                      >
-                        <Phone className="h-4 w-4 mr-2" />
-                        {chapter.phone}
-                      </a>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-700 mb-1">Major Cities:</p>
-                      <div className="flex flex-wrap gap-1">
-                        {chapter.cities.map(city => (
-                          <span key={city} className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">
-                            {city}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        {/* FAQ Section */}
-        <section className="mt-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
-            <p className="text-lg text-gray-600">
-              Quick answers to common questions about SPARC membership and services
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {faqs.map((faq, index) => (
-              <Card key={index}>
-                <CardContent className="p-6">
-                  <div className="flex items-start space-x-3">
-                    <HelpCircle className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-2">{faq.question}</h3>
-                      <p className="text-gray-600 text-sm leading-relaxed">{faq.answer}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        {/* Emergency Contact */}
-        <section className="mt-16">
-          <Card className="bg-red-50 border-red-200">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="font-semibold text-red-900 mb-1">Emergency Support</h3>
-                  <p className="text-red-700 text-sm">
-                    For urgent technical issues during events or critical membership matters
-                  </p>
-                </div>
-                <div className="text-right">
-                  <p className="font-bold text-red-900">+1 (555) 911-SPARC</p>
-                  <p className="text-sm text-red-700">Available 24/7</p>
-                </div>
               </div>
             </CardContent>
           </Card>

@@ -481,7 +481,14 @@ export function EventDetailPage() {
                     <Calendar className="h-4 w-4 mr-2" />
                     Add to Outlook
                   </Button>
-                  <Button variant="outline" className="w-full justify-start">
+                  <Button 
+                    variant="outline" 
+                    className="w-full justify-start"
+                    as="a"
+                    href="https://www.linkedin.com/company/sparcglobal/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Share2 className="h-4 w-4 mr-2" />
                     Share on LinkedIn
                   </Button>
