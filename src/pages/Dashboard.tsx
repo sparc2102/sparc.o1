@@ -1,4 +1,7 @@
 import { useAuth } from '../contexts/AuthContext';
+import { useEffect, useState } from 'react';
+import { supabase } from '../lib/supabase';
+import { Loader2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Link } from 'react-router-dom';
@@ -22,26 +25,129 @@ import CommunityActivity from '../components/CommunityActivity';
 import NotificationsCenter from '../components/NotificationsCenter';
 
 export function Dashboard() {
-  const { user } = useAuth();
-  
+  const { user, isLoading } = useAuth();
+  const [profileName, setProfileName] = useState(user?.name || '');
+
+  useEffect(() => {
+    async function fetchProfileName() {
+      if (user && user.id && supabase) {
+        const { data } = await supabase
+          .from('users')
+          .select('name')
+          .eq('id', user.id)
+          .single();
+        if (data && data.name) setProfileName(data.name);
+        else setProfileName(user.name || '');
+      }
+    }
+    fetchProfileName();
+  }, [user]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="animate-spin h-10 w-10 text-blue-600" />
+      </div>
+    );
+  }
+
   if (!user) return null;
 
-  const userMembership = membershipTiers.find(tier => tier.id === user.membershipTier);
+  const [userMembership, setUserMembership] = useState<any>(null);
+
+  useEffect(() => {
+    async function fetchMembershipTier() {
+      if (user && user.id && supabase) {
+        const { data } = await supabase
+          .from('users')
+          .select('membershipTier')
+          .eq('id', user.id)
+          .single();
+        if (data && data.membershipTier) {
+          const tier = membershipTiers.find(t => t.id === data.membershipTier);
+          setUserMembership(tier);
+        } else {
+          setUserMembership(null);
+        }
+      }
+    }
+    fetchMembershipTier();
+  }, [user]);
   
-  // Filter content based on user's membership tier
-  const accessibleEvents = mockEvents.filter(event => 
-    event.accessTiers.includes(user.membershipTier)
-  ).slice(0, 3);
+  const [accessibleEvents, setAccessibleEvents] = useState<any[]>([]);
+  const [eventsLoading, setEventsLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchEvents() {
+      if (user && user.membershipTier && supabase) {
+        setEventsLoading(true);
+        const { data, error } = await supabase
+          .from('events')
+          .select('*')
+          .contains('accessTiers', [user.membershipTier])
+          .order('date', { ascending: true });
+        if (!error && data) {
+          setAccessibleEvents(data.slice(0, 3));
+        } else {
+          setAccessibleEvents([]);
+        }
+        setEventsLoading(false);
+      }
+    }
+    fetchEvents();
+  }, [user]);
   
-  const accessibleResources = mockResources.filter(resource => 
-    resource.accessTiers.includes(user.membershipTier)
-  ).slice(0, 4);
+  const [accessibleResources, setAccessibleResources] = useState<any[]>([]);
+  const [resourcesLoading, setResourcesLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchResources() {
+      if (user && user.membershipTier && supabase) {
+        setResourcesLoading(true);
+        const { data, error } = await supabase
+          .from('resources')
+          .select('*')
+          .contains('accessTiers', [user.membershipTier])
+          .order('created_at', { ascending: false });
+        if (!error && data) {
+          setAccessibleResources(data.slice(0, 4));
+        } else {
+          setAccessibleResources([]);
+        }
+        setResourcesLoading(false);
+      }
+    }
+    fetchResources();
+  }, [user]);
+
+  const [progressStats, setProgressStats] = useState<any>(null);
+  const [statsLoading, setStatsLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProgressStats() {
+      if (user && user.id && supabase) {
+        setStatsLoading(true);
+        const { data, error } = await supabase
+          .from('dashboard_progress')
+          .select('events_attended, resources_downloaded, forum_posts, connections, last_updated')
+          .eq('user_id', user.id)
+          .single();
+        if (!error && data) {
+          setProgressStats(data);
+        } else {
+          setProgressStats(null);
+        }
+        setStatsLoading(false);
+      }
+    }
+    fetchProgressStats();
+  }, [user]);
 
   const stats = [
-    { label: 'Events Attended', value: '8', icon: Calendar, change: '+2 this month' },
-    { label: 'Resources Downloaded', value: '24', icon: Download, change: '+5 this week' },
-    { label: 'Forum Posts', value: '12', icon: MessageSquare, change: '+3 this week' },
-    { label: 'Connections', value: '47', icon: Users, change: '+8 this month' }
+    { label: 'Events Attended', value: progressStats?.events_attended ?? '-', icon: Calendar, change: '' },
+    { label: 'Resources Downloaded', value: progressStats?.resources_downloaded ?? '-', icon: Download, change: '' },
+    { label: 'Forum Posts', value: progressStats?.forum_posts ?? '-', icon: MessageSquare, change: '' },
+    { label: 'Connections', value: progressStats?.connections ?? '-', icon: Users, change: '' }
   ];
 
   const quickActions = [
@@ -75,32 +181,32 @@ export function Dashboard() {
     }
   ];
 
-  const recentActivities = [
-    { 
-      type: 'event', 
-      title: 'Registered for "Future of Drug Discovery"', 
-      time: '2 hours ago',
-      icon: Calendar 
-    },
-    { 
-      type: 'resource', 
-      title: 'Downloaded "AI in Pharmaceutical Research"', 
-      time: '1 day ago',
-      icon: Download 
-    },
-    { 
-      type: 'forum', 
-      title: 'Posted in "Clinical Research" forum', 
-      time: '3 days ago',
-      icon: MessageSquare 
-    },
-    { 
-      type: 'connection', 
-      title: 'Connected with Dr. Sarah Chen', 
-      time: '1 week ago',
-      icon: Users 
+  const [recentActivities, setRecentActivities] = useState<any[]>([]);
+  const [activitiesLoading, setActivitiesLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchRecentActivities() {
+      if (!user || !user.id || !supabase) {
+        setRecentActivities([]);
+        setActivitiesLoading(false);
+        return;
+      }
+      setActivitiesLoading(true);
+      // Example: fetch from a 'user_activity' table, or aggregate from events/resources/forum/connections
+      const { data, error } = await supabase
+        .from('user_activity')
+        .select('id, type, title, time, icon')
+        .eq('user_id', user.id)
+        .order('time', { ascending: false });
+      if (!error && data) {
+        setRecentActivities(data.slice(0, 4));
+      } else {
+        setRecentActivities([]);
+      }
+      setActivitiesLoading(false);
     }
-  ];
+    fetchRecentActivities();
+  }, [user]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -111,7 +217,7 @@ export function Dashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-2xl md:text-3xl font-bold mb-2">
-                  Welcome back, {user.name}!
+                  Welcome back, {profileName}!
                 </h1>
                 <p className="text-blue-100 mb-4">
                   Ready to advance your pharmaceutical career today?
@@ -134,9 +240,9 @@ export function Dashboard() {
                 </div>
               </div>
               <div className="hidden md:block">
-                <div className="h-20 w-20 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
-                  <Star className="h-10 w-10 text-yellow-300" />
-                </div>
+                  <div className="h-20 w-20 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
+                    <span className="text-lg font-semibold text-gray-900">{profileName}</span>
+                  </div>
               </div>
             </div>
           </div>
@@ -144,23 +250,33 @@ export function Dashboard() {
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {stats.map((stat, index) => {
-            const Icon = stat.icon;
-            return (
-              <Card key={index}>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-medium text-gray-600">{stat.label}</p>
-                      <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
-                      <p className="text-sm text-green-600">{stat.change}</p>
+          {statsLoading ? (
+            <div className="col-span-4 flex items-center justify-center py-8">
+              <Loader2 className="animate-spin h-8 w-8 text-blue-600" />
+              <span className="ml-3 text-gray-600">Loading stats...</span>
+            </div>
+          ) : (
+            stats.map((stat, index) => {
+              const Icon = stat.icon;
+              return (
+                <Card key={index}>
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-gray-600">{stat.label}</p>
+                        <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                        {/* Optionally show last_updated or change info if available */}
+                        {progressStats?.last_updated && (
+                          <p className="text-xs text-gray-500">Updated {format(new Date(progressStats.last_updated), 'MMM dd, yyyy')}</p>
+                        )}
+                      </div>
+                      <Icon className="h-8 w-8 text-blue-500" />
                     </div>
-                    <Icon className="h-8 w-8 text-blue-500" />
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
+                  </CardContent>
+                </Card>
+              );
+            })
+          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

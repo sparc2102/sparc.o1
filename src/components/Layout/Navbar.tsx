@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useEffect, useState } from 'react';
+import { supabase } from '../../lib/supabase';
 import { 
   Menu, 
   X, 
@@ -21,6 +23,22 @@ import { Button } from '../ui/Button';
 
 export function Navbar() {
   const { user, logout } = useAuth();
+  const [profileName, setProfileName] = useState(user?.name || '');
+
+  useEffect(() => {
+    async function fetchProfileName() {
+      if (user && user.id && supabase) {
+        const { data } = await supabase
+          .from('users')
+          .select('name')
+          .eq('id', user.id)
+          .single();
+        if (data && data.name) setProfileName(data.name);
+        else setProfileName(user.name || '');
+      }
+    }
+    fetchProfileName();
+  }, [user]);
   const navigate = useNavigate();
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -114,7 +132,7 @@ export function Navbar() {
                         <User className="h-4 w-4 text-gray-600" />
                       </div>
                       <div className="hidden md:block text-left">
-                        <div className="text-gray-900 font-medium">{user.name}</div>
+                        <div className="text-gray-900 font-medium">{profileName}</div>
                         <div className={`text-xs px-2 py-0.5 rounded-full ${getTierColor(user.membershipTier)}`}>
                           {getTierName(user.membershipTier)}
                         </div>

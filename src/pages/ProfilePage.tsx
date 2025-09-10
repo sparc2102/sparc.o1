@@ -47,6 +47,15 @@ export function ProfilePage() {
     fetchProfile();
   }, [user]);
 
+  const [membershipTier, setMembershipTier] = useState<any>(null);
+
+  useEffect(() => {
+    if (profile && profile.membershipTier) {
+      const tier = require('../data/mockData').membershipTiers.find((t: any) => t.id === profile.membershipTier);
+      setMembershipTier(tier);
+    }
+  }, [profile]);
+
   if (!profile) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -118,15 +127,13 @@ export function ProfilePage() {
   };
 
   const calculateProfileComplete = () => {
-    const requiredFields = [profile.name, profile.email];
+    const requiredFields = [profile.name, profile.email, profile.avatar_url];
     const optionalFields = [profile.phone, profile.bio, profile.location];
     const tierSpecificFields = profile.membership_tier === 'genesis' 
       ? [profile.university, profile.major] 
       : [profile.company, profile.position];
-    
     const allFields = [...requiredFields, ...optionalFields, ...tierSpecificFields];
     const filledFields = allFields.filter(field => field && field.toString().trim() !== '').length;
-    
     return Math.round((filledFields / allFields.length) * 100);
   };
 
@@ -189,20 +196,50 @@ export function ProfilePage() {
             <Card>
               <CardContent className="p-6 text-center">
                 <div className="relative mb-6">
-                    <div className="h-24 w-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto">
-                    {user?.avatar ? (
+                  <div className="h-24 w-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto overflow-hidden">
+                    {profile.avatar_url ? (
                       <img 
-                      src={user.avatar} 
-                      alt="Profile" 
-                      className="h-24 w-24 rounded-full object-cover"
+                        src={profile.avatar_url} 
+                        alt="Profile" 
+                        className="h-24 w-24 rounded-full object-cover"
                       />
                     ) : (
                       <UserIcon className="h-12 w-12 text-gray-400" />
                     )}
-                    </div>
-                  <button className="absolute bottom-0 right-1/2 transform translate-x-8 bg-blue-600 text-white rounded-full p-2 hover:bg-blue-700 transition-colors">
-                    <Camera className="h-4 w-4" />
-                  </button>
+                  </div>
+                  {isEditing && (
+                    <label className="absolute bottom-0 right-1/2 transform translate-x-8 bg-blue-600 text-white rounded-full p-2 hover:bg-blue-700 transition-colors cursor-pointer">
+                      <Camera className="h-4 w-4" />
+                      <input
+                        type="file"
+                        accept="image/*"
+                        style={{ display: 'none' }}
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file || !user) return;
+                          // Upload to Supabase Storage
+                          const fileName = `${user.id}_${Date.now()}`;
+                          if (!supabase) {
+                            setError('Supabase client not initialized.');
+                            return;
+                          }
+                          const { error: uploadError } = await supabase.storage.from('avatars').upload(fileName, file, {
+                            cacheControl: '3600',
+                            upsert: true,
+                          });
+                          if (uploadError) {
+                            setError('Failed to upload avatar.');
+                            return;
+                          }
+                          // Get public URL
+                          const { data: urlData } = supabase.storage.from('avatars').getPublicUrl(fileName);
+                          if (urlData?.publicUrl) {
+                            setProfile((prev: Record<string, any>) => ({ ...prev, avatar_url: urlData.publicUrl }));
+                          }
+                        }}
+                      />
+                    </label>
+                  )}
                 </div>
                 
                 <h2 className="text-xl font-semibold text-gray-900 mb-1">{profile.name}</h2>
@@ -230,21 +267,6 @@ export function ProfilePage() {
                       style={{ width: `${profileCompleteness}%` }}
                     ></div>
                   </div>
-                </div>
-
-                <div className="mt-6 space-y-2">
-                  <Button variant="outline" className="w-full" size="sm">
-                    <Settings className="h-4 w-4 mr-2" />
-                    Account Settings
-                  </Button>
-                  <Button variant="outline" className="w-full" size="sm">
-                    <Bell className="h-4 w-4 mr-2" />
-                    Notifications
-                  </Button>
-                  <Button variant="outline" className="w-full" size="sm">
-                    <Lock className="h-4 w-4 mr-2" />
-                    Privacy Settings
-                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -302,7 +324,7 @@ export function ProfilePage() {
                                 <textarea
                                   id={field.key}
                                   rows={3}
-                                  value={profile[field.key as keyof typeof profile]}
+                                  value={profile[field.key as keyof typeof profile] ?? ''}
                                   onChange={(e) => setProfile((prev: Record<string, any>) => ({ ...prev, [field.key]: e.target.value }))}
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                   placeholder={`Enter your ${field.label.toLowerCase()}`}

@@ -1,4 +1,15 @@
 import React, { useState } from 'react';
+import { supabase } from '../../lib/supabase';
+// Razorpay script loader
+function loadRazorpayScript(src: string) {
+  return new Promise((resolve) => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+}
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth, MembershipTier } from '../../contexts/AuthContext';
 import { Button } from '../../components/ui/Button';
@@ -22,6 +33,7 @@ interface FormData {
 }
 
 export function RegisterPage() {
+  const [showFellowsPopup, setShowFellowsPopup] = useState(false);
   const [step1Touched, setStep1Touched] = useState<{ name: boolean; email: boolean; password: boolean; confirmPassword: boolean }>({ name: false, email: false, password: false, confirmPassword: false });
   const [step1PasswordError, setStep1PasswordError] = useState('');
   const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
@@ -73,30 +85,129 @@ export function RegisterPage() {
       return;
     }
 
-    // Create registration data object
-    const registrationData = {
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-      membershipTier: formData.membershipTier,
-      university: formData.university || undefined,
-      graduationYear: formData.graduationYear || undefined,
-      major: formData.major || undefined,
-      company: formData.company || undefined,
-      position: formData.position || undefined,
-      phone: formData.phone || undefined,
-    };
+    if (formData.membershipTier === 'fellows') {
+      setShowFellowsPopup(true);
+      return;
+    }
 
+    // Check if email is already in use
     try {
-      const success = await register(registrationData);
-      if (success) {
-        setShowConfirmationPopup(true);
-      } else {
-        setError('Registration failed. Email may already be in use or there was a database error.');
+      const { data: existingUser, error: fetchError } = await supabase
+        .from('users')
+        .select('id')
+        .eq('email', formData.email)
+        .single();
+      // If fetchError is null, and data exists, email is taken
+      if (existingUser) {
+        setError('The email address is already associated with an existing account. Please use a different email or sign in.');
+        return;
       }
-    } catch (error) {
-      console.error('Registration error:', error);
-      setError('Registration failed. Please try again.');
+      // If fetchError is not null and not a "no rows found" error, show generic error
+      if (fetchError && fetchError.code !== 'PGRST116') {
+        setError('Error checking email. Please try again.');
+        return;
+      }
+    } catch (err) {
+      setError('Error checking email. Please try again.');
+      return;
+    }
+
+    // Genesis: eligibility check
+    if (formData.membershipTier === 'genesis') {
+      const currentYear = new Date().getFullYear();
+      const gradYear = parseInt(formData.graduationYear, 10);
+      if (!formData.graduationYear || isNaN(gradYear)) {
+        setError('Please enter a valid graduation year.');
+        return;
+      }
+      if (gradYear > currentYear) {
+        // Current student, eligible
+      } else if (currentYear - gradYear > 2) {
+        setError('Only current students and graduates within 2 years of their graduation date are eligible to join SPARC Genesis.');
+        return;
+      }
+      // Eligible, proceed
+      const registrationData = {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        membershipTier: formData.membershipTier,
+        university: formData.university || undefined,
+        graduationYear: formData.graduationYear || undefined,
+        major: formData.major || undefined,
+        company: formData.company || undefined,
+        position: formData.position || undefined,
+        phone: formData.phone || undefined,
+      };
+      try {
+        const success = await register(registrationData);
+        if (success) {
+          setShowConfirmationPopup(true);
+        } else {
+          setError('Registration failed. Email may already be in use or there was a database error.');
+        }
+      } catch (error) {
+        console.error('Registration error:', error);
+        setError('Registration failed. Please try again.');
+      }
+      return;
+    }
+
+    // Professional: payment required
+    if (formData.membershipTier === 'professional') {
+      // Load Razorpay script if not loaded
+      const scriptLoaded = await loadRazorpayScript('https://checkout.razorpay.com/v1/checkout.js');
+      if (!scriptLoaded) {
+        setError('Unable to load payment gateway. Please try again later.');
+        return;
+      }
+      // Payment options
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        amount: 19900, // 199 USD in paise (or INR, adjust as needed)
+        currency: 'USD',
+        name: 'SPARC Membership',
+        description: 'Professional Membership Early Subscription',
+        image: '/public/logo.png',
+        handler: async function (response: any) {
+          // On payment success, complete registration
+          const registrationData = {
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+            membershipTier: formData.membershipTier,
+            university: formData.university || undefined,
+            graduationYear: formData.graduationYear || undefined,
+            major: formData.major || undefined,
+            company: formData.company || undefined,
+            position: formData.position || undefined,
+            phone: formData.phone || undefined,
+            razorpay_payment_id: response.razorpay_payment_id,
+          };
+          try {
+            const success = await register(registrationData);
+            if (success) {
+              setShowConfirmationPopup(true);
+            } else {
+              setError('Registration failed. Email may already be in use or there was a database error.');
+            }
+          } catch (error) {
+            console.error('Registration error:', error);
+            setError('Registration failed. Please try again.');
+          }
+        },
+        prefill: {
+          name: formData.name,
+          email: formData.email,
+        },
+        theme: {
+          color: '#2563eb',
+        },
+      };
+      // @ts-ignore
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+      return;
     }
   };
 
@@ -104,6 +215,20 @@ export function RegisterPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      {showFellowsPopup && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-40">
+          <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full text-center">
+            <h3 className="text-xl font-bold mb-4 text-blue-700">Exclusive Fellowship Access</h3>
+            <p className="mb-6 text-gray-700">
+              Please contact the SPARC team for exclusive fellowship access.<br />
+              Registration for Fellows is by invitation only.
+            </p>
+            <Button className="w-full" onClick={() => setShowFellowsPopup(false)}>
+              Close
+            </Button>
+          </div>
+        </div>
+      )}
       {showConfirmationPopup && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-40">
           <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full text-center">
@@ -147,7 +272,8 @@ export function RegisterPage() {
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  {error && (
+                  {/* Only show error if it's not a required fields message */}
+                  {error && !error.startsWith('Please fill all required fields:') && (
                     <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
                       {error}
                     </div>
@@ -292,21 +418,32 @@ export function RegisterPage() {
                               type="text"
                               value={formData.university}
                               onChange={handleInputChange}
-                              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                              className={`mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${!formData.university && error.includes('University') ? 'border-2 border-red-500' : 'border border-gray-300'}`}
                             />
                           </div>
                           <div>
                             <label htmlFor="graduationYear" className="block text-sm font-medium text-gray-700">
                               Expected Graduation Year
                             </label>
-                            <input
+                            <select
                               id="graduationYear"
                               name="graduationYear"
-                              type="text"
                               value={formData.graduationYear}
                               onChange={handleInputChange}
-                              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                            />
+                              className={`mt-1 block w-full px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white ${!formData.graduationYear && error.includes('Graduation Year') ? 'border-2 border-red-500' : 'border-2 border-gray-300'}`}
+                            >
+                              <option value="">Select Year</option>
+                              {(() => {
+                                const currentYear = new Date().getFullYear();
+                                const years = [];
+                                for (let y = currentYear + 6; y >= currentYear - 10; y--) {
+                                  years.push(y);
+                                }
+                                return years.map(year => (
+                                  <option key={year} value={year}>{year}</option>
+                                ));
+                              })()}
+                            </select>
                           </div>
                         </div>
                       ) : (
@@ -321,7 +458,7 @@ export function RegisterPage() {
                               type="text"
                               value={formData.company}
                               onChange={handleInputChange}
-                              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                              className={`mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${!formData.company && error.includes('Company') ? 'border-2 border-red-500' : 'border border-gray-300'}`}
                             />
                           </div>
                           <div>
@@ -334,7 +471,7 @@ export function RegisterPage() {
                               type="text"
                               value={formData.position}
                               onChange={handleInputChange}
-                              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                              className={`mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${!formData.position && error.includes('Position') ? 'border-2 border-red-500' : 'border border-gray-300'}`}
                             />
                           </div>
                         </div>
@@ -351,7 +488,7 @@ export function RegisterPage() {
                           value={formData.major}
                           onChange={handleInputChange}
                           placeholder="e.g., Pharmaceutical Sciences, Medicinal Chemistry"
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          className={`mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${!formData.major && error.includes('Field of Study/Specialization') ? 'border-2 border-red-500' : 'border border-gray-300'}`}
                         />
                       </div>
 
@@ -376,7 +513,7 @@ export function RegisterPage() {
                           type="checkbox"
                           checked={formData.agreedToTerms}
                           onChange={handleInputChange}
-                          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                          className={`h-4 w-4 text-blue-600 focus:ring-blue-500 rounded ${!formData.agreedToTerms && error.includes('Agreement to Terms') ? 'border-2 border-red-500' : 'border border-gray-300'}`}
                         />
                         <label htmlFor="agreedToTerms" className="ml-2 block text-sm text-gray-900">
                           I agree to the{' '}
@@ -403,6 +540,26 @@ export function RegisterPage() {
                           type="submit" 
                           className="w-full"
                           disabled={isLoading}
+                          onClick={e => {
+                            // Only validate on step 2
+                            if (step === 2) {
+                              let missing = [];
+                              if (formData.membershipTier === 'genesis') {
+                                if (!formData.university) missing.push('University');
+                                if (!formData.graduationYear) missing.push('Graduation Year');
+                              } else {
+                                if (!formData.company) missing.push('Company');
+                                if (!formData.position) missing.push('Position');
+                              }
+                              if (!formData.major) missing.push('Field of Study/Specialization');
+                              if (!formData.agreedToTerms) missing.push('Agreement to Terms');
+                              if (missing.length > 0) {
+                                e.preventDefault();
+                                setError('Please fill all required fields: ' + missing.join(', '));
+                                return;
+                              }
+                            }
+                          }}
                         >
                           {isLoading ? 'Creating Account...' : 'Create Account'}
                         </Button>
