@@ -66,7 +66,6 @@ function App() {
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
               <Route path="/auth/callback" element={<AuthCallback />} />
               <Route path="/sparcform" element={<SparcForm />} />
-            
             </Routes>
           </main>
           <Footer />
