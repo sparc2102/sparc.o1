@@ -430,8 +430,15 @@ export function LandingPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section - Full Height Split Layout */}
-      <section className="bg-black text-white min-h-screen flex items-center justify-center">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+      <section className="bg-black text-white min-h-screen flex items-center justify-center relative overflow-hidden">
+        {/* Background Gradient with Blue Grainy Shade */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-blue-950 to-blue-900 opacity-90"></div>
+        <div className="absolute inset-0" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.3'/%3E%3C/svg%3E")`,
+          backgroundRepeat: 'repeat',
+          opacity: 0.2
+        }}></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 relative z-10">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
             {/* Right Side - Content */}
             <div className="order-1 lg:order-2 col-span-2">
@@ -529,7 +536,7 @@ export function LandingPage() {
         </div>
       </section>
 
-     {/* Vision Section */}
+      {/* Vision Section */}
       <section className="py-12 sm:py-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-16 items-center">
@@ -825,8 +832,8 @@ export function LandingPage() {
       {/* Split Scrolling Features Section - Integrated Here */}
       <SplitScrollingFeatures />
 
-     {/* Membership Tiers Section - Comparison Cards */}
-<section className="py-12 sm:py-20 bg-black">
+      {/* Membership Tiers Section - Comparison Cards */}
+<section className="py-12 sm:py-20 bg-gradient-to-br from-black via-blue-950 to-blue-900">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div className="text-center mb-12 sm:mb-16">
       <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">
@@ -839,17 +846,17 @@ export function LandingPage() {
 
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
       {/* SPARC Genesis */}
-      <Card className="bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 relative border border-gray-300">
+      <Card className="bg-transparent shadow-lg hover:shadow-xl transition-shadow duration-300 relative border border-blue-900 opacity-90">
         <CardHeader className="text-center pb-3 sm:pb-4">
           <div className="w-12 h-12 sm:w-16 sm:h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
             <Users className="w-6 h-6 sm:w-8 sm:h-8 text-green-600" />
           </div>
           <CardTitle>
-            <h3 className="text-xl sm:text-2xl font-bold text-black mb-2">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
               SPARC Genesis
             </h3>
-            <p className="text-xs sm:text-sm text-gray-600 font-normal mb-2">Students & Early-Career</p>
-            <div className="text-2xl sm:text-3xl font-bold text-black mb-1">FREE</div>
+            <p className="text-xs sm:text-sm text-gray-200 font-normal mb-2">Students & Early-Career</p>
+            <div className="text-2xl sm:text-3xl font-bold text-white mb-1">FREE</div>
             <span className="bg-green-100 text-green-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
               Complimentary
             </span>
@@ -857,22 +864,22 @@ export function LandingPage() {
         </CardHeader>
         <CardContent>
           <div className="mb-4 sm:mb-6">
-            <p className="text-xs sm:text-sm text-gray-700 mb-3 sm:mb-4">
+            <p className="text-xs sm:text-sm text-gray-200 mb-3 sm:mb-4">
               <strong>Eligibility:</strong> Undergraduates, postgraduates, and professionals with 0–1 years of experience.
             </p>
-            <h4 className="font-semibold text-black mb-2 sm:mb-3 text-sm sm:text-base">Core Benefits:</h4>
+            <h4 className="font-semibold text-white mb-2 sm:mb-3 text-sm sm:text-base">Core Benefits:</h4>
             <ul className="space-y-2 mb-4 sm:mb-6">
               <li className="flex items-start">
                 <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 mr-2 mt-1 flex-shrink-0" />
-                <span className="text-xs sm:text-sm text-gray-700">Full participation in student-centric activities</span>
+                <span className="text-xs sm:text-sm text-gray-200">Full participation in student-centric activities</span>
               </li>
               <li className="flex items-start">
                 <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 mr-2 mt-1 flex-shrink-0" />
-                <span className="text-xs sm:text-sm text-gray-700">Career bootcamps and skill-building sessions</span>
+                <span className="text-xs sm:text-sm text-gray-200">Career bootcamps and skill-building sessions</span>
               </li>
               <li className="flex items-start">
                 <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 mr-2 mt-1 flex-shrink-0" />
-                <span className="text-xs sm:text-sm text-gray-700">Networking cohorts and research presentations</span>
+                <span className="text-xs sm:text-sm text-gray-200">Networking cohorts and research presentations</span>
               </li>
             </ul>
             <div className="bg-green-50 p-2 sm:p-3 rounded-lg text-center border border-green-200">
@@ -892,8 +899,8 @@ export function LandingPage() {
       </Card>
 
       {/* SPARC Professional */}
-      <Card className="bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 relative opacity-30 border border-gray-300">
-        <div className="absolute inset-0 bg-gray-100 opacity-50 rounded-lg"></div>
+      <Card className="bg-transparent shadow-lg hover:shadow-xl transition-shadow duration-300 relative border border-blue-900 opacity-90">
+        <div className="absolute inset-0 bg-gray-100 opacity-20 rounded-lg"></div>
         <div className="absolute top-4 right-4 bg-gray-600 text-white px-2 py-1 rounded-full text-xs font-medium">
           Coming Soon
         </div>
@@ -908,11 +915,11 @@ export function LandingPage() {
             <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
           </div>
           <CardTitle>
-            <h3 className="text-xl sm:text-2xl font-bold text-black mb-2">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
               SPARC Professional
             </h3>
-            <p className="text-xs sm:text-sm text-gray-600 font-normal mb-2">Mid-to-Senior Level</p>
-            <div className="text-2xl sm:text-3xl font-bold text-black mb-1">$199</div>
+            <p className="text-xs sm:text-sm text-gray-200 font-normal mb-2">Mid-to-Senior Level</p>
+            <div className="text-2xl sm:text-3xl font-bold text-white mb-1">$199</div>
             <span className="bg-blue-100 text-blue-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
               Annual Subscription
             </span>
@@ -920,22 +927,22 @@ export function LandingPage() {
         </CardHeader>
         <CardContent className="relative z-10">
           <div className="mb-4 sm:mb-6">
-            <p className="text-xs sm:text-sm text-gray-700 mb-3 sm:mb-4">
+            <p className="text-xs sm:text-sm text-gray-200 mb-3 sm:mb-4">
               <strong>Eligibility:</strong> Mid-to-senior level pharmaceutical professionals.
             </p>
-            <h4 className="font-semibold text-black mb-2 sm:mb-3 text-sm sm:text-base">Core Benefits:</h4>
+            <h4 className="font-semibold text-white mb-2 sm:mb-3 text-sm sm:text-base">Core Benefits:</h4>
             <ul className="space-y-2 mb-4 sm:mb-6">
               <li className="flex items-start">
                 <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-blue-500 mr-2 mt-1 flex-shrink-0" />
-                <span className="text-xs sm:text-sm text-gray-700">Executive masterclasses by industry pioneers</span>
+                <span className="text-xs sm:text-sm text-gray-200">Executive masterclasses by industry pioneers</span>
               </li>
               <li className="flex items-start">
                 <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-blue-500 mr-2 mt-1 flex-shrink-0" />
-                <span className="text-xs sm:text-sm text-gray-700">Premium networking and international symposia</span>
+                <span className="text-xs sm:text-sm text-gray-200">Premium networking and international symposia</span>
               </li>
               <li className="flex items-start">
                 <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-blue-500 mr-2 mt-1 flex-shrink-0" />
-                <span className="text-xs sm:text-sm text-gray-700">Collaborative research and ZANE publications</span>
+                <span className="text-xs sm:text-sm text-gray-200">Collaborative research and ZANE publications</span>
               </li>
             </ul>
             <div className="bg-blue-50 p-2 sm:p-3 rounded-lg text-center border border-blue-200">
@@ -951,8 +958,8 @@ export function LandingPage() {
       </Card>
 
       {/* SPARC Fellows */}
-      <Card className="bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 relative opacity-30 border border-gray-300">
-        <div className="absolute inset-0 bg-gray-100 opacity-50 rounded-lg"></div>
+      <Card className="bg-transparent shadow-lg hover:shadow-xl transition-shadow duration-300 relative border border-blue-900 opacity-90">
+        <div className="absolute inset-0 bg-gray-100 opacity-20 rounded-lg"></div>
         <div className="absolute top-4 right-4 bg-gray-600 text-white px-2 py-1 rounded-full text-xs font-medium">
           Coming Soon
         </div>
@@ -967,11 +974,11 @@ export function LandingPage() {
             <Award className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600" />
           </div>
           <CardTitle>
-            <h3 className="text-xl sm:text-2xl font-bold text-black mb-2">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
               SPARC Fellows
             </h3>
-            <p className="text-xs sm:text-sm text-gray-600 font-normal mb-2">Elite Leadership</p>
-            <div className="text-2xl sm:text-3xl font-bold text-black mb-1">Exclusive</div>
+            <p className="text-xs sm:text-sm text-gray-200 font-normal mb-2">Elite Leadership</p>
+            <div className="text-2xl sm:text-3xl font-bold text-white mb-1">Exclusive</div>
             <span className="bg-purple-100 text-purple-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
               Invitation-Only
             </span>
@@ -979,22 +986,22 @@ export function LandingPage() {
         </CardHeader>
         <CardContent className="relative z-10">
           <div className="mb-4 sm:mb-6">
-            <p className="text-xs sm:text-sm text-gray-700 mb-3 sm:mb-4">
+            <p className="text-xs sm:text-sm text-gray-200 mb-3 sm:mb-4">
               <strong>Eligibility:</strong> C-suite executives, renowned researchers, and influential academics.
             </p>
-            <h4 className="font-semibold text-black mb-2 sm:mb-3 text-sm sm:text-base">Premium Privileges:</h4>
+            <h4 className="font-semibold text-white mb-2 sm:mb-3 text-sm sm:text-base">Premium Privileges:</h4>
             <ul className="space-y-2 mb-4 sm:mb-6">
               <li className="flex items-start">
                 <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-purple-500 mr-2 mt-1 flex-shrink-0" />
-                <span className="text-xs sm:text-sm text-gray-700">Advisory board seats for strategic influence</span>
+                <span className="text-xs sm:text-sm text-gray-200">Advisory board seats for strategic influence</span>
               </li>
               <li className="flex items-start">
                 <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-purple-500 mr-2 mt-1 flex-shrink-0" />
-                <span className="text-xs sm:text-sm text-gray-700">SPARC Fellow designation with visibility</span>
+                <span className="text-xs sm:text-sm text-gray-200">SPARC Fellow designation with visibility</span>
               </li>
               <li className="flex items-start">
                 <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-purple-500 mr-2 mt-1 flex-shrink-0" />
-                <span className="text-xs sm:text-sm text-gray-700">Thought leadership and high-level discourse</span>
+                <span className="text-xs sm:text-sm text-gray-200">Thought leadership and high-level discourse</span>
               </li>
             </ul>
             <div className="bg-purple-50 p-2 sm:p-3 rounded-lg text-center border border-purple-200">
@@ -1080,13 +1087,13 @@ export function LandingPage() {
       </section>
 
       {/* Testimonials Section - Auto Scrolling with Dark Theme */}
-<section className="py-12 sm:py-20 bg-black">
+<section className="py-12 sm:py-20 bg-gradient-to-br from-black via-blue-950 to-blue-900">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div className="text-center mb-12 sm:mb-16">
       <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">
         What Our Members Say
       </h2>
-      <p className="text-base sm:text-xl text-gray-300">
+      <p className="text-base sm:text-xl text-gray-200">
         Hear from professionals who have transformed their careers with SPARC
       </p>
     </div>
@@ -1098,11 +1105,11 @@ export function LandingPage() {
         {[...testimonials, ...testimonials].map((testimonial, index) => (
           <div
             key={index}
-            className="flex-shrink-0 w-64 h-72 sm:w-80 sm:h-80 bg-gray-800 rounded-lg p-4 sm:p-6 flex flex-col justify-between"
+            className="flex-shrink-0 w-64 h-72 sm:w-80 sm:h-80 bg-transparent rounded-lg p-4 sm:p-6 flex flex-col justify-between border border-gray-200 opacity-90"
           >
             {/* Quote Icon */}
             <div className="mb-3 sm:mb-4">
-              <Quote className="h-6 w-6 sm:h-8 sm:w-8 text-gray-400" />
+              <Quote className="h-6 w-6 sm:h-8 sm:w-8 text-gray-300" />
             </div>
             
             {/* Testimonial Content */}
@@ -1121,7 +1128,7 @@ export function LandingPage() {
                 <div className="font-medium text-white text-sm sm:text-base">
                   {testimonial.name}
                 </div>
-                <div className="text-xs sm:text-sm text-gray-400">
+                <div className="text-xs sm:text-sm text-gray-300">
                   {testimonial.role}
                 </div>
                 <div className="text-xs text-gray-300">

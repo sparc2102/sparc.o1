@@ -107,7 +107,7 @@ export function Navbar() {
             {/* Desktop Navigation - Always shows */}
             <div className="hidden md:flex md:space-x-6">
               {allNavigation.map((item) => {
-                const Icon = item.icon;
+                
                 const isActive = location.pathname === item.href;
                 return (
                   <Link
