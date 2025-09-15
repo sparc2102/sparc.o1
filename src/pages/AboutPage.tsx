@@ -406,87 +406,104 @@ export function AboutPage() {
             ))}
           </div>
         </section>
-{/* Leadership Team - Two Rows Infinite Scroll */}
+
+
 <section className="mb-16">
-  <div className="text-center mb-12">
-    <h2 className="text-3xl font-bold mb-4">Leadership Team</h2>
-    <p className="text-lg text-gray-400">
-      Meet the visionaries behind SPARC's success
-    </p>
-  </div>
+      <div className="text-center mb-12">
+        <h2 className="text-3xl font-bold mb-4">Leadership Team</h2>
+        <p className="text-lg text-gray-400">
+          Meet the visionaries behind SPARC's success
+        </p>
+      </div>
 
-  {/* Row 1 - 9 cards, scroll left */}
-  <div className="overflow-hidden relative mb-6 group">
-    <div className="flex animate-scroll-left gap-6 group-hover:pause-scroll">
-      {leadership.slice(0, 9).concat(leadership.slice(0, 9)).map((leader, index) => (
-        <div
-          key={index}
-          className="bg-transparent w-52 h-52 rounded-xl flex-none p-4 text-center shadow-md hover:bg-zinc-700/30 transition-all duration-300 opacity-90 border border-black"
-        >
-          <div className="h-24 w-24 rounded-full overflow-hidden mx-auto mb-3">
-            <img
-              src={leader.avatar}
-              alt={leader.name}
-              className="h-full w-full object-cover"
-            />
-          </div>
-          <h3 className="text-sm font-semibold">{leader.name}</h3>
-          <p className="text-blue-400 text-xs font-medium">{leader.title}</p>
+      {/* Row 1 - Scroll Left */}
+      <div className="overflow-hidden relative mb-6 group">
+        <div className="flex animate-circular-left gap-6 group-hover:slow-scroll">
+          {leadership.slice(0, 9).concat(leadership.slice(0, 9)).map((leader, index) => (
+            <div
+              key={`left-${index}`}
+              className="bg-transparent w-52 h-52 rounded-xl flex-none p-4 text-center shadow-md hover:bg-zinc-700/50 transition-all duration-300 opacity-90 border border-black"
+            >
+              <div className="h-24 w-24 rounded-full overflow-hidden mx-auto mb-3">
+                <img
+                  src={leader.avatar}
+                  alt={leader.name}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <h3 className="text-sm font-semibold hover:text-blue-500 transition-colors duration-300">{leader.name}</h3>
+              <p className="text-blue-400 text-xs font-medium">{leader.title}</p>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
-  </div>
+      </div>
 
-  {/* Row 2 - 8 cards, scroll right */}
-  <div className="overflow-hidden relative group">
-    <div className="flex animate-scroll-right gap-6 group-hover:pause-scroll">
-      {leadership.slice(9).concat(leadership.slice(9)).map((leader, index) => (
-        <div
-          key={index}
-          className="bg-transparent w-52 h-52 rounded-xl flex-none p-4 text-center shadow-md hover:bg-zinc-700/30 transition-all duration-300 opacity-90 border border-black"
-        >
-          <div className="h-24 w-24 rounded-full overflow-hidden mx-auto mb-3">
-            <img
-              src={leader.avatar}
-              alt={leader.name}
-              className="h-full w-full object-cover"
-            />
-          </div>
-          <h3 className="text-sm font-semibold">{leader.name}</h3>
-          <p className="text-blue-400 text-xs font-medium">{leader.title}</p>
+      {/* Row 2 - Scroll Right */}
+      <div className="overflow-hidden relative group">
+        <div className="flex animate-circular-right gap-6 group-hover:slow-scroll">
+          {leadership.slice(9).concat(leadership.slice(9)).concat(leadership.slice(9)).map((leader, index) => (
+            <div
+              key={`right-${index}`}
+              className="bg-transparent w-52 h-52 rounded-xl flex-none p-4 text-center shadow-md hover:bg-zinc-700/50 transition-all duration-300 opacity-90 border border-black"
+            >
+              <div className="h-24 w-24 rounded-full overflow-hidden mx-auto mb-3">
+                <img
+                  src={leader.avatar}
+                  alt={leader.name}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <h3 className="text-sm font-semibold hover:text-blue-500 transition-colors duration-300">{leader.name}</h3>
+              <p className="text-blue-400 text-xs font-medium">{leader.title}</p>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
-  </div>
+      </div>
 
-  {/* CSS for smooth infinite scroll */}
-  <style >{`
-    @keyframes scroll-left {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); } /* seamless loop with duplicated array */
-    }
-    @keyframes scroll-right {
-      0% { transform: translateX(-50%); }
-      100% { transform: translateX(0); }
-    }
+      {/* CSS for smooth circular infinite scroll */}
+      <style>{`
+        @keyframes circular-left {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-100%);
+          }
+        }
 
-    .animate-scroll-left {
-      display: flex;
-      gap: 1.5rem;
-      animation: scroll-left 50s linear infinite; /* adjust speed if needed */
-    }
+        @keyframes circular-right {
+          0% {
+            transform: translateX(-100%);
+          }
+          100% {
+            transform: translateX(0);
+          }
+        }
 
-    .animate-scroll-right {
-      display: flex;
-      gap: 1.5rem;
-      animation: scroll-right 50s linear infinite;
-    }
+        .animate-circular-left {
+          display: flex;
+          gap: 1.5rem;
+          width: calc(200% + 1.5rem); /* Double the width for seamless looping */
+          animation: circular-left 60s linear infinite;
+        }
 
-    .pause-scroll:hover {
-      animation-play-state: paused !important;
-    }
-  `}</style>
-</section>
+        .animate-circular-right {
+          display: flex;
+          gap: 1.5rem;
+          width: calc(300% + 1.5rem); /* Triple the width for seamless looping */
+          animation: circular-right 60s linear infinite;
+        }
+
+        .group:hover .slow-scroll {
+          animation-duration: 120s !important; /* Slow down to 120s on hover */
+        }
+
+        .group {
+          position: relative;
+          overflow: hidden;
+        }
+      `}</style>
+    </section>
         {/* What Makes Us Different */}
         <section className="mb-16">
           <div className="bg-transparent rounded-2xl p-8 shadow-md opacity-90 border border-black">

@@ -220,7 +220,7 @@ export function Navbar() {
         <div className="md:hidden">
           <div className="pt-2 pb-3 space-y-1">
             {allNavigation.map((item) => {
-              const Icon = item.icon;
+            
               return (
                 <Link
                   key={item.name}
