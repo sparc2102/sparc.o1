@@ -831,8 +831,6 @@ export function LandingPage() {
 
       {/* Split Scrolling Features Section - Integrated Here */}
       <SplitScrollingFeatures />
-
-      {/* Membership Tiers Section - Comparison Cards */}
 <section className="py-12 sm:py-20 bg-gradient-to-br from-black via-blue-950 to-blue-900">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div className="text-center mb-12 sm:mb-16">
@@ -846,9 +844,9 @@ export function LandingPage() {
 
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
       {/* SPARC Genesis */}
-      <Card className="bg-transparent shadow-lg hover:shadow-xl transition-shadow duration-300 relative border border-blue-900 opacity-90">
+      <Card className="bg-white bg-opacity-10 backdrop-blur-md shadow-lg hover:shadow-xl transition-shadow duration-300 relative border border-blue-800 rounded-lg">
         <CardHeader className="text-center pb-3 sm:pb-4">
-          <div className="w-12 h-12 sm:w-16 sm:h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+          <div className="w-12 h-12 sm:w-16 sm:h-16 bg-green-100 bg-opacity-80 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
             <Users className="w-6 h-6 sm:w-8 sm:h-8 text-green-600" />
           </div>
           <CardTitle>
@@ -857,7 +855,7 @@ export function LandingPage() {
             </h3>
             <p className="text-xs sm:text-sm text-gray-200 font-normal mb-2">Students & Early-Career</p>
             <div className="text-2xl sm:text-3xl font-bold text-white mb-1">FREE</div>
-            <span className="bg-green-100 text-green-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
+            <span className="bg-green-100 bg-opacity-80 text-green-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
               Complimentary
             </span>
           </CardTitle>
@@ -882,7 +880,7 @@ export function LandingPage() {
                 <span className="text-xs sm:text-sm text-gray-200">Networking cohorts and research presentations</span>
               </li>
             </ul>
-            <div className="bg-green-50 p-2 sm:p-3 rounded-lg text-center border border-green-200">
+            <div className="bg-green-50 bg-opacity-80 p-2 sm:p-3 rounded-lg text-center border border-green-200">
               <p className="text-green-700 text-xs sm:text-sm font-medium">
                 Build foundational skills and network
               </p>
@@ -899,8 +897,7 @@ export function LandingPage() {
       </Card>
 
       {/* SPARC Professional */}
-      <Card className="bg-transparent shadow-lg hover:shadow-xl transition-shadow duration-300 relative border border-blue-900 opacity-90">
-        <div className="absolute inset-0 bg-gray-100 opacity-20 rounded-lg"></div>
+      <Card className="bg-white bg-opacity-10 backdrop-blur-md shadow-lg hover:shadow-xl transition-shadow duration-300 relative border border-blue-800 rounded-lg">
         <div className="absolute top-4 right-4 bg-gray-600 text-white px-2 py-1 rounded-full text-xs font-medium">
           Coming Soon
         </div>
@@ -910,8 +907,8 @@ export function LandingPage() {
             <Lock className="w-8 h-8 sm:w-12 sm:h-12 text-gray-400" />
           </div>
         </div>
-        <CardHeader className="text-center pb-3 sm:pb-4 relative z-10">
-          <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+        <CardHeader className="text-center pb-3 sm:pb-4 relative z-30">
+          <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-100 bg-opacity-80 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
             <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
           </div>
           <CardTitle>
@@ -920,12 +917,12 @@ export function LandingPage() {
             </h3>
             <p className="text-xs sm:text-sm text-gray-200 font-normal mb-2">Mid-to-Senior Level</p>
             <div className="text-2xl sm:text-3xl font-bold text-white mb-1">$199</div>
-            <span className="bg-blue-100 text-blue-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
+            <span className="bg-blue-100 bg-opacity-80 text-blue-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
               Annual Subscription
             </span>
           </CardTitle>
         </CardHeader>
-        <CardContent className="relative z-10">
+        <CardContent className="relative z-30">
           <div className="mb-4 sm:mb-6">
             <p className="text-xs sm:text-sm text-gray-200 mb-3 sm:mb-4">
               <strong>Eligibility:</strong> Mid-to-senior level pharmaceutical professionals.
@@ -945,7 +942,7 @@ export function LandingPage() {
                 <span className="text-xs sm:text-sm text-gray-200">Collaborative research and ZANE publications</span>
               </li>
             </ul>
-            <div className="bg-blue-50 p-2 sm:p-3 rounded-lg text-center border border-blue-200">
+            <div className="bg-blue-50 bg-opacity-80 p-2 sm:p-3 rounded-lg text-center border border-blue-200">
               <p className="text-blue-700 text-xs sm:text-sm font-medium">
                 Advance your career with premium access
               </p>
@@ -958,8 +955,7 @@ export function LandingPage() {
       </Card>
 
       {/* SPARC Fellows */}
-      <Card className="bg-transparent shadow-lg hover:shadow-xl transition-shadow duration-300 relative border border-blue-900 opacity-90">
-        <div className="absolute inset-0 bg-gray-100 opacity-20 rounded-lg"></div>
+      <Card className="bg-white bg-opacity-10 backdrop-blur-md shadow-lg hover:shadow-xl transition-shadow duration-300 relative border border-blue-800 rounded-lg">
         <div className="absolute top-4 right-4 bg-gray-600 text-white px-2 py-1 rounded-full text-xs font-medium">
           Coming Soon
         </div>
@@ -969,8 +965,8 @@ export function LandingPage() {
             <Lock className="w-8 h-8 sm:w-12 sm:h-12 text-gray-400" />
           </div>
         </div>
-        <CardHeader className="text-center pb-3 sm:pb-4 relative z-10">
-          <div className="w-12 h-12 sm:w-16 sm:h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+        <CardHeader className="text-center pb-3 sm:pb-4 relative z-30">
+          <div className="w-12 h-12 sm:w-16 sm:h-16 bg-purple-100 bg-opacity-80 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
             <Award className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600" />
           </div>
           <CardTitle>
@@ -979,12 +975,12 @@ export function LandingPage() {
             </h3>
             <p className="text-xs sm:text-sm text-gray-200 font-normal mb-2">Elite Leadership</p>
             <div className="text-2xl sm:text-3xl font-bold text-white mb-1">Exclusive</div>
-            <span className="bg-purple-100 text-purple-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
+            <span className="bg-purple-100 bg-opacity-80 text-purple-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
               Invitation-Only
             </span>
           </CardTitle>
         </CardHeader>
-        <CardContent className="relative z-10">
+        <CardContent className="relative z-30">
           <div className="mb-4 sm:mb-6">
             <p className="text-xs sm:text-sm text-gray-200 mb-3 sm:mb-4">
               <strong>Eligibility:</strong> C-suite executives, renowned researchers, and influential academics.
@@ -1004,23 +1000,20 @@ export function LandingPage() {
                 <span className="text-xs sm:text-sm text-gray-200">Thought leadership and high-level discourse</span>
               </li>
             </ul>
-            <div className="bg-purple-50 p-2 sm:p-3 rounded-lg text-center border border-purple-200">
+            <div className="bg-purple-50 bg-opacity-80 p-2 sm:p-3 rounded-lg text-center border border-purple-200">
               <p className="text-purple-700 text-xs sm:text-sm font-medium">
                 Shape the future of pharmaceutical innovation
               </p>
             </div>
           </div>
-          <div className="relative">
-            <Button className="w-full bg-gray-400 text-gray-700 py-2 rounded-lg font-semibold cursor-not-allowed text-sm sm:text-base" disabled>
-              Coming Soon
-            </Button>
-          </div>
+          <Button className="w-full bg-gray-400 text-gray-700 py-2 rounded-lg font-semibold cursor-not-allowed text-sm sm:text-base" disabled>
+            Coming Soon
+          </Button>
         </CardContent>
       </Card>
     </div>
   </div>
 </section>
-
       {/* Upcoming Events Section - Simplified */}
       <section className="py-12 sm:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
