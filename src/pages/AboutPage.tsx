@@ -22,197 +22,190 @@ const MissionVisionSection = () => {
     <div className="bg-black py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Main Mission & Vision Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-          <Card className="bg-gray-900 border border-gray-700">
-            <CardHeader>
-              <div className="flex items-center mb-4">
-                <Target className="h-8 w-8 text-blue-400 mr-3" />
-                <CardTitle className="text-3xl text-white">Our Mission</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-300 text-lg leading-relaxed">
-                To empower the next generation of pharmaceutical scientists through
-                community-driven advancement, professional development, and collaborative
-                research opportunities that accelerate innovation in healthcare.
-              </p>
-            </CardContent>
-          </Card>
+       {/* Main Mission & Vision Cards */}
+<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+  <Card className="!bg-gray-900 border border-black shadow-lg">
+    <CardHeader>
+      <div className="flex items-center mb-4">
+        <CardTitle className="text-8xl text-gray-200">Mission</CardTitle>
+      </div>
+    </CardHeader>
+    <CardContent>
+      <p className="text-gray-200 text-lg leading-relaxed">
+        To empower the next generation of pharmaceutical scientists through
+        community-driven advancement, professional development, and collaborative
+        research opportunities that accelerate innovation in healthcare.
+      </p>
+    </CardContent>
+  </Card>
 
-          <Card className="bg-gray-900 border border-gray-700">
-            <CardHeader>
-              <div className="flex items-center mb-4">
-                <Lightbulb className="h-8 w-8 text-purple-400 mr-3" />
-                <CardTitle className="text-3xl text-white">Our Vision</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-300 text-lg leading-relaxed">
-                To stand as <span className="text-white font-semibold">the global force</span> that unites pharmaceutical education, cutting-edge research, and real-world industry application — creating a <span className="text-white font-semibold">future-ready, innovation-driven workforce</span> that redefines healthcare for generations to come.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
+  <Card className="!bg-gray-900 border border-black shadow-lg">
+    <CardHeader>
+      <div className="flex items-center mb-4">
+        <CardTitle className="text-8xl text-gray-200">Vision</CardTitle>
+      </div>
+    </CardHeader>
+    <CardContent>
+      <p className="text-gray-200 text-lg leading-relaxed">
+        To stand as <span className="text-blue-400 font-semibold">the global force</span> that unites pharmaceutical education, cutting-edge research, and real-world industry application — creating a <span className="text-blue-400 font-semibold">future-ready, innovation-driven workforce</span> that redefines healthcare for generations to come.
+      </p>
+    </CardContent>
+  </Card>
+</div>
+       {/* Mission Objectives Section */}
+<div className="mb-16">
+  <div className="text-center mb-12">
+    <h2 className="text-4xl font-bold text-white mb-4">Our Mission Objectives</h2>
+    <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+      At <span className="text-white font-semibold">SPARC</span>, we're not just here to "exist" as another professional society – we're here to <em className="text-blue-400">drive change</em>. Our mission is laser-focused on empowering people, building bridges, and fueling growth that resonates across the global pharma and healthcare ecosystem.
+    </p>
+  </div>
 
-        {/* Mission Objectives Section */}
-        <div className="mb-16">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-white mb-4">Our Mission Objectives</h2>
-            <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              At <span className="text-white font-semibold">SPARC by ZANE ProEd</span>, we're not just here to "exist" as another professional society – we're here to <em className="text-blue-400">drive change</em>. Our mission is laser-focused on empowering people, building bridges, and fueling growth that resonates across the global pharma and healthcare ecosystem.
-            </p>
+  <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+    {/* Empower Talent */}
+<Card className="!bg-gray-900 border border-black shadow-lg">
+  <CardHeader>
+    <div className="flex items-center mb-4">
+      <h3 className="text-3xl font-bold text-gray-300">Empower Talent</h3>
+    </div>
+    <p className="text-blue-400 font-medium mb-4">
+      Talent is the fuel of innovation – and we're here to supercharge it.
+    </p>
+  </CardHeader>
+  <CardContent>
+    <p className="text-gray-400 mb-4">
+      Through <span className="text-gray-300 font-semibold">premium resources, immersive events, and targeted mentorship programs</span>, SPARC ensures that students, researchers, and professionals get the right push at the right time.
+    </p>
+        <div className="space-y-2">
+          <div className="flex items-start">
+            <span className="text-blue-400 mr-2">•</span>
+            <span className="text-gray-400"><span className="text-gray-300 font-semibold">World-class webinars</span> featuring global thought leaders</span>
           </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-            {/* Empower Talent */}
-            <Card className="bg-gray-900 border border-gray-700 h-full">
-              <CardHeader>
-                <div className="flex items-center mb-4">
-                  <Users className="h-8 w-8 text-green-400 mr-3" />
-                  <CardTitle className="text-2xl text-black">1. Empower Talent</CardTitle>
-                </div>
-                <p className="text-blue-400 font-medium mb-4">
-                  Talent is the fuel of innovation – and we're here to supercharge it.
-                </p>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-800 mb-4">
-                  Through <span className="text-black font-semibold">premium resources, immersive events, and targeted mentorship programs</span>, SPARC ensures that students, researchers, and professionals get the right push at the right time.
-                </p>
-                <div className="space-y-2">
-                  <div className="flex items-start">
-                    <span className="text-blue-400 mr-2">•</span>
-                    <span className="text-gray-300"><span className="text-white font-semibold">World-class webinars</span> featuring global thought leaders</span>
-                  </div>
-                  <div className="flex items-start">
-                    <span className="text-blue-400 mr-2">•</span>
-                    <span className="text-gray-300"><span className="text-white font-semibold">Hands-on workshops</span> with industry-grade tools</span>
-                  </div>
-                  <div className="flex items-start">
-                    <span className="text-blue-400 mr-2">•</span>
-                    <span className="text-gray-300"><span className="text-white font-semibold">Career bootcamps & mentorship tracks</span> to help you crack internships, land jobs, and build future-ready skills</span>
-                  </div>
-                </div>
-                <p className="text-gray-300 mt-4">
-                  Our goal is simple – unlock your full potential so you're not just participating in the pharma space but <span className="text-white font-semibold">leading it</span>.
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Build Collaborations */}
-            <Card className="bg-gray-900 border border-gray-700 h-full">
-              <CardHeader>
-                <div className="flex items-center mb-4">
-                  <Globe className="h-8 w-8 text-purple-400 mr-3" />
-                  <CardTitle className="text-2xl text-white">2. Build Collaborations</CardTitle>
-                </div>
-                <p className="text-purple-400 font-medium mb-4">
-                  Innovation doesn't happen in silos – it thrives in ecosystems.
-                </p>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-800 mb-4">
-                  SPARC creates <span className="text-BLACK font-semibold">real, actionable partnerships</span> between academia, industry, and regulatory bodies. We bring together:
-                </p>
-                <div className="space-y-2">
-                  <div className="flex items-start">
-                    <span className="text-purple-400 mr-2">•</span>
-                    <span className="text-gray-300"><span className="text-white font-semibold">Universities</span> seeking stronger research output and accreditation scores</span>
-                  </div>
-                  <div className="flex items-start">
-                    <span className="text-purple-400 mr-2">•</span>
-                    <span className="text-gray-300"><span className="text-white font-semibold">Pharma & biotech companies</span> looking for talent pipelines and co-innovation opportunities</span>
-                  </div>
-                  <div className="flex items-start">
-                    <span className="text-purple-400 mr-2">•</span>
-                    <span className="text-gray-300"><span className="text-white font-semibold">Regulatory experts</span> to keep the conversation aligned with compliance and global standards</span>
-                  </div>
-                </div>
-                <p className="text-gray-300 mt-4">
-                  This interconnected network isn't just a collaboration—it's a <span className="text-white font-semibold">catalyst for breakthrough research, policy influence, and better healthcare outcomes worldwide</span>.
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Fuel Growth */}
-            <Card className="bg-gray-900 border border-gray-700 h-full">
-              <CardHeader>
-                <div className="flex items-center mb-4">
-                  <TrendingUp className="h-8 w-8 text-orange-400 mr-3" />
-                  <CardTitle className="text-2xl text-white">3. Fuel Growth</CardTitle>
-                </div>
-                <p className="text-orange-400 font-medium mb-4">
-                  Growth is more than just climbing the career ladder; it's about elevating the entire ecosystem.
-                </p>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-300 mb-4">
-                  SPARC fuels this growth by:
-                </p>
-                <div className="space-y-2">
-                  <div className="flex items-start">
-                    <span className="text-orange-400 mr-2">•</span>
-                    <span className="text-gray-300"><span className="text-white font-semibold">Accelerating R&D pipelines</span> through Innovation Labs and project accelerators</span>
-                  </div>
-                  <div className="flex items-start">
-                    <span className="text-orange-400 mr-2">•</span>
-                    <span className="text-gray-300"><span className="text-white font-semibold">Shaping future leaders</span> via student councils, fellowships, and leadership forums</span>
-                  </div>
-                  <div className="flex items-start">
-                    <span className="text-orange-400 mr-2">•</span>
-                    <span className="text-gray-300"><span className="text-white font-semibold">Recognizing excellence</span> with prestigious SPARC Awards for research, innovation, and professional achievement</span>
-                  </div>
-                </div>
-                <p className="text-gray-300 mt-4">
-                  Whether you're a student, researcher, or industry veteran, SPARC positions you to <span className="text-white font-semibold">grow faster, think bigger, and impact healthcare at a global scale</span>.
-                </p>
-              </CardContent>
-            </Card>
+          <div className="flex items-start">
+            <span className="text-blue-400 mr-2">•</span>
+            <span className="text-gray-400"><span className="text-gray-300 font-semibold">Hands-on workshops</span> with industry-grade tools</span>
+          </div>
+          <div className="flex items-start">
+            <span className="text-blue-400 mr-2">•</span>
+            <span className="text-gray-400"><span className="text-gray-300 font-semibold">Career bootcamps & mentorship tracks</span> to help you crack internships, land jobs, and build future-ready skills</span>
           </div>
         </div>
+        <p className="text-gray-400 mt-4">
+          Our goal is simple – unlock your full potential so you're not just participating in the pharma space but <span className="text-gray-200 font-semibold">leading it</span>.
+        </p>
+      </CardContent>
+    </Card>
+
+    {/* Build Collaborations */}
+    <Card className="!bg-gray-900 border border-black shadow-lg">
+  <CardHeader>
+    <div className="flex items-center mb-4">
+      <h3 className="text-3xl font-bold text-gray-300">Build Collaborations</h3>
+        </div>
+        <p className="text-purple-400 font-medium mb-4">
+          Innovation doesn't happen in silos – it thrives in ecosystems.
+        </p>
+      </CardHeader>
+      <CardContent>
+        <p className="text-gray-400 mb-4">
+          SPARC creates <span className="text-gray-300 font-semibold">real, actionable partnerships</span> between academia, industry, and regulatory bodies. We bring together:
+        </p>
+        <div className="space-y-2">
+          <div className="flex items-start">
+            <span className="text-purple-400 mr-2">•</span>
+            <span className="text-gray-400"><span className="text-gray-300 font-semibold">Universities</span> seeking stronger research output and accreditation scores</span>
+          </div>
+          <div className="flex items-start">
+            <span className="text-purple-400 mr-2">•</span>
+            <span className="text-gray-400"><span className="text-gray-300 font-semibold">Pharma & biotech companies</span> looking for talent pipelines and co-innovation opportunities</span>
+          </div>
+          <div className="flex items-start">
+            <span className="text-purple-400 mr-2">•</span>
+            <span className="text-gray-400"><span className="text-gray-300 font-semibold">Regulatory experts</span> to keep the conversation aligned with compliance and global standards</span>
+          </div>
+        </div>
+        <p className="text-gray-400 mt-4">
+          This interconnected network isn't just a collaboration—it's a <span className="text-gray-300 font-semibold">catalyst for breakthrough research, policy influence, and better healthcare outcomes worldwide</span>.
+        </p>
+      </CardContent>
+    </Card>
+
+    {/* Fuel Growth */}
+    <Card className="!bg-gray-900 border border-black shadow-lg">
+  <CardHeader>
+    <div className="flex items-center mb-4">
+      <h3 className="text-3xl font-bold text-gray-300">Fuel Growth</h3>
+        </div>
+        <p className="text-orange-400 font-medium mb-4">
+          Growth is more than just climbing the career ladder; it's about elevating the entire ecosystem.
+        </p>
+      </CardHeader>
+      <CardContent>
+        <p className="text-gray-400 mb-4">
+          SPARC fuels this growth by:
+        </p>
+        <div className="space-y-2">
+          <div className="flex items-start">
+            <span className="text-orange-400 mr-2">•</span>
+            <span className="text-gray-400"><span className="text-gray-300 font-semibold">Accelerating R&D pipelines</span> through Innovation Labs and project accelerators</span>
+          </div>
+          <div className="flex items-start">
+            <span className="text-orange-400 mr-2">•</span>
+            <span className="text-gray-400"><span className="text-gray-300 font-semibold">Shaping future leaders</span> via student councils, fellowships, and leadership forums</span>
+          </div>
+          <div className="flex items-start">
+            <span className="text-orange-400 mr-2">•</span>
+            <span className="text-gray-400"><span className="text-gray-300 font-semibold">Recognizing excellence</span> with prestigious SPARC Awards for research, innovation, and professional achievement</span>
+          </div>
+        </div>
+        <p className="text-gray-400 mt-4">
+          Whether you're a student, researcher, or industry veteran, SPARC positions you to <span className="text-gray-300 font-semibold">grow faster, think bigger, and impact healthcare at a global scale</span>.
+        </p>
+      </CardContent>
+    </Card>
+  </div>
+</div>
 
         {/* Vision Details */}
-        <Card className="bg-gray-900 border border-gray-700">
-          <CardHeader>
-            <div className="text-center">
-              <h2 className="text-3xl font-bold text-white mb-6">We Envision a World Where:</h2>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="flex justify-center mb-4">
-                  <Lightbulb className="h-12 w-12 text-yellow-400" />
-                </div>
-                <h3 className="text-xl font-semibold text-white mb-3">Learning is Limitless</h3>
-                <p className="text-gray-300">
-                  Every learner has access to world-class knowledge and mentorship
-                </p>
-              </div>
-              
-              <div className="text-center">
-                <div className="flex justify-center mb-4">
-                  <Globe className="h-12 w-12 text-blue-400" />
-                </div>
-                <h3 className="text-xl font-semibold text-white mb-3">Innovation is Collaborative</h3>
-                <p className="text-gray-300">
-                  Academia, industry, and regulators work as one
-                </p>
-              </div>
-              
-              <div className="text-center">
-                <div className="flex justify-center mb-4">
-                  <Award className="h-12 w-12 text-green-400" />
-                </div>
-                <h3 className="text-xl font-semibold text-white mb-3">Healthcare is Transformed</h3>
-                <p className="text-gray-300">
-                  Scientific breakthroughs reach patients faster, safer, and more equitably
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+<Card className="!bg-gray-900 border border-black shadow-lg">
+  <CardHeader>
+    <div className="text-center">
+      <h2 className="text-3xl font-bold text-gray-200 mb-6">
+        We Envision a World Where:
+      </h2>
+    </div>
+  </CardHeader>
+  <CardContent>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="text-center">
+        <h3 className="text-xl font-semibold text-yellow-400 mb-3">
+          Learning is Limitless
+        </h3>
+        <p className="text-gray-300">
+          Every learner has access to world-class knowledge and mentorship
+        </p>
+      </div>
+
+      <div className="text-center">
+        <h3 className="text-xl font-semibold text-blue-400 mb-3">
+          Innovation is Collaborative
+        </h3>
+        <p className="text-gray-300">
+          Academia, industry, and regulators work as one
+        </p>
+      </div>
+
+      <div className="text-center">
+        <h3 className="text-xl font-semibold text-green-400 mb-3">
+          Healthcare is Transformed
+        </h3>
+        <p className="text-gray-300">
+          Scientific breakthroughs reach patients faster, safer, and more equitably
+        </p>
+      </div>
+    </div>
+  </CardContent>
+</Card>
 
       </div>
     </div>
@@ -274,12 +267,12 @@ export function AboutPage() {
       <section className="bg-black text-white py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
           <div className="text-center">
-            <GraduationCap className="h-16 w-16 text-blue-400 mx-auto mb-6" />
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">About SPARC</h1>
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
-              The Society for Pharma Advancement & Research Collaboration is the gold standard 
-              for community-driven advancement in pharmaceutical sciences, powered by ZANE ProEd.
-            </p>
+<h1 className="text-4xl md:text-5xl font-bold mb-6">About SPARC</h1>
+<p className="text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
+  The Society for Pharma Advancement & Research Collaboration is the gold standard 
+  for community-driven advancement in pharmaceutical sciences, powered by 
+  <span className="text-red-600 font-semibold"> ZANE ProEd</span>.
+</p>
           </div>
         </div>
       </section>
@@ -423,29 +416,7 @@ export function AboutPage() {
           </Card>
         </section>
 
-        {/* Call to Action */}
-        <section className="text-center">
-          <Card className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-            <CardContent className="p-8">
-              <h2 className="text-3xl font-bold mb-4">Ready to Join Our Community?</h2>
-              <p className="text-xl text-blue-100 mb-6">
-                Become part of the leading network of pharmaceutical professionals worldwide
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/sparcform">
-                  <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50">
-                    Join SPARC Today
-                  </Button>
-                </Link>
-                <Link to="/membership">
-                  <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
-                    Learn About Membership
-                  </Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
+       
       </div>
     </div>
   );
