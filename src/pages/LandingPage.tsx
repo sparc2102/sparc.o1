@@ -5,7 +5,7 @@ import { Button } from '../components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
 import { membershipTiers, mockEvents } from '../data/mockData';
 import { 
-  Flame, 
+  Lock, 
   Users, 
   Calendar, 
   BookOpen, 
@@ -892,10 +892,16 @@ export function LandingPage() {
       </Card>
 
       {/* SPARC Professional */}
-      <Card className="bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 relative opacity-60 border border-gray-300">
+      <Card className="bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 relative opacity-30 border border-gray-300">
         <div className="absolute inset-0 bg-gray-100 opacity-50 rounded-lg"></div>
         <div className="absolute top-4 right-4 bg-gray-600 text-white px-2 py-1 rounded-full text-xs font-medium">
           Coming Soon
+        </div>
+        {/* Centered Lock Icon */}
+        <div className="absolute inset-0 flex items-center justify-center z-20">
+          <div className="bg-white bg-opacity-80 rounded-full p-4 shadow-lg">
+            <Lock className="w-8 h-8 sm:w-12 sm:h-12 text-gray-400" />
+          </div>
         </div>
         <CardHeader className="text-center pb-3 sm:pb-4 relative z-10">
           <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
@@ -945,10 +951,16 @@ export function LandingPage() {
       </Card>
 
       {/* SPARC Fellows */}
-      <Card className="bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 relative opacity-60 border border-gray-300">
+      <Card className="bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 relative opacity-30 border border-gray-300">
         <div className="absolute inset-0 bg-gray-100 opacity-50 rounded-lg"></div>
         <div className="absolute top-4 right-4 bg-gray-600 text-white px-2 py-1 rounded-full text-xs font-medium">
           Coming Soon
+        </div>
+        {/* Centered Lock Icon */}
+        <div className="absolute inset-0 flex items-center justify-center z-20">
+          <div className="bg-white bg-opacity-80 rounded-full p-4 shadow-lg">
+            <Lock className="w-8 h-8 sm:w-12 sm:h-12 text-gray-400" />
+          </div>
         </div>
         <CardHeader className="text-center pb-3 sm:pb-4 relative z-10">
           <div className="w-12 h-12 sm:w-16 sm:h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
