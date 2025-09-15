@@ -1,4 +1,3 @@
-
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useEffect, useState } from 'react';
@@ -50,13 +49,25 @@ export function Navbar() {
     setIsProfileOpen(false);
   };
 
-  const navigation = [
-    { name: 'Home', href: '/', icon: Home },
-    { name: 'Events', href: '/events', icon: Calendar },
-    { name: 'Resources', href: '/resources', icon: BookOpen },
+  // Navigation items that always show (for everyone)
+  const publicNavigation = [
+    { name: 'Home', href: '/' },
+    { name: 'About SPARC', href: '/about' },
+    { name: 'Membership', href: '/membership' },
+    { name: 'Events', href: '/events'},
+    { name: 'Register here', href: '/sparcform' },
+  ];
+
+  // Additional navigation items for logged-in users
+  const memberOnlyNavigation = [
     { name: 'Community', href: '/community', icon: Users },
     { name: 'Careers', href: '/careers', icon: Briefcase },
   ];
+
+  // Combine navigation based on user status
+  const allNavigation = user 
+    ? [...publicNavigation, ...memberOnlyNavigation]
+    : publicNavigation;
 
   const getTierColor = (tier: string) => {
     switch (tier) {
@@ -90,32 +101,30 @@ export function Navbar() {
                 />
               </div>
             </Link>
-
-            {user && (
-              <div className="hidden md:ml-8 md:flex md:space-x-8">
-                {navigation.map((item) => {
-                  const Icon = item.icon;
-                  const isActive = location.pathname === item.href;
-                  return (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      className={`inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors ${
-                        isActive
-                          ? 'border-b-2 border-blue-500 text-gray-900'
-                          : 'text-gray-500 hover:text-gray-700 hover:border-b-2 hover:border-gray-300'
-                      }`}
-                    >
-                      <Icon className="h-4 w-4 mr-1" />
-                      {item.name}
-                    </Link>
-                  );
-                })}
-              </div>
-            )}
           </div>
 
           <div className="flex items-center space-x-4">
+            {/* Desktop Navigation - Always shows */}
+            <div className="hidden md:flex md:space-x-6">
+              {allNavigation.map((item) => {
+                const Icon = item.icon;
+                const isActive = location.pathname === item.href;
+                return (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className={`inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors ${
+                      isActive
+                        ? 'border-b-2 border-blue-500 text-gray-900'
+                        : 'text-gray-500 hover:text-gray-700 hover:border-b-2 hover:border-gray-300'
+                    }`}
+                  >
+                  
+                    {item.name}
+                  </Link>
+                );
+              })}
+            </div>
             {user ? (
               <>
                 <button className="p-2 text-gray-400 hover:text-gray-500 transition-colors">
@@ -190,9 +199,6 @@ export function Navbar() {
               </>
             ) : (
               <div className="flex items-center space-x-4">
-                <Link to="/login">
-                  <Button variant="ghost">Sign In</Button>
-                </Link>
                 <Link to="/sparcform">
                   <Button>Join SPARC</Button>
                 </Link>
@@ -209,11 +215,11 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile menu - Always shows */}
       {isMenuOpen && (
         <div className="md:hidden">
           <div className="pt-2 pb-3 space-y-1">
-            {user && navigation.map((item) => {
+            {allNavigation.map((item) => {
               const Icon = item.icon;
               return (
                 <Link
@@ -222,7 +228,7 @@ export function Navbar() {
                   className="block pl-3 pr-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-50 transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  <Icon className="inline h-4 w-4 mr-2" />
+                
                   {item.name}
                 </Link>
               );

@@ -30,6 +30,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
 import { AuthCallback } from './pages/auth/AuthCallback';
 import SparcForm from './pages/sparcform';
+import RegistrationSuccess from './pages/RegistrationSuccess';
 
 function App() {
   return (
@@ -66,6 +67,7 @@ function App() {
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
               <Route path="/auth/callback" element={<AuthCallback />} />
               <Route path="/sparcform" element={<SparcForm />} />
+              <Route path="/registration-success" element={<RegistrationSuccess />} />
             </Routes>
           </main>
           <Footer />
