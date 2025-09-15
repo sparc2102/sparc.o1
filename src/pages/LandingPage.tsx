@@ -831,6 +831,9 @@ export function LandingPage() {
 
       {/* Split Scrolling Features Section - Integrated Here */}
       <SplitScrollingFeatures />
+
+
+      {/* Membership Tiers Section */}
 <section className="py-12 sm:py-20 bg-gradient-to-br from-black via-blue-950 to-blue-900">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div className="text-center mb-12 sm:mb-16">
@@ -844,9 +847,9 @@ export function LandingPage() {
 
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
       {/* SPARC Genesis */}
-      <Card className="bg-white bg-opacity-10 backdrop-blur-md shadow-lg hover:shadow-xl transition-shadow duration-300 relative border border-blue-800 rounded-lg">
+      <Card className="bg-white bg-opacity-0 backdrop-blur-md shadow-lg hover:shadow-xl transition-shadow duration-300 relative border border-blue-800 rounded-lg">
         <CardHeader className="text-center pb-3 sm:pb-4">
-          <div className="w-12 h-12 sm:w-16 sm:h-16 bg-green-100 bg-opacity-80 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+          <div className="w-12 h-12 sm:w-16 sm:h-16 bg-green-100 bg-opacity-0 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
             <Users className="w-6 h-6 sm:w-8 sm:h-8 text-green-600" />
           </div>
           <CardTitle>
@@ -897,18 +900,18 @@ export function LandingPage() {
       </Card>
 
       {/* SPARC Professional */}
-      <Card className="bg-white bg-opacity-10 backdrop-blur-md shadow-lg hover:shadow-xl transition-shadow duration-300 relative border border-blue-800 rounded-lg">
+      <Card className="bg-white bg-opacity-30 backdrop-blur-md shadow-lg hover:shadow-xl transition-shadow duration-300 relative border border-blue-800 rounded-lg">
         <div className="absolute top-4 right-4 bg-gray-600 text-white px-2 py-1 rounded-full text-xs font-medium">
           Coming Soon
         </div>
         {/* Centered Lock Icon */}
         <div className="absolute inset-0 flex items-center justify-center z-20">
           <div className="bg-white bg-opacity-80 rounded-full p-4 shadow-lg">
-            <Lock className="w-8 h-8 sm:w-12 sm:h-12 text-gray-400" />
+            <Lock className="w-8 h-8 sm:w-12 sm:h-12 text-gray-600" />
           </div>
         </div>
         <CardHeader className="text-center pb-3 sm:pb-4 relative z-30">
-          <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-100 bg-opacity-80 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+          <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-100 bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
             <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
           </div>
           <CardTitle>
@@ -955,18 +958,18 @@ export function LandingPage() {
       </Card>
 
       {/* SPARC Fellows */}
-      <Card className="bg-white bg-opacity-10 backdrop-blur-md shadow-lg hover:shadow-xl transition-shadow duration-300 relative border border-blue-800 rounded-lg">
+      <Card className="bg-white bg-opacity-30 backdrop-blur-md shadow-lg hover:shadow-xl transition-shadow duration-300 relative border border-blue-800 rounded-lg">
         <div className="absolute top-4 right-4 bg-gray-600 text-white px-2 py-1 rounded-full text-xs font-medium">
           Coming Soon
         </div>
         {/* Centered Lock Icon */}
         <div className="absolute inset-0 flex items-center justify-center z-20">
           <div className="bg-white bg-opacity-80 rounded-full p-4 shadow-lg">
-            <Lock className="w-8 h-8 sm:w-12 sm:h-12 text-gray-400" />
+            <Lock className="w-8 h-8 sm:w-12 sm:h-12 text-gray-600" />
           </div>
         </div>
         <CardHeader className="text-center pb-3 sm:pb-4 relative z-30">
-          <div className="w-12 h-12 sm:w-16 sm:h-16 bg-purple-100 bg-opacity-80 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+          <div className="w-12 h-12 sm:w-16 sm:h-16 bg-purple-100 bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
             <Award className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600" />
           </div>
           <CardTitle>
@@ -1014,8 +1017,9 @@ export function LandingPage() {
     </div>
   </div>
 </section>
+
       {/* Upcoming Events Section - Simplified */}
-      <section className="py-12 sm:py-20 bg-white">
+      <section className="py-12 sm:py-20 bg-blue-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 sm:mb-12">
             <div className="mb-4 sm:mb-0">
