@@ -906,129 +906,112 @@ export function LandingPage() {
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
 
-           {/* Mobile-first layout */}
-          <div className="block lg:hidden">
-            {/* Central Title for Mobile */}
-            <div className="text-center mb-8">
-              <h2 className="text-2xl sm:text-3xl font-bold text-white">
-                Strategic Pillars
-              </h2>
-            </div>
+        {/* Mobile-first layout */}
+<div className="block lg:hidden">
+  {/* Central Title for Mobile */}
+  <div className="text-center mb-8">
+    <h2 className="text-2xl sm:text-3xl font-bold text-white">
+      Strategic Pillars
+    </h2>
+  </div>
 
-            {/* Grid layout for mobile */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {strategicPillars.map((pillar, index) => (
-                <div key={index} className="bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-xl p-4 hover:-translate-y-1 hover:bg-opacity-30 transition-all duration-300 border border-gray-200 border-opacity-20">
-                  <h3 className="text-base font-bold text-white mb-2">
-                    {pillar.title}
-                  </h3>
-                  <p className="text-gray-300 text-sm">
-                    {pillar.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
+  {/* Grid layout for mobile */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    {strategicPillars.map((pillar, index) => (
+      <div key={index} className="bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-xl p-4 hover:-translate-y-1 hover:bg-opacity-30 transition-all duration-300 border border-gray-200 border-opacity-20">
+        <h3 className="text-base font-bold text-white mb-2">
+          {pillar.title}
+        </h3>
+        <p className="text-gray-300 text-sm">
+          {pillar.description}
+        </p>
+      </div>
+    ))}
+  </div>
+</div>
 
-          {/* Desktop circular layout */}
-          <div className="hidden lg:block">
-            {/* Connection Lines - SVG overlay */}
-            <svg 
-              className="absolute inset-0 w-full h-full pointer-events-none z-0" 
-              viewBox="0 0 1200 700"
-              preserveAspectRatio="xMidYMid meet"
-            >
-              <g stroke="rgba(255,255,255,0.3)" strokeWidth="1" fill="none">
-                {/* Lines connecting center to each pillar */}
-                <line x1="600" y1="350" x2="300" y2="180" /> {/* Top Left */}
-                <line x1="600" y1="350" x2="900" y2="180" /> {/* Top Right */}
-                <line x1="600" y1="350" x2="120" y2="350" /> {/* Middle Left */}
-                <line x1="600" y1="350" x2="1080" y2="350" /> {/* Middle Right */}
-                <line x1="600" y1="350" x2="300" y2="520" /> {/* Bottom Left */}
-                <line x1="600" y1="350" x2="900" y2="520" /> {/* Bottom Right */}
-              </g>
-            </svg>
+{/* Desktop circular layout */}
+<div className="hidden lg:block">
+  {/* Central Title */}
+  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 text-center bg-gray-900 bg-opacity-20 backdrop-blur-md px-8 py-4 rounded-lg border border-gray-200 border-opacity-20">
+    <h2 className="text-4xl md:text-5xl font-bold text-white">
+      Strategic Pillars
+    </h2>
+  </div>
 
-            {/* Central Title */}
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 text-center bg-gray-900 bg-opacity-20 backdrop-blur-md px-8 py-4 rounded-lg border border-gray-200 border-opacity-20">
-              <h2 className="text-4xl md:text-5xl font-bold text-white">
-                Strategic Pillars
-              </h2>
-            </div>
+  {/* Pillars arranged in a circular pattern */}
+  <div className="relative z-20 min-h-[700px]">
+    
+    {/* Top Row Pillars */}
+    <div className="absolute top-8 left-1/4 transform -translate-x-1/2">
+      <div className="group bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-xl p-6 hover:-translate-y-2 hover:bg-opacity-30 transition-all duration-300 border border-gray-200 border-opacity-20 w-72">
+        <h3 className="text-xl font-bold text-white mb-3">
+          Knowledge Dissemination
+        </h3>
+        <p className="text-gray-300">
+          Webinars, panels, thought leaders
+        </p>
+      </div>
+    </div>
 
-            {/* Pillars arranged in a circular pattern */}
-            <div className="relative z-20 min-h-[700px]">
-              
-              {/* Top Row Pillars */}
-              <div className="absolute top-8 left-1/4 transform -translate-x-1/2">
-                <div className="group bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-xl p-6 hover:-translate-y-2 hover:bg-opacity-30 transition-all duration-300 border border-gray-200 border-opacity-20 w-72">
-                  <h3 className="text-xl font-bold text-white mb-3">
-                    Knowledge Dissemination
-                  </h3>
-                  <p className="text-gray-300">
-                    Webinars, panels, thought leaders
-                  </p>
-                </div>
-              </div>
+    <div className="absolute top-8 right-1/4 transform translate-x-1/2">
+      <div className="group bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-xl p-6 hover:-translate-y-2 hover:bg-opacity-30 transition-all duration-300 border border-gray-200 border-opacity-20 w-72">
+        <h3 className="text-xl font-bold text-white mb-3">
+          Competency Building
+        </h3>
+        <p className="text-gray-300">
+          Advanced training, workshops, certifications
+        </p>
+      </div>
+    </div>
 
-              <div className="absolute top-8 right-1/4 transform translate-x-1/2">
-                <div className="group bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-xl p-6 hover:-translate-y-2 hover:bg-opacity-30 transition-all duration-300 border border-gray-200 border-opacity-20 w-72">
-                  <h3 className="text-xl font-bold text-white mb-3">
-                    Competency Building
-                  </h3>
-                  <p className="text-gray-300">
-                    Advanced training, workshops, certifications
-                  </p>
-                </div>
-              </div>
+    {/* Middle Row Pillars */}
+    <div className="absolute top-1/2 left-0 transform -translate-y-1/2">
+      <div className="group bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-xl p-6 hover:-translate-y-2 hover:bg-opacity-30 transition-all duration-300 border border-gray-200 border-opacity-20 w-72">
+        <h3 className="text-xl font-bold text-white mb-3">
+          Innovation Incubation
+        </h3>
+        <p className="text-gray-300">
+          Hackathons, accelerators, prototypes
+        </p>
+      </div>
+    </div>
 
-              {/* Middle Row Pillars */}
-              <div className="absolute top-1/2 left-0 transform -translate-y-1/2">
-                <div className="group bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-xl p-6 hover:-translate-y-2 hover:bg-opacity-30 transition-all duration-300 border border-gray-200 border-opacity-20 w-72">
-                  <h3 className="text-xl font-bold text-white mb-3">
-                    Innovation Incubation
-                  </h3>
-                  <p className="text-gray-300">
-                    Hackathons, accelerators, prototypes
-                  </p>
-                </div>
-              </div>
+    <div className="absolute top-1/2 right-0 transform -translate-y-1/2">
+      <div className="group bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-xl p-6 hover:-translate-y-2 hover:bg-opacity-30 transition-all duration-300 border border-gray-200 border-opacity-20 w-72">
+        <h3 className="text-xl font-bold text-white mb-3">
+          Career Propulsion
+        </h3>
+        <p className="text-gray-300">
+          Mentorship, career expos, partnerships
+        </p>
+      </div>
+    </div>
 
-              <div className="absolute top-1/2 right-0 transform -translate-y-1/2">
-                <div className="group bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-xl p-6 hover:-translate-y-2 hover:bg-opacity-30 transition-all duration-300 border border-gray-200 border-opacity-20 w-72">
-                  <h3 className="text-xl font-bold text-white mb-3">
-                    Career Propulsion
-                  </h3>
-                  <p className="text-gray-300">
-                    Mentorship, career expos, partnerships
-                  </p>
-                </div>
-              </div>
+    {/* Bottom Row Pillars */}
+    <div className="absolute bottom-8 left-1/4 transform -translate-x-1/2">
+      <div className="group bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-xl p-6 hover:-translate-y-2 hover:bg-opacity-30 transition-all duration-300 border border-gray-200 border-opacity-20 w-72">
+        <h3 className="text-xl font-bold text-white mb-3">
+          Leadership Cultivation
+        </h3>
+        <p className="text-gray-300">
+          Councils, regional hubs, forums
+        </p>
+      </div>
+    </div>
 
-              {/* Bottom Row Pillars */}
-              <div className="absolute bottom-8 left-1/4 transform -translate-x-1/2">
-                <div className="group bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-xl p-6 hover:-translate-y-2 hover:bg-opacity-30 transition-all duration-300 border border-gray-200 border-opacity-20 w-72">
-                  <h3 className="text-xl font-bold text-white mb-3">
-                    Leadership Cultivation
-                  </h3>
-                  <p className="text-gray-300">
-                    Councils, regional hubs, forums
-                  </p>
-                </div>
-              </div>
-
-              <div className="absolute bottom-8 right-1/4 transform translate-x-1/2">
-                <div className="group bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-xl p-6 hover:-translate-y-2 hover:bg-opacity-30 transition-all duration-300 border border-gray-200 border-opacity-20 w-72">
-                  <h3 className="text-xl font-bold text-white mb-3">
-                    Policy Influence
-                  </h3>
-                  <p className="text-gray-300">
-                    Whitepapers, advocacy, reforms
-                  </p>
-                   </div>
-              </div>
-            </div>
-          </div>
+    <div className="absolute bottom-8 right-1/4 transform translate-x-1/2">
+      <div className="group bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-xl p-6 hover:-translate-y-2 hover:bg-opacity-30 transition-all duration-300 border border-gray-200 border-opacity-20 w-72">
+        <h3 className="text-xl font-bold text-white mb-3">
+          Policy Influence
+        </h3>
+        <p className="text-gray-300">
+          Whitepapers, advocacy, reforms
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
         </div>
       </motion.section>
 
