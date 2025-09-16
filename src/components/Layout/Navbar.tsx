@@ -49,7 +49,6 @@ export function Navbar() {
     setIsProfileOpen(false);
   };
 
-  // Navigation items that always show (for everyone)
   const publicNavigation = [
     { name: 'Home', href: '/' },
     { name: 'About SPARC', href: '/about' },
@@ -57,13 +56,11 @@ export function Navbar() {
     { name: 'Events', href: '/events'},
   ];
 
-  // Additional navigation items for logged-in users
   const memberOnlyNavigation = [
     { name: 'Community', href: '/community', icon: Users },
     { name: 'Careers', href: '/careers', icon: Briefcase },
   ];
 
-  // Combine navigation based on user status
   const allNavigation = user 
     ? [...publicNavigation, ...memberOnlyNavigation]
     : publicNavigation;
@@ -88,7 +85,7 @@ export function Navbar() {
 
   return (
     <nav className="bg-white shadow-lg border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[calc(100%-32px)] sm:max-w-[calc(100%-48px)] md:max-w-[calc(100%-80px)] mx-auto px-4 sm:px-6 md:px-10">
         <div className="flex justify-between h-32">
           <div className="flex">
             <Link to="/" className="flex-shrink-0 flex items-center">
@@ -103,10 +100,8 @@ export function Navbar() {
           </div>
 
           <div className="flex items-center space-x-4">
-            {/* Desktop Navigation - Always shows */}
             <div className="hidden md:flex md:space-x-6">
               {allNavigation.map((item) => {
-                
                 const isActive = location.pathname === item.href;
                 return (
                   <Link
@@ -118,7 +113,6 @@ export function Navbar() {
                         : 'text-gray-500 hover:text-gray-700 hover:border-b-2 hover:border-gray-300'
                     }`}
                   >
-                  
                     {item.name}
                   </Link>
                 );
@@ -214,12 +208,10 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu - Always shows */}
       {isMenuOpen && (
-        <div className="md:hidden">
+        <div className="md:hidden px-4 sm:px-6">
           <div className="pt-2 pb-3 space-y-1">
             {allNavigation.map((item) => {
-            
               return (
                 <Link
                   key={item.name}
@@ -227,7 +219,6 @@ export function Navbar() {
                   className="block pl-3 pr-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-50 transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                
                   {item.name}
                 </Link>
               );
