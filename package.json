@@ -13,6 +13,8 @@
     "@hookform/resolvers": "^5.2.1",
     "@supabase/supabase-js": "^2.57.0",
     "date-fns": "^4.1.0",
+    "framer-motion": "^12.23.12",
+    "gsap": "^3.13.0",
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.344.0",
     "ogl": "^1.0.11",

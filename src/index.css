@@ -1,3 +1,8 @@
+/* In src/index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.mission-vision-title {
+  font-size: 3.75rem !important; /* Matches text-6xl */
+}

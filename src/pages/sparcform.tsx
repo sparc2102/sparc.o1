@@ -1,4 +1,89 @@
-import { useEffect, useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+
+type RippleLoaderProps = {
+  icon?: React.ReactNode;
+  size?: number;
+  duration?: number;
+  logoColor?: string;
+};
+
+const RippleLoader: React.FC<RippleLoaderProps> = ({
+  icon,
+  size = 250,
+  duration = 2,
+  logoColor = "#6B7280", // Gray-500 for the logo/icon
+}) => {
+  const baseInset = 40;
+  const rippleBoxes = Array.from({ length: 5 }, (_, i) => ({
+    inset: `${baseInset - i * 10}%`,
+    zIndex: 99 - i,
+    delay: i * 0.2,
+    opacity: 1 - i * 0.2,
+  }));
+
+  return (
+    <div
+      className="relative"
+      style={{ width: size, height: size }}
+    >
+      {rippleBoxes.map((box, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full border-t backdrop-blur-[5px]"
+          style={{
+            inset: box.inset,
+            zIndex: box.zIndex,
+            borderColor: `rgba(107, 114, 128, ${box.opacity})`, // Gray-500
+            background:
+              "linear-gradient(0deg, rgba(75, 85, 99, 0.2), rgba(107, 114, 128, 0.2))", // Gray-600 to Gray-500
+          }}
+          animate={{
+            scale: [1, 1.3, 1],
+            boxShadow: [
+              "rgba(55, 65, 81, 0.3) 0px 10px 10px 0px", // Gray-700
+              "rgba(55, 65, 81, 0.3) 0px 30px 20px 0px", // Gray-700
+              "rgba(55, 65, 81, 0.3) 0px 10px 10px 0px", // Gray-700
+            ],
+          }}
+          transition={{
+            repeat: Infinity,
+            duration,
+            delay: box.delay,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+
+      <div className="absolute inset-0 grid place-content-center p-[30%]">
+        <motion.span
+          className="w-full h-full"
+          animate={{ color: [logoColor, "#D1D5DB", logoColor] }} // Gray-500 to Gray-300
+          transition={{
+            repeat: Infinity,
+            duration,
+            ease: "easeInOut",
+          }}
+        >
+          <span
+            className="w-full h-full"
+            style={{ display: "inline-block", width: "100%", height: "100%" }}
+          >
+            {icon &&
+              React.cloneElement(icon as React.ReactElement, {
+                style: {
+                  width: "100%",
+                  height: "100%",
+                  fill: "currentColor",
+                },
+              })}
+          </span>
+        </motion.span>
+      </div>
+    </div>
+  );
+};
 
 export default function SparcForm() {
   const [isLoading, setIsLoading] = useState(true);
@@ -29,20 +114,17 @@ export default function SparcForm() {
       d.body.appendChild(s);
     }
 
-    // ✅ Listen for Tally submission and form load
     const handleMessage = (event: MessageEvent) => {
       if (event.origin === "https://tally.so") {
         if (event.data?.type === "TALLY_FORM_SUBMIT") {
           window.scrollTo({ top: 0, behavior: "smooth" });
         }
-        // Hide loading when form is ready
         if (event.data?.type === "TALLY_FORM_LOADED" || event.data?.type === "TALLY_FORM_READY") {
           setIsLoading(false);
         }
       }
     };
 
-    // Fallback timer to hide loading after 5 seconds
     const fallbackTimer = setTimeout(() => {
       setIsLoading(false);
     }, 5000);
@@ -55,9 +137,7 @@ export default function SparcForm() {
     };
   }, []);
 
-  // Handle iframe load event as additional fallback
   const handleIframeLoad = () => {
-    // Add a small delay to ensure content is rendered
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
@@ -65,21 +145,12 @@ export default function SparcForm() {
 
   return (
     <>
-      {/* Full Screen Loading Overlay */}
       {isLoading && (
         <div className="fixed inset-0 bg-white z-[9999] flex items-center justify-center">
-          <div className="text-center">
-            {/* Spinner */}
-            <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mb-6"></div>
-            <h2 className="text-2xl font-semibold text-gray-700 mb-3">
-              Loading Registration Form
-            </h2>
-            <p className="text-gray-500 text-lg">Please wait while we prepare your form...</p>
-          </div>
+          <RippleLoader size={150} duration={1.5} logoColor="#6B7280" />
         </div>
       )}
 
-      {/* Main Content - Hidden while loading */}
       <div className={`flex flex-col min-h-screen bg-gray-50 ${isLoading ? 'invisible' : 'visible'} transition-all duration-300`}>
         <div className="bg-white shadow-sm py-6 px-4 text-center">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-800">

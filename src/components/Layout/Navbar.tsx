@@ -55,7 +55,6 @@ export function Navbar() {
     { name: 'About SPARC', href: '/about' },
     { name: 'Membership', href: '/membership' },
     { name: 'Events', href: '/events'},
-    { name: 'Register here', href: '/sparcform' },
   ];
 
   // Additional navigation items for logged-in users

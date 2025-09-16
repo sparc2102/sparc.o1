@@ -6,6 +6,7 @@ import { Button } from "../components/ui/Button";
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from '../contexts/AuthContext';
+import gsap from 'gsap'; // Assuming GSAP is installed for animations
 import { 
   Lock, 
   Users, 

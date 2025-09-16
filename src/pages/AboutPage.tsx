@@ -28,11 +28,11 @@ const MissionVisionSection = () => {
         {/* Main Mission & Vision Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
           <Card className="bg-white bg-opacity-0 backdrop-blur-md shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-transform transition-shadow duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] relative border border-blue-800 rounded-lg">
-            <CardHeader>
-              <div className="flex items-center mb-4">
-                <CardTitle className="text-6xl text-gray-200">Mission</CardTitle>
-              </div>
-            </CardHeader>
+           <CardHeader>
+  <div className="flex items-center mb-4">
+    <CardTitle className="text-6xl text-gray-200 mission-vision-title">Mission</CardTitle>
+  </div>
+</CardHeader>
             <CardContent>
               <p className="text-gray-200 text-lg leading-relaxed">
                 To empower the next generation of pharmaceutical scientists through
@@ -43,11 +43,11 @@ const MissionVisionSection = () => {
           </Card>
 
          <Card className="bg-white bg-opacity-0 backdrop-blur-md shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-transform transition-shadow duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] relative border border-blue-800 rounded-lg">
-            <CardHeader>
-              <div className="flex items-center mb-4">
-                <CardTitle className="text-6xl text-gray-200">Vision</CardTitle>
-              </div>
-            </CardHeader>
+           <CardHeader>
+  <div className="flex items-center mb-4">
+    <CardTitle className="text-6xl text-gray-200 mission-vision-title">Vision</CardTitle>
+  </div>
+</CardHeader>
             <CardContent>
               <p className="text-gray-200 text-lg leading-relaxed">
                 To stand as <span className="text-blue-400 font-semibold">the global force</span> that unites pharmaceutical education, cutting-edge research, and real-world industry application — creating a <span className="text-blue-400 font-semibold">future-ready, innovation-driven workforce</span> that redefines healthcare for generations to come.
@@ -230,7 +230,7 @@ export function AboutPage() {
     name: 'Samyuktha Hariraman Indumathy', 
     title: "President's Office Associate", 
     bio: 'Supports the president’s office with project coordination, content creation, and strategic planning.', 
-    avatar: 'SHI' 
+    avatar: 'https://static.wixstatic.com/media/6abdd9_8e0724d86e30469385bfe17a38bffac7~mv2.png' 
   },
   { 
     name: 'Jersha SJ', 
@@ -284,7 +284,7 @@ export function AboutPage() {
     name: 'Nanthitha S', 
     title: 'Content Strategist', 
     bio: 'Creates research-driven content and strategies for effective communication.', 
-    avatar: 'https://media.licdn.com/dms/image/v2/D4E03AQEdbG3EXDD1cw/profile-displayphoto-scale_400_400/B4EZkpsUh3HEAg-/0/1757341111247?e=1760572800&v=beta&t=gjJKjquqH8qSRpWSRiLOO34xhOPJW7uqUX_E1uTVZ7s' 
+    avatar: 'https://static.wixstatic.com/media/6abdd9_f76a76038d9f46a3b4e2fa5d3fb20e7a~mv2.png' 
   },
   { 
     name: 'Jayanthi G', 
@@ -308,7 +308,7 @@ export function AboutPage() {
     name: 'Siva Priyan G', 
     title: 'Research Insights Coordinator', 
     bio: 'Conducts research and delivers insights to support projects and strategic decisions.', 
-    avatar: 'https://media.licdn.com/dms/image/v2/D5603AQF_9hSeu28ivg/profile-displayphoto-scale_400_400/B56ZgG3hGiGUAk-/0/1752461876153?e=1760572800&v=beta&t=wCVuzgyFeMPa-sUJs9tLAjdoBNynUT59-yzIa_mTAY0' 
+    avatar: 'https://static.wixstatic.com/media/6abdd9_1b520a94da134bb2a2367237fc927714~mv2.png' 
   },
   { 
     name: 'Neena Roshini', 
