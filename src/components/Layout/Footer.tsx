@@ -52,8 +52,6 @@ export function Footer() {
               <li><Link to="/about" className="text-gray-300 hover:text-white transition-colors">About SPARC</Link></li>
               <li><Link to="/membership" className="text-gray-300 hover:text-white transition-colors">Membership</Link></li>
               <li><Link to="/events" className="text-gray-300 hover:text-white transition-colors">Events</Link></li>
-              <li><Link to="/resources" className="text-gray-300 hover:text-white transition-colors">Resources</Link></li>
-             
             </ul>
           </div>
 
