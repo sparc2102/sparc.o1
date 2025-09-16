@@ -32,6 +32,29 @@ import {
   FileText
 } from 'lucide-react';
 import { membershipTiers, mockEvents } from '../data/mockData';
+import { motion, Variants } from 'framer-motion'; // Import for animations
+import { useInView } from 'react-intersection-observer'; // For scroll detection
+
+// Define variants with explicit typing
+const sectionVariants: Variants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+};
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const childVariants: Variants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+};
 
 interface AuroraProps {
   colorStops?: string[];
@@ -353,6 +376,8 @@ const SplitScrollingFeatures = () => {
     color: ColorKey;
   }
 
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
+
   const renderCard = (card: FeatureCard, index: React.Key | null | undefined) => {
     const Icon = card.icon;
     const colorClasses: Record<ColorKey, { bg: string; text: string; border: string }> = {
@@ -399,7 +424,13 @@ const SplitScrollingFeatures = () => {
   };
 
   return (
-    <section className="py-12 sm:py-20 bg-gray-50 overflow-hidden">
+    <motion.section
+      ref={ref}
+      variants={sectionVariants}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      className="py-12 sm:py-20 bg-gray-50 overflow-hidden"
+    >
       <style>{`
         @keyframes scroll-left {
           0% {
@@ -439,7 +470,10 @@ const SplitScrollingFeatures = () => {
       <div className="max-w-full">
         
         {/* Top Scrolling Row - Left Direction */}
-        <div className="scroll-container-top mb-6 sm:mb-8 overflow-hidden">
+        <motion.div
+          variants={childVariants}
+          className="scroll-container-top mb-6 sm:mb-8 overflow-hidden"
+        >
           <div className="flex scroll-left">
             {/* First set of 9 cards */}
             <div className="flex space-x-4 sm:space-x-6 flex-shrink-0">
@@ -451,17 +485,23 @@ const SplitScrollingFeatures = () => {
               {topCards.map((card, index) => renderCard(card, `duplicate-top-${index}`))}
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Center Content */}
-        <div className="text-center py-10 sm:py-16 px-4">
+        <motion.div
+          variants={childVariants}
+          className="text-center py-10 sm:py-16 px-4"
+        >
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
             Why Choose SPARC?
           </h2>
-        </div>
+        </motion.div>
 
         {/* Bottom Scrolling Row - Right Direction */}
-        <div className="scroll-container-bottom mt-6 sm:mt-8 overflow-hidden">
+        <motion.div
+          variants={childVariants}
+          className="scroll-container-bottom mt-6 sm:mt-8 overflow-hidden"
+        >
           <div className="flex scroll-right">
             {/* First set of 9 cards */}
             <div className="flex space-x-4 sm:space-x-6 flex-shrink-0">
@@ -473,10 +513,10 @@ const SplitScrollingFeatures = () => {
               {bottomCards.map((card, index) => renderCard(card, `duplicate-bottom-${index}`))}
             </div>
           </div>
-        </div>
+        </motion.div>
 
       </div>
-    </section>
+    </motion.section>
   );
 };
 
@@ -601,10 +641,23 @@ export function LandingPage() {
     return videoExtensions.some(ext => heroMediaUrl.toLowerCase().endsWith(ext));
   }
 
+  const [heroRef, heroInView] = useInView({ triggerOnce: true, threshold: 0.3 });
+  const [visionRef, visionInView] = useInView({ triggerOnce: true, threshold: 0.2 });
+  const [pillarsRef, pillarsInView] = useInView({ triggerOnce: true, threshold: 0.2 });
+  const [membershipRef, membershipInView] = useInView({ triggerOnce: true, threshold: 0.2 });
+  const [eventsRef, eventsInView] = useInView({ triggerOnce: true, threshold: 0.2 });
+  const [testimonialsRef, testimonialsInView] = useInView({ triggerOnce: true, threshold: 0.2 });
+
   return (
     <div className="min-h-screen">
       {/* Hero Section - Full Height Split Layout */}
-      <section className="bg-black text-white min-h-screen flex items-center justify-center relative overflow-hidden">
+      <motion.section
+        ref={heroRef}
+        variants={sectionVariants}
+        initial="hidden"
+        animate={heroInView ? "visible" : "hidden"}
+        className="bg-black text-white min-h-screen flex items-center justify-center relative overflow-hidden"
+      >
         {/* Aurora Shader Background */}
         <AuroraShader
           colorStops={["#1e3a8a", "#3b82f6", "#1e3a8a"]}
@@ -710,32 +763,44 @@ export function LandingPage() {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Vision Section */}
-      <section className="py-12 sm:py-20 bg-gradient-to-br from-gray-50 to-white">
+      <motion.section
+        ref={visionRef}
+        variants={sectionVariants}
+        initial="hidden"
+        animate={visionInView ? "visible" : "hidden"}
+        className="py-12 sm:py-20 bg-gradient-to-br from-gray-50 to-white"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-16 items-center">
             {/* Vision - Left Side */}
-            <div>
+            <motion.div variants={childVariants}>
               <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
                 Our Vision
               </h2>
               <p className="text-base sm:text-xl md:text-2xl text-gray-700 leading-relaxed">
                 To emerge as the <span className="font-bold text-blue-600">global force</span> uniting pharma education, research, and industry application — shaping the future of healthcare.
               </p>
-            </div>
+            </motion.div>
 
             {/* Mission Objectives - Right Side */}
-            <div>
+            <motion.div variants={childVariants}>
               <h3 className="text-xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">
                 Mission Objectives
               </h3>
-              <div className="space-y-4 sm:space-y-6">
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate={visionInView ? "visible" : "hidden"}
+                className="space-y-4 sm:space-y-6"
+              >
                 {missionObjectives.map((objective, index) => {
                   const Icon = objective.icon;
                   return (
-                    <div
+                    <motion.div
+                      variants={childVariants}
                       key={index}
                       className="bg-white rounded-xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-shadow duration-300 flex items-start gap-3 sm:gap-4"
                     >
@@ -750,16 +815,22 @@ export function LandingPage() {
                           {objective.description}
                         </p>
                       </div>
-                    </div>
+                    </motion.div>
                   );
                 })}
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
       
-      <section className="py-12 sm:py-20 bg-gradient-to-br from-black via-blue-950 to-blue-900 relative overflow-hidden">
+      <motion.section
+        ref={pillarsRef}
+        variants={sectionVariants}
+        initial="hidden"
+        animate={pillarsInView ? "visible" : "hidden"}
+        className="py-12 sm:py-20 bg-gradient-to-br from-black via-blue-950 to-blue-900 relative overflow-hidden"
+      >
   
         {/* Animated Water Drop Ripple Waves */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
@@ -835,7 +906,7 @@ export function LandingPage() {
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
 
-          {/* Mobile-first layout */}
+           {/* Mobile-first layout */}
           <div className="block lg:hidden">
             {/* Central Title for Mobile */}
             <div className="text-center mb-8">
@@ -954,205 +1025,234 @@ export function LandingPage() {
                   <p className="text-gray-300">
                     Whitepapers, advocacy, reforms
                   </p>
-                </div>
+                   </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Split Scrolling Features Section - Integrated Here */}
       <SplitScrollingFeatures />
 
       {/* Membership Tiers Section */}
-      <section className="py-12 sm:py-20 bg-gradient-to-br from-black via-blue-950 to-blue-900">
+      <motion.section
+        ref={membershipRef}
+        variants={sectionVariants}
+        initial="hidden"
+        animate={membershipInView ? "visible" : "hidden"}
+        className="py-12 sm:py-20 bg-gradient-to-br from-black via-blue-950 to-blue-900"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
+          <motion.div
+            variants={childVariants}
+            className="text-center mb-12 sm:mb-16"
+          >
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">
               Membership Tiers
             </h2>
             <p className="text-base sm:text-xl text-white max-w-4xl mx-auto">
               SPARC's tiered structure ensures accessibility while rewarding commitment, with scalable benefits aligned to career stages.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate={membershipInView ? "visible" : "hidden"}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8"
+          >
             {/* SPARC Genesis */}
-            <Card className="bg-white bg-opacity-0 backdrop-blur-md shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-transform transition-shadow duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] relative border border-blue-800 rounded-lg">
-              <CardHeader className="text-center pb-3 sm:pb-4">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-green-100 bg-opacity-0 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                  <Users className="w-6 h-6 sm:w-8 sm:h-8 text-green-600" />
-                </div>
-                <CardTitle>
-                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
-                    SPARC Genesis
-                  </h3>
-                  <p className="text-xs sm:text-sm text-gray-200 font-normal mb-2">Students & Early-Career</p>
-                  <div className="text-2xl sm:text-3xl font-bold text-white mb-1">FREE</div>
-                  <span className="bg-green-100 bg-opacity-80 text-green-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
-                    Complimentary
-                  </span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="mb-4 sm:mb-6">
-                  <p className="text-xs sm:text-sm text-gray-200 mb-3 sm:mb-4">
-                    <strong>Eligibility:</strong> Undergraduates, postgraduates, and professionals with 0–1 years of experience.
-                  </p>
-                  <h4 className="font-semibold text-white mb-2 sm:mb-3 text-sm sm:text-base">Core Benefits:</h4>
-                  <ul className="space-y-2 mb-4 sm:mb-6">
-                    <li className="flex items-start">
-                      <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 mr-2 mt-1 flex-shrink-0" />
-                      <span className="text-xs sm:text-sm text-gray-200">Full participation in student-centric activities</span>
-                    </li>
-                    <li className="flex items-start">
-                      <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 mr-2 mt-1 flex-shrink-0" />
-                      <span className="text-xs sm:text-sm text-gray-200">Career bootcamps and skill-building sessions</span>
-                    </li>
-                    <li className="flex items-start">
-                      <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 mr-2 mt-1 flex-shrink-0" />
-                      <span className="text-xs sm:text-sm text-gray-200">Networking cohorts and research presentations</span>
-                    </li>
-                  </ul>
-                  <div className="bg-green-50 bg-opacity-80 p-2 sm:p-3 rounded-lg text-center border border-green-200">
-                    <p className="text-green-700 text-xs sm:text-sm font-medium">
-                      Build foundational skills and network
-                    </p>
+            <motion.div variants={childVariants}>
+              <Card className="bg-white bg-opacity-0 backdrop-blur-md shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-transform transition-shadow duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] relative border border-blue-800 rounded-lg">
+                <CardHeader className="text-center pb-3 sm:pb-4">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-green-100 bg-opacity-0 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                    <Users className="w-6 h-6 sm:w-8 sm:h-8 text-green-600" />
                   </div>
-                </div>
-                {!user && (
-                  <Link to="/sparcform" state={{ selectedTier: 'genesis' }}>
-                    <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-semibold text-sm sm:text-base">
-                      Get Started Free
-                    </Button>
-                  </Link>
-                )}
-              </CardContent>
-            </Card>
+                  <CardTitle>
+                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
+                      SPARC Genesis
+                    </h3>
+                    <p className="text-xs sm:text-sm text-gray-200 font-normal mb-2">Students & Early-Career</p>
+                    <div className="text-2xl sm:text-3xl font-bold text-white mb-1">FREE</div>
+                    <span className="bg-green-100 bg-opacity-80 text-green-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
+                      Complimentary
+                    </span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="mb-4 sm:mb-6">
+                    <p className="text-xs sm:text-sm text-gray-200 mb-3 sm:mb-4">
+                      <strong>Eligibility:</strong> Undergraduates, postgraduates, and professionals with 0–1 years of experience.
+                    </p>
+                    <h4 className="font-semibold text-white mb-2 sm:mb-3 text-sm sm:text-base">Core Benefits:</h4>
+                    <ul className="space-y-2 mb-4 sm:mb-6">
+                      <li className="flex items-start">
+                        <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 mr-2 mt-1 flex-shrink-0" />
+                        <span className="text-xs sm:text-sm text-gray-200">Full participation in student-centric activities</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 mr-2 mt-1 flex-shrink-0" />
+                        <span className="text-xs sm:text-sm text-gray-200">Career bootcamps and skill-building sessions</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 mr-2 mt-1 flex-shrink-0" />
+                        <span className="text-xs sm:text-sm text-gray-200">Networking cohorts and research presentations</span>
+                      </li>
+                    </ul>
+                    <div className="bg-green-50 bg-opacity-80 p-2 sm:p-3 rounded-lg text-center border border-green-200">
+                      <p className="text-green-700 text-xs sm:text-sm font-medium">
+                        Build foundational skills and network
+                      </p>
+                    </div>
+                  </div>
+                  {!user && (
+                    <Link to="/sparcform" state={{ selectedTier: 'genesis' }}>
+                      <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-semibold text-sm sm:text-base">
+                        Get Started Free
+                      </Button>
+                    </Link>
+                  )}
+                </CardContent>
+              </Card>
+            </motion.div>
 
             {/* SPARC Professional */}
-            <Card className="bg-white bg-opacity-0 backdrop-blur-md shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-transform transition-shadow duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] relative border border-blue-800 rounded-lg">
-              <div className="absolute top-4 right-4 bg-gray-600 text-white px-2 py-1 rounded-full text-xs font-medium">
-                Coming Soon
-              </div>
-              {/* Centered Lock Icon */}
-              <div className="absolute inset-0 flex items-center justify-center z-20">
-                <div>
-                 
+            <motion.div variants={childVariants}>
+              <Card className="bg-white bg-opacity-0 backdrop-blur-md shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-transform transition-shadow duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] relative border border-blue-800 rounded-lg">
+                <div className="absolute top-4 right-4 bg-gray-600 text-white px-2 py-1 rounded-full text-xs font-medium">
+                  Coming Soon
                 </div>
-              </div>
-              <CardHeader className="text-center pb-3 sm:pb-4 relative z-30">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-100 bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                  <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
-                </div>
-                <CardTitle>
-                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
-                    SPARC Professional
-                  </h3>
-                  <p className="text-xs sm:text-sm text-gray-200 font-normal mb-2">Mid-to-Senior Level</p>
-                  <div className="text-2xl sm:text-3xl font-bold text-white mb-1">$199</div>
-                  <span className="bg-blue-100 bg-opacity-80 text-blue-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
-                    Annual Subscription
-                  </span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="relative z-30">
-                <div className="mb-4 sm:mb-6">
-                  <p className="text-xs sm:text-sm text-gray-200 mb-3 sm:mb-4">
-                    <strong>Eligibility:</strong> Mid-to-senior level pharmaceutical professionals.
-                  </p>
-                  <h4 className="font-semibold text-white mb-2 sm:mb-3 text-sm sm:text-base">Core Benefits:</h4>
-                  <ul className="space-y-2 mb-4 sm:mb-6">
-                    <li className="flex items-start">
-                      <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-blue-500 mr-2 mt-1 flex-shrink-0" />
-                      <span className="text-xs sm:text-sm text-gray-200">Executive masterclasses by industry pioneers</span>
-                    </li>
-                    <li className="flex items-start">
-                      <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-blue-500 mr-2 mt-1 flex-shrink-0" />
-                      <span className="text-xs sm:text-sm text-gray-200">Premium networking and international symposia</span>
-                    </li>
-                    <li className="flex items-start">
-                      <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-blue-500 mr-2 mt-1 flex-shrink-0" />
-                      <span className="text-xs sm:text-sm text-gray-200">Collaborative research and ZANE publications</span>
-                    </li>
-                  </ul>
-                  <div className="bg-blue-50 bg-opacity-80 p-2 sm:p-3 rounded-lg text-center border border-blue-200">
-                    <p className="text-blue-700 text-xs sm:text-sm font-medium">
-                      Advance your career with premium access
-                    </p>
+                {/* Centered Lock Icon */}
+                <div className="absolute inset-0 flex items-center justify-center z-20">
+                  <div>
+                   
                   </div>
                 </div>
-                <Button className="w-full bg-gray-400 text-gray-700 py-2 rounded-lg font-semibold cursor-not-allowed text-sm sm:text-base" disabled>
-                  Coming Soon
-                </Button>
-              </CardContent>
-            </Card>
+                <CardHeader className="text-center pb-3 sm:pb-4 relative z-30">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-100 bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                    <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
+                  </div>
+                  <CardTitle>
+                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
+                      SPARC Professional
+                    </h3>
+                    <p className="text-xs sm:text-sm text-gray-200 font-normal mb-2">Mid-to-Senior Level</p>
+                    <div className="text-2xl sm:text-3xl font-bold text-white mb-1">$199</div>
+                    <span className="bg-blue-100 bg-opacity-80 text-blue-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
+                      Annual Subscription
+                    </span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="relative z-30">
+                  <div className="mb-4 sm:mb-6">
+                    <p className="text-xs sm:text-sm text-gray-200 mb-3 sm:mb-4">
+                      <strong>Eligibility:</strong> Mid-to-senior level pharmaceutical professionals.
+                    </p>
+                    <h4 className="font-semibold text-white mb-2 sm:mb-3 text-sm sm:text-base">Core Benefits:</h4>
+                    <ul className="space-y-2 mb-4 sm:mb-6">
+                      <li className="flex items-start">
+                        <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-blue-500 mr-2 mt-1 flex-shrink-0" />
+                        <span className="text-xs sm:text-sm text-gray-200">Executive masterclasses by industry pioneers</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-blue-500 mr-2 mt-1 flex-shrink-0" />
+                        <span className="text-xs sm:text-sm text-gray-200">Premium networking and international symposia</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-blue-500 mr-2 mt-1 flex-shrink-0" />
+                        <span className="text-xs sm:text-sm text-gray-200">Collaborative research and ZANE publications</span>
+                      </li>
+                    </ul>
+                    <div className="bg-blue-50 bg-opacity-80 p-2 sm:p-3 rounded-lg text-center border border-blue-200">
+                      <p className="text-blue-700 text-xs sm:text-sm font-medium">
+                        Advance your career with premium access
+                      </p>
+                    </div>
+                  </div>
+                  <Button className="w-full bg-gray-400 text-gray-700 py-2 rounded-lg font-semibold cursor-not-allowed text-sm sm:text-base" disabled>
+                    Coming Soon
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
 
             {/* SPARC Fellows */}
-            <Card className="bg-white bg-opacity-0 backdrop-blur-md shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-transform transition-shadow duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] relative border border-blue-800 rounded-lg">
-              <div className="absolute top-4 right-4 bg-gray-600 text-white px-2 py-1 rounded-full text-xs font-medium">
-                Coming Soon
-              </div>
-              {/* Centered Lock Icon */}
-              <div className="absolute inset-0 flex items-center justify-center z-20">
-                <div>
-                 
+            <motion.div variants={childVariants}>
+              <Card className="bg-white bg-opacity-0 backdrop-blur-md shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-transform transition-shadow duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] relative border border-blue-800 rounded-lg">
+                <div className="absolute top-4 right-4 bg-gray-600 text-white px-2 py-1 rounded-full text-xs font-medium">
+                  Coming Soon
                 </div>
-              </div>
-              <CardHeader className="text-center pb-3 sm:pb-4 relative z-30">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-purple-100 bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                  <Award className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600" />
-                </div>
-                <CardTitle>
-                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
-                    SPARC Fellows
-                  </h3>
-                  <p className="text-xs sm:text-sm text-gray-200 font-normal mb-2">Elite Leadership</p>
-                  <div className="text-2xl sm:text-3xl font-bold text-white mb-1">Exclusive</div>
-                  <span className="bg-purple-100 bg-opacity-80 text-purple-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
-                    Invitation-Only
-                  </span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="relative z-30">
-                <div className="mb-4 sm:mb-6">
-                  <p className="text-xs sm:text-sm text-gray-200 mb-3 sm:mb-4">
-                    <strong>Eligibility:</strong> C-suite executives, renowned researchers, and influential academics.
-                  </p>
-                  <h4 className="font-semibold text-white mb-2 sm:mb-3 text-sm sm:text-base">Premium Privileges:</h4>
-                  <ul className="space-y-2 mb-4 sm:mb-6">
-                    <li className="flex items-start">
-                      <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-purple-500 mr-2 mt-1 flex-shrink-0" />
-                      <span className="text-xs sm:text-sm text-gray-200">Advisory board seats for strategic influence</span>
-                    </li>
-                    <li className="flex items-start">
-                      <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-purple-500 mr-2 mt-1 flex-shrink-0" />
-                      <span className="text-xs sm:text-sm text-gray-200">SPARC Fellow designation with visibility</span>
-                    </li>
-                    <li className="flex items-start">
-                      <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-purple-500 mr-2 mt-1 flex-shrink-0" />
-                      <span className="text-xs sm:text-sm text-gray-200">Thought leadership and high-level discourse</span>
-                    </li>
-                  </ul>
-                  <div className="bg-purple-50 bg-opacity-80 p-2 sm:p-3 rounded-lg text-center border border-purple-200">
-                    <p className="text-purple-700 text-xs sm:text-sm font-medium">
-                      Shape the future of pharmaceutical innovation
-                    </p>
+                {/* Centered Lock Icon */}
+                <div className="absolute inset-0 flex items-center justify-center z-20">
+                  <div>
+                   
                   </div>
                 </div>
-                <Button className="w-full bg-gray-400 text-gray-700 py-2 rounded-lg font-semibold cursor-not-allowed text-sm sm:text-base" disabled>
-                  Coming Soon
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
+                <CardHeader className="text-center pb-3 sm:pb-4 relative z-30">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-purple-100 bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                    <Award className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600" />
+                  </div>
+                  <CardTitle>
+                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
+                      SPARC Fellows
+                    </h3>
+                    <p className="text-xs sm:text-sm text-gray-200 font-normal mb-2">Elite Leadership</p>
+                    <div className="text-2xl sm:text-3xl font-bold text-white mb-1">Exclusive</div>
+                    <span className="bg-purple-100 bg-opacity-80 text-purple-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
+                      Invitation-Only
+                    </span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="relative z-30">
+                  <div className="mb-4 sm:mb-6">
+                    <p className="text-xs sm:text-sm text-gray-200 mb-3 sm:mb-4">
+                      <strong>Eligibility:</strong> C-suite executives, renowned researchers, and influential academics.
+                    </p>
+                    <h4 className="font-semibold text-white mb-2 sm:mb-3 text-sm sm:text-base">Premium Privileges:</h4>
+                    <ul className="space-y-2 mb-4 sm:mb-6">
+                      <li className="flex items-start">
+                        <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-purple-500 mr-2 mt-1 flex-shrink-0" />
+                        <span className="text-xs sm:text-sm text-gray-200">Advisory board seats for strategic influence</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-purple-500 mr-2 mt-1 flex-shrink-0" />
+                        <span className="text-xs sm:text-sm text-gray-200">SPARC Fellow designation with visibility</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-purple-500 mr-2 mt-1 flex-shrink-0" />
+                        <span className="text-xs sm:text-sm text-gray-200">Thought leadership and high-level discourse</span>
+                      </li>
+                    </ul>
+                    <div className="bg-purple-50 bg-opacity-80 p-2 sm:p-3 rounded-lg text-center border border-purple-200">
+                      <p className="text-purple-700 text-xs sm:text-sm font-medium">
+                        Shape the future of pharmaceutical innovation
+                      </p>
+                    </div>
+                  </div>
+                  <Button className="w-full bg-gray-400 text-gray-700 py-2 rounded-lg font-semibold cursor-not-allowed text-sm sm:text-base" disabled>
+                    Coming Soon
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Upcoming Events Section - Simplified */}
-      <section className="py-12 sm:py-20 bg-blue-100">
+      <motion.section
+        ref={eventsRef}
+        variants={sectionVariants}
+        initial="hidden"
+        animate={eventsInView ? "visible" : "hidden"}
+        className="py-12 sm:py-20 bg-blue-100"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 sm:mb-12">
+          <motion.div
+            variants={childVariants}
+            className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 sm:mb-12"
+          >
             <div className="mb-4 sm:mb-0">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
                 Upcoming Events
@@ -1166,68 +1266,86 @@ export function LandingPage() {
                 View All Events
               </Button>
             </Link>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate={eventsInView ? "visible" : "hidden"}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8"
+          >
             {upcomingEvents.map((event, index) => (
-              <Card 
-                key={event.id} 
-                className="bg-white shadow-md"
-              >
-                <CardHeader>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs sm:text-sm font-medium text-white bg-blue-500 px-2 sm:px-3 py-1 rounded-full">
-                      {event.type.charAt(0).toUpperCase() + event.type.slice(1)}
-                    </span>
-                    <span className="text-xs sm:text-sm text-gray-500">
-                      {new Date(event.date).toLocaleDateString()}
-                    </span>
-                  </div>
-                  <CardTitle className="text-base sm:text-lg text-gray-900">
-                    {event.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 mb-3 sm:mb-4 line-clamp-3 text-sm sm:text-base">
-                    {event.description}
-                  </p>
-                  <div className="text-xs sm:text-sm text-gray-500 mb-2">
-                    <strong>Speaker:</strong> {event.speaker}
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs sm:text-sm text-gray-500">
-                      {event.registered}/{event.capacity} registered
-                    </span>
-                    <Link to={`/events/${event.id}`}>
-                      <Button 
-                        size="sm" 
-                        className="hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-600 hover:scale-110 transition-all duration-300 group-hover:shadow-lg text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2"
-                      >
-                        Learn More
-                      </Button>
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
+              <motion.div variants={childVariants} key={event.id}>
+                <Card 
+                  className="bg-white shadow-md"
+                >
+                  <CardHeader>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs sm:text-sm font-medium text-white bg-blue-500 px-2 sm:px-3 py-1 rounded-full">
+                        {event.type.charAt(0).toUpperCase() + event.type.slice(1)}
+                      </span>
+                      <span className="text-xs sm:text-sm text-gray-500">
+                        {new Date(event.date).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <CardTitle className="text-base sm:text-lg text-gray-900">
+                      {event.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600 mb-3 sm:mb-4 line-clamp-3 text-sm sm:text-base">
+                      {event.description}
+                    </p>
+                    <div className="text-xs sm:text-sm text-gray-500 mb-2">
+                      <strong>Speaker:</strong> {event.speaker}
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs sm:text-sm text-gray-500">
+                        {event.registered}/{event.capacity} registered
+                      </span>
+                      <Link to={`/events/${event.id}`}>
+                        <Button 
+                          size="sm" 
+                          className="hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-600 hover:scale-110 transition-all duration-300 group-hover:shadow-lg text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2"
+                        >
+                          Learn More
+                        </Button>
+                      </Link>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Testimonials Section - Auto Scrolling with Dark Theme */}
-      <section className="py-12 sm:py-20 bg-gradient-to-br from-black via-blue-950 to-blue-900">
+      <motion.section
+        ref={testimonialsRef}
+        variants={sectionVariants}
+        initial="hidden"
+        animate={testimonialsInView ? "visible" : "hidden"}
+        className="py-12 sm:py-20 bg-gradient-to-br from-black via-blue-950 to-blue-900"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
+          <motion.div
+            variants={childVariants}
+            className="text-center mb-12 sm:mb-16"
+          >
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">
               What Our Members Say
             </h2>
             <p className="text-base sm:text-xl text-gray-200">
               Hear from professionals who have transformed their careers with SPARC
             </p>
-          </div>
+          </motion.div>
           
           {/* Auto-scrolling container */}
-          <div className="relative overflow-hidden">
+          <motion.div
+            variants={childVariants}
+            className="relative overflow-hidden"
+          >
             <div className="flex animate-scroll space-x-4 sm:space-x-6">
               {/* Duplicate testimonials for seamless loop */}
               {[...testimonials, ...testimonials].map((testimonial, index) => (
@@ -1267,9 +1385,9 @@ export function LandingPage() {
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       <style>{`
         @keyframes scroll {
