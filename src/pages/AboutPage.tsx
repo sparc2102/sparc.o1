@@ -27,10 +27,10 @@ const MissionVisionSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Main Mission & Vision Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-          <Card className="!bg-transparent border border-black opacity-90 shadow-lg">
+          <Card className="bg-white bg-opacity-0 backdrop-blur-md shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-transform transition-shadow duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] relative border border-blue-800 rounded-lg">
             <CardHeader>
               <div className="flex items-center mb-4">
-                <CardTitle className="text-5xl text-gray-200">Mission</CardTitle>
+                <CardTitle className="text-6xl text-gray-200">Mission</CardTitle>
               </div>
             </CardHeader>
             <CardContent>
@@ -42,10 +42,10 @@ const MissionVisionSection = () => {
             </CardContent>
           </Card>
 
-          <Card className="!bg-transparent border border-black opacity-90 shadow-lg">
+         <Card className="bg-white bg-opacity-0 backdrop-blur-md shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-transform transition-shadow duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] relative border border-blue-800 rounded-lg">
             <CardHeader>
               <div className="flex items-center mb-4">
-                <CardTitle className="text-5xl text-gray-200">Vision</CardTitle>
+                <CardTitle className="text-6xl text-gray-200">Vision</CardTitle>
               </div>
             </CardHeader>
             <CardContent>
@@ -67,7 +67,7 @@ const MissionVisionSection = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
             {/* Empower Talent */}
-            <Card className="!bg-transparent border border-black opacity-90 shadow-lg">
+            <Card className="bg-white bg-opacity-0 backdrop-blur-md shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-transform transition-shadow duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] relative border border-blue-800 rounded-lg">
               <CardHeader>
                 <div className="flex items-center mb-4">
                   <h3 className="text-3xl font-bold text-gray-300">Empower Talent</h3>
@@ -101,7 +101,7 @@ const MissionVisionSection = () => {
             </Card>
 
             {/* Build Collaborations */}
-            <Card className="!bg-transparent border border-black opacity-90 shadow-lg">
+            <Card className="bg-white bg-opacity-0 backdrop-blur-md shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-transform transition-shadow duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] relative border border-blue-800 rounded-lg">
               <CardHeader>
                 <div className="flex items-center mb-4">
                   <h3 className="text-3xl font-bold text-gray-300">Build Collaborations</h3>
@@ -135,7 +135,7 @@ const MissionVisionSection = () => {
             </Card>
 
             {/* Fuel Growth */}
-            <Card className="!bg-transparent border border-black opacity-90 shadow-lg">
+            <Card className="bg-white bg-opacity-0 backdrop-blur-md shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-transform transition-shadow duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] relative border border-blue-800 rounded-lg">
               <CardHeader>
                 <div className="flex items-center mb-4">
                   <h3 className="text-3xl font-bold text-gray-300">Fuel Growth</h3>
@@ -171,7 +171,7 @@ const MissionVisionSection = () => {
         </div>
 
         {/* Vision Details */}
-        <Card className="!bg-transparent border border-black opacity-90 shadow-lg">
+        <Card className="bg-white bg-opacity-0 backdrop-blur-md shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-transform transition-shadow duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] relative border border-blue-800 rounded-lg">
           <CardHeader>
             <div className="text-center">
               <h2 className="text-3xl font-bold text-white mb-6">

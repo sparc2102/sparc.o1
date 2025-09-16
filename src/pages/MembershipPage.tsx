@@ -39,7 +39,7 @@ export function MembershipPage() {
 
   return (
     <div className="min-h-screen bg-black">
-     {/* Membership Tiers Section */}
+      {/* Membership Tiers Section */}
      <section className="py-12 sm:py-20 bg-gradient-to-br from-black via-blue-950 to-blue-900">
        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
          <div className="text-center mb-12 sm:mb-16">
@@ -53,7 +53,7 @@ export function MembershipPage() {
      
          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
            {/* SPARC Genesis */}
-           <Card className="bg-white bg-opacity-0 backdrop-blur-md shadow-lg hover:shadow-xl transition-shadow duration-300 relative border border-blue-800 rounded-lg">
+          <Card className="bg-white bg-opacity-0 backdrop-blur-md shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-transform transition-shadow duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] relative border border-blue-800 rounded-lg">
              <CardHeader className="text-center pb-3 sm:pb-4">
                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-green-100 bg-opacity-0 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
                  <Users className="w-6 h-6 sm:w-8 sm:h-8 text-green-600" />
@@ -106,14 +106,14 @@ export function MembershipPage() {
            </Card>
      
            {/* SPARC Professional */}
-           <Card className="bg-white bg-opacity-30 backdrop-blur-md shadow-lg hover:shadow-xl transition-shadow duration-300 relative border border-blue-800 rounded-lg">
+           <Card className="bg-white bg-opacity-0 backdrop-blur-md shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-transform transition-shadow duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] relative border border-blue-800 rounded-lg">
              <div className="absolute top-4 right-4 bg-gray-600 text-white px-2 py-1 rounded-full text-xs font-medium">
                Coming Soon
              </div>
              {/* Centered Lock Icon */}
              <div className="absolute inset-0 flex items-center justify-center z-20">
-               <div className="bg-white bg-opacity-80 rounded-full p-4 shadow-lg">
-                 <Lock className="w-8 h-8 sm:w-12 sm:h-12 text-gray-600" />
+               <div >
+                
                </div>
              </div>
              <CardHeader className="text-center pb-3 sm:pb-4 relative z-30">
@@ -164,14 +164,14 @@ export function MembershipPage() {
            </Card>
      
            {/* SPARC Fellows */}
-           <Card className="bg-white bg-opacity-30 backdrop-blur-md shadow-lg hover:shadow-xl transition-shadow duration-300 relative border border-blue-800 rounded-lg">
+          <Card className="bg-white bg-opacity-0 backdrop-blur-md shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-transform transition-shadow duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] relative border border-blue-800 rounded-lg">
              <div className="absolute top-4 right-4 bg-gray-600 text-white px-2 py-1 rounded-full text-xs font-medium">
                Coming Soon
              </div>
              {/* Centered Lock Icon */}
              <div className="absolute inset-0 flex items-center justify-center z-20">
-               <div className="bg-white bg-opacity-80 rounded-full p-4 shadow-lg">
-                 <Lock className="w-8 h-8 sm:w-12 sm:h-12 text-gray-600" />
+               <div>
+                
                </div>
              </div>
              <CardHeader className="text-center pb-3 sm:pb-4 relative z-30">
@@ -224,86 +224,86 @@ export function MembershipPage() {
        </div>
      </section>
 
-        {/* Feature Comparison */}
-        <section className="py-12 sm:py-20 bg-gradient-to-br from-black via-blue-950 to-blue-900">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4">Compare Membership Benefits</h2>
-            <p className="text-lg text-gray-300">
-              See exactly what each membership tier offers
-            </p>
-          </div>
-                   
-          <div className="bg-gray-900 rounded-lg shadow-lg overflow-hidden border border-gray-800">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-black">
-                  <tr>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-white">Features</th>
-                    <th className="px-6 py-4 text-center text-sm font-medium text-green-400">Genesis</th>
-                    <th className="px-6 py-4 text-center text-sm font-medium text-blue-400">Professional</th>
-                    <th className="px-6 py-4 text-center text-sm font-medium text-purple-400">Fellows</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-800">
-                  <tr className="hover:bg-gray-800 transition-colors">
-                    <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700">Global Prestige & Local Impact</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700">Regional Community Access</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700">National Network</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center">Global Community + Leadership Voice</td>
-                  </tr>
-                  <tr className="hover:bg-gray-800 transition-colors">
-                    <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700">Career Acceleration Programs</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700">Basic Career Guidance</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700">Bootcamps + Job Matching</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center">Executive Career Fast-Track</td>
-                  </tr>
-                  <tr className="hover:bg-gray-800 transition-colors">
-                    <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700">Industry Leader Access</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700">Webinar Access</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700">Masterclasses + Panels</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center">VIP Summit Access + 1-on-1s</td>
-                  </tr>
-                  <tr className="hover:bg-gray-800 transition-colors">
-                    <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700">Innovation Labs & Hackathons</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700">Observer Access</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700">Full Participation</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center">Lab Leadership + Prototype Funding</td>
-                  </tr>
-                  <tr className="hover:bg-gray-800 transition-colors">
-                    <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700">Mentorship Program</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700">Peer Mentoring</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700">Senior Professional Mentors</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center">C-Suite Executive Mentors</td>
-                  </tr>
-                  <tr className="hover:bg-gray-800 transition-colors">
-                    <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700">Premium Knowledge Vault</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700">Basic Resources</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700">Curated Journals + Case Studies</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center">Exclusive Whitepapers + Early Access</td>
-                  </tr>
-                  <tr className="hover:bg-gray-800 transition-colors">
-                    <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700">Recognition & Awards</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700">Participation Certificates</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700">SPARC Honors Eligibility</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center">Global Visibility + Premium Awards</td>
-                  </tr>
-                  <tr className="hover:bg-gray-800 transition-colors">
-                    <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700">R&D Collaboration Opportunities</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700">Project Awareness</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700">Funded Project Participation</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center">Lead Funded Projects + Incubator Access</td>
-                  </tr>
-                  <tr className="hover:bg-gray-800 transition-colors">
-                    <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700">Leadership Development</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700">Student Council Participation</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700">Regional Hub Leadership</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center">Advisory Board Positions</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
+       <section className="py-12 sm:py-20 bg-gradient-to-br from-black via-blue-950 to-blue-900">
+  <div className="text-center mb-12">
+    <h2 className="text-3xl font-bold text-white mb-4">Compare Membership Benefits</h2>
+    <p className="text-lg text-gray-300">
+      See exactly what each membership tier offers
+    </p>
+  </div>
+  <div className="max-w-5xl mx-auto">
+    <div className="bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-lg shadow-lg overflow-hidden border border-gray-200 border-opacity-20">
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead className="bg-black bg-opacity-30">
+            <tr>
+              <th className="px-6 py-4 text-left text-lg font-medium text-white">Features</th>
+              <th className="px-6 py-4 text-center text-lg font-medium text-green-400">Genesis</th>
+              <th className="px-6 py-4 text-center text-lg font-medium text-blue-400">Professional</th>
+              <th className="px-6 py-4 text-center text-lg font-medium text-purple-400">Fellows</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-800 divide-opacity-20">
+            <tr className="hover:bg-gray-800 hover:bg-opacity-30 transition-colors">
+              <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700 border-opacity-20">Global Prestige & Local Impact</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Regional Community Access</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">National Network</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center">Global Community + Leadership Voice</td>
+            </tr>
+            <tr className="hover:bg-gray-800 hover:bg-opacity-30 transition-colors">
+              <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700 border-opacity-20">Career Acceleration Programs</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Basic Career Guidance</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Bootcamps + Job Matching</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center">Executive Career Fast-Track</td>
+            </tr>
+            <tr className="hover:bg-gray-800 hover:bg-opacity-30 transition-colors">
+              <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700 border-opacity-20">Industry Leader Access</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Webinar Access</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Masterclasses + Panels</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center">VIP Summit Access + 1-on-1s</td>
+            </tr>
+            <tr className="hover:bg-gray-800 hover:bg-opacity-30 transition-colors">
+              <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700 border-opacity-20">Innovation Labs & Hackathons</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Observer Access</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Full Participation</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center">Lab Leadership + Prototype Funding</td>
+            </tr>
+            <tr className="hover:bg-gray-800 hover:bg-opacity-30 transition-colors">
+              <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700 border-opacity-20">Mentorship Program</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Peer Mentoring</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Senior Professional Mentors</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center">C-Suite Executive Mentors</td>
+            </tr>
+            <tr className="hover:bg-gray-800 hover:bg-opacity-30 transition-colors">
+              <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700 border-opacity-20">Premium Knowledge Vault</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Basic Resources</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Curated Journals + Case Studies</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center">Exclusive Whitepapers + Early Access</td>
+            </tr>
+            <tr className="hover:bg-gray-800 hover:bg-opacity-30 transition-colors">
+              <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700 border-opacity-20">Recognition & Awards</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Participation Certificates</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">SPARC Honors Eligibility</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center">Global Visibility + Premium Awards</td>
+            </tr>
+            <tr className="hover:bg-gray-800 hover:bg-opacity-30 transition-colors">
+              <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700 border-opacity-20">R&D Collaboration Opportunities</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Project Awareness</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Funded Project Participation</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center">Lead Funded Projects + Incubator Access</td>
+            </tr>
+            <tr className="hover:bg-gray-800 hover:bg-opacity-30 transition-colors">
+              <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700 border-opacity-20">Leadership Development</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Student Council Participation</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Regional Hub Leadership</td>
+              <td className="px-6 py-4 text-sm text-gray-300 text-center">Advisory Board Positions</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
 
         {/* FAQ Section */}
         <section className="py-12 sm:py-20 bg-gradient-to-br from-black via-blue-950 to-blue-900">
