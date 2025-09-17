@@ -415,8 +415,7 @@ export function AboutPage() {
         variants={sectionVariants}
         initial="hidden"
         animate={heroInView ? "visible" : "hidden"}
-        className="text-white py-24 relative z-10"
-      >
+        className="text-white py-24 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">About SPARC</h1>

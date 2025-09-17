@@ -297,19 +297,19 @@ export function MembershipPage() {
                 <tbody className="divide-y divide-gray-800 divide-opacity-20">
                   <tr className="hover:bg-gray-800 hover:bg-opacity-30 transition-colors">
                     <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700 border-opacity-20">Global Prestige & Local Impact</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Regional Community Access</td>
+                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Complete community access</td>
                     <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">National Network</td>
                     <td className="px-6 py-4 text-sm text-gray-300 text-center">Global Community + Leadership Voice</td>
                   </tr>
                   <tr className="hover:bg-gray-800 hover:bg-opacity-30 transition-colors">
                     <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700 border-opacity-20">Career Acceleration Programs</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Basic Career Guidance</td>
+                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Free Career guidance</td>
                     <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Bootcamps + Job Matching</td>
                     <td className="px-6 py-4 text-sm text-gray-300 text-center">Executive Career Fast-Track</td>
                   </tr>
                   <tr className="hover:bg-gray-800 hover:bg-opacity-30 transition-colors">
                     <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700 border-opacity-20">Industry Leader Access</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Webinar Access</td>
+                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Free webinar access</td>
                     <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Masterclasses + Panels</td>
                     <td className="px-6 py-4 text-sm text-gray-300 text-center">VIP Summit Access + 1-on-1s</td>
                   </tr>
@@ -327,25 +327,25 @@ export function MembershipPage() {
                   </tr>
                   <tr className="hover:bg-gray-800 hover:bg-opacity-30 transition-colors">
                     <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700 border-opacity-20">Premium Knowledge Vault</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Basic Resources</td>
+                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Full resource access</td>
                     <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Curated Journals + Case Studies</td>
                     <td className="px-6 py-4 text-sm text-gray-300 text-center">Exclusive Whitepapers + Early Access</td>
                   </tr>
                   <tr className="hover:bg-gray-800 hover:bg-opacity-30 transition-colors">
                     <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700 border-opacity-20">Recognition & Awards</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Participation Certificates</td>
+                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Eligible</td>
                     <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">SPARC Honors Eligibility</td>
                     <td className="px-6 py-4 text-sm text-gray-300 text-center">Global Visibility + Premium Awards</td>
                   </tr>
                   <tr className="hover:bg-gray-800 hover:bg-opacity-30 transition-colors">
                     <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700 border-opacity-20">R&D Collaboration Opportunities</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Project Awareness</td>
+                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Full access</td>
                     <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Funded Project Participation</td>
                     <td className="px-6 py-4 text-sm text-gray-300 text-center">Lead Funded Projects + Incubator Access</td>
                   </tr>
                   <tr className="hover:bg-gray-800 hover:bg-opacity-30 transition-colors">
                     <td className="px-6 py-4 text-sm font-medium text-white border-r border-gray-700 border-opacity-20">Leadership Development</td>
-                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Student Council Participation</td>
+                    <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Student level</td>
                     <td className="px-6 py-4 text-sm text-gray-300 text-center border-r border-gray-700 border-opacity-20">Regional Hub Leadership</td>
                     <td className="px-6 py-4 text-sm text-gray-300 text-center">Advisory Board Positions</td>
                   </tr>
