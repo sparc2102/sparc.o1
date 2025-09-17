@@ -421,7 +421,7 @@ export function AboutPage() {
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">About SPARC</h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              The Society for Pharma Advancement & Research Collaboration is the gold standard 
+              The Society For Pharmacy Advancement Researc & Careers is the gold standard 
               for community-driven advancement in pharmaceutical sciences, powered by 
               <span className="text-red-500 font-semibold"> ZANE ProEd</span>.
             </p>

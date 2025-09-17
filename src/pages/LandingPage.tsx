@@ -685,7 +685,7 @@ export function LandingPage() {
                 </h1>
                 {/* Subtitle */}
                 <h2 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl text-gray-200 mb-4 sm:mb-6 font-semibold">
-                  Society for Pharma Advancement & Research Collaboration
+                  Society For Pharmacy Advancement Researc & Careers
                 </h2>
                 {/* Description */}
                 <p className="text-sm sm:text-lg lg:text-2xl text-gray-300 mb-6 sm:mb-8 leading-relaxed">
