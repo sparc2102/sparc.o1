@@ -1287,12 +1287,7 @@ export function LandingPage() {
                         {event.registered}/{event.capacity} registered
                       </span>
                       <Link to={`/events/${event.id}`}>
-                        <Button 
-                          size="sm" 
-                          className="hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-600 hover:scale-110 transition-all duration-300 group-hover:shadow-lg text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2"
-                        >
-                          Learn More
-                        </Button>
+                       
                       </Link>
                     </div>
                   </CardContent>

@@ -31,6 +31,7 @@ export interface Event {
   location?: string;
   duration?: string;
   tags?: string[];
+  link?: string; // ← Add this line
 }
 
 export interface Resource {

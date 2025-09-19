@@ -7,12 +7,10 @@ import {
   Clock, 
   MapPin, 
   Users, 
-  Filter,
   Search,
   Play,
   UserCheck,
-  Globe,
-  Link
+  Link as LinkIcon
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { mockEvents } from '../data/mockData';
@@ -28,11 +26,11 @@ export function EventsPage() {
 
   const filteredEvents = mockEvents.filter(event => {
     const matchesSearch = event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         event.description.toLowerCase().includes(searchTerm.toLowerCase());
+                          event.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'all' || event.category === selectedCategory;
     const matchesType = selectedType === 'all' || event.type === selectedType;
     const hasAccess = user ? event.accessTiers.includes(user.membershipTier) : true;
-    
+
     return matchesSearch && matchesCategory && matchesType && hasAccess;
   });
 
@@ -70,17 +68,15 @@ export function EventsPage() {
         {/* Filters */}
         <div className="bg-white/10 backdrop-blur-md rounded-lg shadow-sm p-6 mb-8">
           <div className="flex flex-col lg:flex-row gap-4">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-300" />
-                <input
-                  type="text"
-                  placeholder="Search events..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 bg-gray-800 text-white placeholder-gray-400"
-                />
-              </div>
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-300" />
+              <input
+                type="text"
+                placeholder="Search events..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 bg-gray-800 text-white placeholder-gray-400"
+              />
             </div>
             <div className="flex gap-4">
               <select
@@ -114,7 +110,7 @@ export function EventsPage() {
           {filteredEvents.map((event) => (
             <Card 
               key={event.id} 
-              className="hover:shadow-lg transition-all duration-300 bg-transparent border border-gray-600 hover:bg-gradient-to-br hover:from-zinc-700/30 hover:to-zinc-900/30"
+              className="bg-white/5 backdrop-blur-lg border border-white/20 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:bg-white/10"
             >
               <CardHeader>
                 <div className="flex items-center justify-between mb-2">
@@ -162,12 +158,18 @@ export function EventsPage() {
                       </span>
                     ))}
                   </div>
-                  {user ? (
+
+                  {/* Webinar / external link button */}
+                  {event.link ? (
+                    <a href={event.link} target="_blank" rel="noopener noreferrer">
+                      <Button size="sm" className="bg-blue-600 hover:bg-blue-700 flex items-center gap-1">
+                        <LinkIcon className="h-4 w-4" /> Go to Webinar
+                      </Button>
+                    </a>
+                  ) : user ? (
                     <Button size="sm" className="bg-blue-600 hover:bg-blue-700">Register</Button>
                   ) : (
-                    <Link to={`/events/${event.id}`}>
-                      <Button size="sm" variant="outline" className="border-gray-600 text-white hover:bg-blue-600 hover:border-blue-600">View Details</Button>
-                    </Link>
+                    <Button size="sm" variant="outline" className="border-gray-600 text-white hover:bg-blue-600 hover:border-blue-600">View Details</Button>
                   )}
                 </div>
               </CardContent>
@@ -181,14 +183,6 @@ export function EventsPage() {
             <h3 className="text-2xl font-medium mb-2">Nothing’s cooking right now — check back later!</h3>
           </div>
         )}
-
-        {/* CSS for gradient hover effect */}
-        <style>{`
-          .hover\\:bg-gradient-to-br:hover {
-            background-image: linear-gradient(to bottom right, rgba(39, 39, 42, 0.3), rgba(24, 24, 27, 0.3));
-          }
-        `}
-        </style>
       </div>
     </div>
   );

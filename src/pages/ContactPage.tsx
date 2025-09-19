@@ -220,41 +220,7 @@ export function ContactPage() {
             </Card>
           </div>
 
-          {/* Contact Information Sidebar */}
-          <div className="space-y-8">
-            {/* Contact Methods */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Get in Touch</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  {contactMethods.map((method, index) => {
-                    const Icon = method.icon;
-                    return (
-                      <div key={index}>
-                        <a 
-                          href={method.action}
-                          className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors"
-                        >
-                          <div className="bg-blue-100 rounded-lg p-2">
-                            <Icon className="h-5 w-5 text-blue-600" />
-                          </div>
-                          <div>
-                            <h3 className="font-medium text-gray-900">{method.title}</h3>
-                            <p className="text-blue-600 font-medium">{method.value}</p>
-                            <p className="text-sm text-gray-500">{method.description}</p>
-                          </div>
-                        </a>
-                      </div>
-                    );
-                  })}
-                </div>
-              </CardContent>
-            </Card>
-
-          
-          </div>
+        
         </div>
       </div>
     </div>

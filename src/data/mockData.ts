@@ -53,7 +53,22 @@ export const membershipTiers: MembershipTier[] = [
 ];
 
 export const mockEvents: Event[] = [
-  
+  {
+    id: '1',
+    title: 'SPARC Career Growth: Fueling Innovation and Research in Core Pharmaceutical Industries',
+    date: '2025-09-20T18:00:00+05:30',
+    type: 'webinar',
+    description: 'Orientation about the SPARC community and the innovation requirements in the pharmaceutical industry.',
+    accessTiers: ['genesis'],
+    capacity: 200,
+    registered: 113,
+    speaker: 'Dr. Melwin Vincent, CEO and Founder of Zane Pro Ed',
+    category: 'lite-the-sparc',
+    duration: '60 minutes',
+    location: 'Virtual',
+    tags: ['career-guidance', 'research-guidance', 'pharmaceutical-innovation', 'SPARC'],
+    link: 'https://meet.google.com/jte-ncci-qud' 
+}
 ];
 
 export const mockResources: Resource[] = [

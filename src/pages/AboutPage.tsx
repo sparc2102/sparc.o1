@@ -308,13 +308,13 @@ export function AboutPage() {
       name: 'Nishanth ', 
       title: 'Partnership & Sponsorship Associate', 
       bio: 'Builds partnerships and supports sponsorship initiatives to strengthen organizational programs and collaborations.', 
-      avatar: 'SM' 
+      avatar: 'https://static.wixstatic.com/media/6abdd9_b21b7b78756c4e36b0c0e90a8acdd488~mv2.png' 
     },
     { 
       name: 'Naveen N', 
       title: 'Media & Design Intern', 
       bio: 'Designs creative visuals and manages digital assets to enhance brand presence across platforms.', 
-      avatar: 'https://media.licdn.com/dms/image/v2/D5603AQFAy-sff91S0Q/profile-displayphoto-shrink_400_400/B56Zkoc6YrJoAg-/0/1757320293884?e=1760572800&v=beta&t=BSPgvpU26AuIiWB6aDzvItI0yf4QX0kyzpuQF3IzXO4' 
+      avatar: 'https://static.wixstatic.com/media/6abdd9_3c9a1e2829d341719c82865be8294cab~mv2.jpg' 
     },
     { 
       name: 'Tharaneeshwaran', 
@@ -326,7 +326,7 @@ export function AboutPage() {
       name: 'Arudhra', 
       title: 'Media & Design Intern', 
       bio: 'Creates engaging media assets and visual content to promote initiatives and events effectively.', 
-      avatar: 'AR' 
+      avatar: 'https://static.wixstatic.com/media/6abdd9_cfda1e84816740e5969267a0727f94c7~mv2.jpg' 
     },
     { 
       name: 'Praveen P', 
@@ -344,7 +344,7 @@ export function AboutPage() {
       name: 'Sreenidhi V', 
       title: 'Community Outreach Lead', 
       bio: 'Leads initiatives to connect with the community, grow networks, and strengthen external relationships.', 
-      avatar: 'SV' 
+      avatar: 'https://static.wixstatic.com/media/6abdd9_252c82651f264a0eb6f86139853fd1b4~mv2.jpg' 
     },
     { 
       name: 'Nanthitha S', 
@@ -356,7 +356,7 @@ export function AboutPage() {
       name: 'Jayanthi G', 
       title: 'Innovation Lab Intern', 
       bio: 'Assists with research and contributes creative ideas to innovation-driven projects and experiments.', 
-      avatar: 'GJ' 
+      avatar: 'https://static.wixstatic.com/media/6abdd9_99b469bbd4f448e3a6210ba94022559f~mv2.jpg' 
     },
     { 
       name: 'Mithuna S', 
@@ -386,13 +386,13 @@ export function AboutPage() {
       name: 'Rohith S', 
       title: 'Member Engagement Manager', 
       bio: 'Coordinates engagement activities and ensures members stay connected to organizational initiatives.', 
-      avatar: 'RS' 
+      avatar: 'https://static.wixstatic.com/media/6abdd9_af6acfaa20774e3791cd22f0de6f989a~mv2.png' 
     },
     { 
       name: 'Merrin K', 
       title: 'Partnership & Sponsorship Associate', 
       bio: 'Manages sponsorship relations and develops new opportunities to enhance organizational impact.', 
-      avatar: 'https://media.licdn.com/dms/image/v2/D4E04AQEfuVoyeJT2iA/profile-displayphoto-scale_400_400/B4EZkoehivIQAg-/0/1757320716871?e=1760572800&v=beta&t=rUsuaVUANT8CcxauGDK36MDfWF4LS9Ni3WWkcAIDOMI' 
+      avatar: 'https://static.wixstatic.com/media/6abdd9_90ddec92c086465eb41420cb9fb605df~mv2.jpg' 
     }
   ];
 
