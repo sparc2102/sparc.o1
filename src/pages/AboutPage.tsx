@@ -288,7 +288,7 @@ export function AboutPage() {
   ];
 
   const milestones = [
-    { year: '2025', title: 'SPARC Founded', description: 'Launched by ZANE ProEd with 18 founding members' },
+    { year: '2025', title: 'SPARC Founded', description: 'Launched by ZANE ProEd with 17 founding members' },
   ];
 
   const leadership = [
@@ -310,12 +310,7 @@ export function AboutPage() {
       bio: 'Builds partnerships and supports sponsorship initiatives to strengthen organizational programs and collaborations.', 
       avatar: 'https://static.wixstatic.com/media/6abdd9_b21b7b78756c4e36b0c0e90a8acdd488~mv2.png' 
     },
-    { 
-      name: 'Naveen N', 
-      title: 'Media & Design Intern', 
-      bio: 'Designs creative visuals and manages digital assets to enhance brand presence across platforms.', 
-      avatar: 'https://static.wixstatic.com/media/6abdd9_3c9a1e2829d341719c82865be8294cab~mv2.jpg' 
-    },
+    
     { 
       name: 'Tharaneeshwaran', 
       title: 'Partnership & Sponsorship Associate', 
@@ -427,6 +422,8 @@ export function AboutPage() {
           </div>
         </div>
       </motion.section>
+
+
 
       {/* Mission & Vision Section */}
       <MissionVisionSection />
