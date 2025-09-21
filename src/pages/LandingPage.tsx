@@ -633,7 +633,11 @@ export function LandingPage() {
     }
   ];
 
-  const upcomingEvents = mockEvents.slice(0, 3);
+  const upcomingEvents = mockEvents
+  .filter(event => new Date(event.date) >= new Date()) // ✅ filter past events
+  .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()) // optional: order by soonest
+  .slice(0, 3); // ✅ show first 3 upcoming events
+
 
   function isVideo(heroMediaUrl: string): boolean {
     if (!heroMediaUrl) return false;
