@@ -1,8 +1,117 @@
-/* In src/index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-1: 0 100% 63%;
+  --color-2: 270 100% 63%;
+  --color-3: 210 100% 63%;
+  --color-4: 195 100% 63%;
+  --color-5: 90 100% 63%;
+}
+
 .mission-vision-title {
   font-size: 3.75rem !important; /* Matches text-6xl */
+}
+
+/* SplitScrollingFeatures Animations */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes scroll-right {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.scroll-left {
+  animation: scroll-left 60s linear infinite;
+}
+
+.scroll-right {
+  animation: scroll-right 60s linear infinite;
+}
+
+.scroll-container-top:hover .scroll-left,
+.scroll-container-bottom:hover .scroll-right {
+  animation-play-state: paused;
+}
+
+/* Testimonials Auto-Scroll */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 20s linear infinite;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* Strategic Pillars Ripple Animations */
+@keyframes ripple1 {
+  0% {
+    transform: scale(0);
+    opacity: 0.7;
+    border-width: 2px;
+  }
+  50% {
+    opacity: 0.4;
+    border-width: 1px;
+  }
+  100% {
+    transform: scale(50);
+    opacity: 0;
+    border-width: 1px;
+  }
+}
+
+@keyframes ripple2 {
+  0% {
+    transform: scale(0);
+    opacity: 0.6;
+    border-width: 2px;
+  }
+  50% {
+    opacity: 0.3;
+    border-width: 1px;
+  }
+  100% {
+    transform: scale(60);
+    opacity: 0;
+    border-width: 1px;
+  }
+}
+
+@keyframes ripple3 {
+  0% {
+    transform: scale(0);
+    opacity: 0.5;
+    border-width: 2px;
+  }
+  50% {
+    opacity: 0.2;
+    border-width: 1px;
+  }
+  100% {
+    transform: scale(70);
+    opacity: 0;
+    border-width: 1px;
+  }
 }

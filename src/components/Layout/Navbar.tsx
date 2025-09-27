@@ -19,10 +19,15 @@ import {
   Award
 } from 'lucide-react';
 import { Button } from '../ui/Button';
+import GradientText from '../../components/ui/GradientText';
 
 export function Navbar() {
   const { user, logout } = useAuth();
   const [profileName, setProfileName] = useState(user?.name || '');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   useEffect(() => {
     async function fetchProfileName() {
@@ -38,10 +43,6 @@ export function Navbar() {
     }
     fetchProfileName();
   }, [user]);
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -53,7 +54,7 @@ export function Navbar() {
     { name: 'Home', href: '/' },
     { name: 'About SPARC', href: '/about' },
     { name: 'Membership', href: '/membership' },
-    { name: 'Events', href: '/events'},
+    { name: 'Events', href: '/events' },
   ];
 
   const memberOnlyNavigation = [
@@ -61,9 +62,11 @@ export function Navbar() {
     { name: 'Careers', href: '/careers', icon: Briefcase },
   ];
 
-  const allNavigation = user 
-    ? [...publicNavigation, ...memberOnlyNavigation]
-    : publicNavigation;
+  const allNavigation = [
+    ...publicNavigation,
+    ...(user ? memberOnlyNavigation : []),
+    { name: 'Elite Members', href: '/premium-members' },
+  ];
 
   const getTierColor = (tier: string) => {
     switch (tier) {
@@ -109,11 +112,23 @@ export function Navbar() {
                     to={item.href}
                     className={`inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors ${
                       isActive
-                        ? 'border-b-2 border-blue-500 text-gray-900'
-                        : 'text-gray-500 hover:text-gray-700 hover:border-b-2 hover:border-gray-300'
-                    }`}
+                        ? 'border-b-2 border-blue-500'
+                        : 'hover:border-b-2 hover:border-gray-300'
+                    } ${item.name === 'Elite Members' ? '' : 'text-gray-500 hover:text-gray-700'}`}
+                    aria-label={item.name === 'Elite Members' ? 'Access exclusive elite member benefits' : undefined}
                   >
-                    {item.name}
+                    {item.name === 'Elite Members' ? (
+                      <GradientText
+                        colors={["#ff4f40", "#4079ff", "#6a40ff", "#ff4079", "#4030ff"]}
+                        animationSpeed={3}
+                        showBorder={false}
+                        className="inline-block text-sm font-medium"
+                      >
+                        {item.name}
+                      </GradientText>
+                    ) : (
+                      item.name
+                    )}
                   </Link>
                 );
               })}
@@ -212,14 +227,31 @@ export function Navbar() {
         <div className="md:hidden px-4 sm:px-6">
           <div className="pt-2 pb-3 space-y-1">
             {allNavigation.map((item) => {
+              const isActive = location.pathname === item.href;
               return (
                 <Link
                   key={item.name}
                   to={item.href}
-                  className="block pl-3 pr-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-50 transition-colors"
+                  className={`block pl-3 pr-4 py-2 text-base font-medium transition-colors ${
+                    isActive && item.name !== 'Elite Members'
+                      ? 'text-gray-800 bg-gray-50'
+                      : 'text-gray-500 hover:text-gray-800 hover:bg-gray-50'
+                  }`}
                   onClick={() => setIsMenuOpen(false)}
+                  aria-label={item.name === 'Elite Members' ? 'Access exclusive elite member benefits' : undefined}
                 >
-                  {item.name}
+                  {item.name === 'Elite Members' ? (
+                    <GradientText
+                      colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]}
+                      animationSpeed={3}
+                      showBorder={false}
+                      className="inline-block text-base font-medium"
+                    >
+                      {item.name}
+                    </GradientText>
+                  ) : (
+                    item.name
+                  )}
                 </Link>
               );
             })}

@@ -1,41 +1,20 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Renderer, Program, Mesh, Color, Triangle } from "ogl";
 import { Button } from "../components/ui/Button";
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from '../contexts/AuthContext';
-import gsap from 'gsap'; // Assuming GSAP is installed for animations
+import { motion, Variants } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import { ArrowRight, CheckCircle, Quote } from 'lucide-react';
 import { 
-  Lock, 
-  Users, 
-  Calendar, 
-  BookOpen, 
-  Award, 
-  CheckCircle,
-  ArrowRight,
-  Star,
-  Quote,
-  TrendingUp,
-  Globe,
-  Target,
-  Eye,
-  Lightbulb,
-  Building2,
-  Rocket,
-  GraduationCap,
-  Network,
-  Zap,
-  UserPlus,
-  Users2,
-  FileText
-} from 'lucide-react';
-import { membershipTiers, mockEvents } from '../data/mockData';
-import { motion, Variants } from 'framer-motion'; // Import for animations
-import { useInView } from 'react-intersection-observer'; // For scroll detection
+  features, missionObjectives, strategicPillars, topCards, bottomCards, 
+  testimonials, mockEvents, membershipTiers, FeatureCard, ColorKey 
+} from '../data/mockData';
 
-// Define variants with explicit typing
+// Animation Variants
 const sectionVariants: Variants = {
   hidden: { opacity: 0, y: 50 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
@@ -43,12 +22,7 @@ const sectionVariants: Variants = {
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
+  visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
 };
 
 const childVariants: Variants = {
@@ -56,13 +30,45 @@ const childVariants: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
 };
 
-interface AuroraProps {
-  colorStops?: string[];
-  amplitude?: number;
-  blend?: number;
-  speed?: number;
+// Cache utility functions
+interface CachedData {
+  data: any;
+  timestamp: number;
 }
 
+const CACHE_KEY = 'sparc_landing_data';
+const CACHE_DURATION = 24 * 60 * 60 * 1000; // 1 day in milliseconds
+
+const getCachedData = (key: string): any | null => {
+  try {
+    const cached = localStorage.getItem(key);
+    if (!cached) return null;
+    const { data, timestamp }: CachedData = JSON.parse(cached);
+    const now = new Date().getTime();
+    if (now - timestamp > CACHE_DURATION) {
+      localStorage.removeItem(key); // Clear stale cache
+      return null;
+    }
+    return data;
+  } catch (error) {
+    console.error('Error reading from localStorage:', error);
+    return null;
+  }
+};
+
+const setCachedData = (key: string, data: any) => {
+  try {
+    const cache: CachedData = {
+      data,
+      timestamp: new Date().getTime(),
+    };
+    localStorage.setItem(key, JSON.stringify(cache));
+  } catch (error) {
+    console.error('Error writing to localStorage:', error);
+  }
+};
+
+// Aurora Shader (unchanged)
 const VERTEX_SHADER = `#version 300 es
 in vec2 position;
 void main() {
@@ -145,6 +151,13 @@ void main(){
   fragColor = vec4(auroraColor * auroraAlpha, auroraAlpha);
 }
 `;
+
+interface AuroraProps {
+  colorStops?: string[];
+  amplitude?: number;
+  blend?: number;
+  speed?: number;
+}
 
 function AuroraShader({
   colorStops = ["#1e3a8a", "#3b82f6", "#1e3a8a"],
@@ -229,183 +242,37 @@ function AuroraShader({
 }
 
 // Split Scrolling Features Component
-const SplitScrollingFeatures = () => {
-  // First 9 cards for top row
-  const topCards: FeatureCard[] = [
-    {
-      icon: Globe,
-      title: "Global Prestige",
-      subtitle: "Local Impact",
-      description: "Be part of a community that connects pharma minds across continents while empowering you in your own institution or city.",
-      color: "blue"
-    },
-    {
-      icon: TrendingUp,
-      title: "Career Accelerator",
-      subtitle: "Not Just a Club",
-      description: "From bootcamps to job-matching, SPARC is designed to push your career forward, not keep you stuck in endless \"networking.\"",
-      color: "green"
-    },
-    {
-      icon: Eye,
-      title: "Industry Giants",
-      subtitle: "Front-Row Access",
-      description: "Exclusive masterclasses, summits, and panels put you face-to-face with global pharma and biotech leaders.",
-      color: "purple"
-    },
-    {
-      icon: Lightbulb,
-      title: "Innovation Labs",
-      subtitle: "Playground",
-      description: "Through SPARC Innovation Labs and hackathons, your ideas don't sit in a notebook — they become prototypes and real-world projects.",
-      color: "orange"
-    },
-    {
-      icon: UserPlus,
-      title: "Zero-Barrier Entry",
-      subtitle: "For Students",
-      description: "SPARC Genesis membership is free for students and freshers, giving you elite exposure without financial burden.",
-      color: "blue"
-    },
-    {
-      icon: Users,
-      title: "Mentorship",
-      subtitle: "That Matters",
-      description: "Personalized guidance from experienced researchers, executives, and innovators to shape your professional journey.",
-      color: "indigo"
-    },
-    {
-      icon: BookOpen,
-      title: "Knowledge Vault",
-      subtitle: "Premium Access",
-      description: "Access curated journals, case studies, whitepapers, and insights you won't find in regular classrooms.",
-      color: "yellow"
-    },
-    {
-      icon: Award,
-      title: "Recognition",
-      subtitle: "& Awards",
-      description: "Stand out with SPARC Honors — celebrate your achievements with global visibility.",
-      color: "pink"
-    },
-    {
-      icon: Target,
-      title: "R&D Opportunities",
-      subtitle: "Direct Access",
-      description: "Collaborate with peers, institutions, and corporates on funded research projects through SPARC incubators.",
-      color: "teal"
-    }
-  ];
-
-  // Next 9 cards for bottom row
-  const bottomCards: FeatureCard[] = [
-    {
-      icon: Zap,
-      title: "Resume Power-Up",
-      subtitle: "Instant Credibility",
-      description: "SPARC membership signals credibility and ambition — recruiters notice, instantly.",
-      color: "red"
-    },
-    {
-      icon: Star,
-      title: "Leadership",
-      subtitle: "Launchpad",
-      description: "Student councils, regional hubs, and advisory boards give you a voice and leadership credentials early on.",
-      color: "cyan"
-    },
-    {
-      icon: Network,
-      title: "Cross-Border",
-      subtitle: "Collaboration",
-      description: "Work with global peers and experts — SPARC is not bounded by geography, but built for worldwide impact.",
-      color: "emerald"
-    },
-    {
-      icon: Building2,
-      title: "Institutional",
-      subtitle: "Advantage",
-      description: "For colleges, SPARC boosts NAAC/NBA/NIRF metrics and employability — making students more competitive and institutions more prestigious.",
-      color: "amber"
-    },
-    {
-      icon: Building2,
-      title: "Corporate",
-      subtitle: "Gateway",
-      description: "For companies, SPARC opens access to vetted talent pools and innovation pipelines ready to deploy.",
-      color: "violet"
-    },
-    {
-      icon: FileText,
-      title: "Policy Leadership",
-      subtitle: "Thought Leadership",
-      description: "Shape the future of pharma — contribute to whitepapers, advocacy reports, and reform agendas.",
-      color: "rose"
-    },
-    {
-      icon: Calendar,
-      title: "Events",
-      subtitle: "That Matter",
-      description: "From the SPARC Global Summit to regional innovation hubs, events here create opportunities — not just photo ops.",
-      color: "lime"
-    },
-    {
-      icon: Rocket,
-      title: "Future of Pharma",
-      subtitle: "Next Decade",
-      description: "SPARC isn't about today's industry alone — it's where the next decade of healthcare innovation is being built.",
-      color: "sky"
-    },
-    {
-      icon: Users2,
-      title: "Community",
-      subtitle: "With Momentum",
-      description: "This isn't a static society — it's a movement backed by ZANE ProEd's infrastructure and global network.",
-      color: "gray"
-    }
-  ];
-
-  type ColorKey =
-    | 'blue' | 'green' | 'purple' | 'orange' | 'indigo' | 'yellow' | 'pink' | 'teal'
-    | 'red' | 'cyan' | 'emerald' | 'amber' | 'violet' | 'rose' | 'lime' | 'sky' | 'gray';
-
-  interface FeatureCard {
-    icon: any;
-    title: string;
-    subtitle: string;
-    description: string;
-    color: ColorKey;
-  }
-
+const SplitScrollingFeatures = ({ topCards, bottomCards }: { topCards: FeatureCard[], bottomCards: FeatureCard[] }) => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
+
+  const colorClasses: Record<ColorKey, { bg: string; text: string; border: string }> = {
+    blue: { bg: 'bg-blue-100', text: 'text-blue-600', border: 'hover:border-blue-300' },
+    green: { bg: 'bg-green-100', text: 'text-green-600', border: 'hover:border-green-300' },
+    purple: { bg: 'bg-purple-100', text: 'text-purple-600', border: 'hover:border-purple-300' },
+    orange: { bg: 'bg-orange-100', text: 'text-orange-600', border: 'hover:border-orange-300' },
+    indigo: { bg: 'bg-indigo-100', text: 'text-indigo-600', border: 'hover:border-indigo-300' },
+    yellow: { bg: 'bg-yellow-100', text: 'text-yellow-600', border: 'hover:border-yellow-300' },
+    pink: { bg: 'bg-pink-100', text: 'text-pink-600', border: 'hover:border-pink-300' },
+    teal: { bg: 'bg-teal-100', text: 'text-teal-600', border: 'hover:border-teal-300' },
+    red: { bg: 'bg-red-100', text: 'text-red-600', border: 'hover:border-red-300' },
+    cyan: { bg: 'bg-cyan-100', text: 'text-cyan-600', border: 'hover:border-cyan-300' },
+    emerald: { bg: 'bg-emerald-100', text: 'text-emerald-600', border: 'hover:border-emerald-300' },
+    amber: { bg: 'bg-amber-100', text: 'text-amber-600', border: 'hover:border-amber-300' },
+    violet: { bg: 'bg-violet-100', text: 'text-violet-600', border: 'hover:border-violet-300' },
+    rose: { bg: 'bg-rose-100', text: 'text-rose-600', border: 'hover:border-rose-300' },
+    lime: { bg: 'bg-lime-100', text: 'text-lime-600', border: 'hover:border-lime-300' },
+    sky: { bg: 'bg-sky-100', text: 'text-sky-600', border: 'hover:border-sky-300' },
+    gray: { bg: 'bg-gray-100', text: 'text-gray-600', border: 'hover:border-gray-400' }
+  };
 
   const renderCard = (card: FeatureCard, index: React.Key | null | undefined) => {
     const Icon = card.icon;
-    const colorClasses: Record<ColorKey, { bg: string; text: string; border: string }> = {
-      blue: { bg: 'bg-blue-100', text: 'text-blue-600', border: 'hover:border-blue-300' },
-      green: { bg: 'bg-green-100', text: 'text-green-600', border: 'hover:border-green-300' },
-      purple: { bg: 'bg-purple-100', text: 'text-purple-600', border: 'hover:border-purple-300' },
-      orange: { bg: 'bg-orange-100', text: 'text-orange-600', border: 'hover:border-orange-300' },
-      indigo: { bg: 'bg-indigo-100', text: 'text-indigo-600', border: 'hover:border-indigo-300' },
-      yellow: { bg: 'bg-yellow-100', text: 'text-yellow-600', border: 'hover:border-yellow-300' },
-      pink: { bg: 'bg-pink-100', text: 'text-pink-600', border: 'hover:border-pink-300' },
-      teal: { bg: 'bg-teal-100', text: 'text-teal-600', border: 'hover:border-teal-300' },
-      red: { bg: 'bg-red-100', text: 'text-red-600', border: 'hover:border-red-300' },
-      cyan: { bg: 'bg-cyan-100', text: 'text-cyan-600', border: 'hover:border-cyan-300' },
-      emerald: { bg: 'bg-emerald-100', text: 'text-emerald-600', border: 'hover:border-emerald-300' },
-      amber: { bg: 'bg-amber-100', text: 'text-amber-600', border: 'hover:border-amber-300' },
-      violet: { bg: 'bg-violet-100', text: 'text-violet-600', border: 'hover:border-violet-300' },
-      rose: { bg: 'bg-rose-100', text: 'text-rose-600', border: 'hover:border-rose-300' },
-      lime: { bg: 'bg-lime-100', text: 'text-lime-600', border: 'hover:border-lime-300' },
-      sky: { bg: 'bg-sky-100', text: 'text-sky-600', border: 'hover:border-sky-300' },
-      gray: { bg: 'bg-gray-100', text: 'text-gray-600', border: 'hover:border-gray-400' }
-    };
-
-    const colors = colorClasses[card.color];
+    const colors = colorClasses[card.color as ColorKey];
 
     return (
       <div 
         key={index}
-        className={`bg-white rounded-xl p-4 sm:p-6 shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-200 group ${colors.border} w-64 sm:w-80 flex-shrink-0`}
+        className={`bg-white rounded-xl p-4 sm:p-6 shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-200 group ${colors.border} w-64 sm:w-80 flex-shrink-0 feature-card-${card.color}`}
       >
         <div className="flex items-center mb-3 sm:mb-4">
           <div className={`w-8 h-8 sm:w-10 sm:h-10 ${colors.bg} rounded-full flex items-center justify-center mr-2 sm:mr-3`}>
@@ -431,63 +298,21 @@ const SplitScrollingFeatures = () => {
       animate={inView ? "visible" : "hidden"}
       className="py-12 sm:py-20 bg-gray-50 overflow-hidden"
     >
-      <style>{`
-        @keyframes scroll-left {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-100%);
-          }
-        }
-        
-        @keyframes scroll-right {
-          0% {
-            transform: translateX(-100%);
-          }
-          100% {
-            transform: translateX(0);
-          }
-        }
-        
-        .scroll-left {
-          animation: scroll-left 60s linear infinite;
-        }
-        
-        .scroll-right {
-          animation: scroll-right 60s linear infinite;
-        }
-        
-        .scroll-container-top:hover .scroll-left {
-          animation-play-state: paused;
-        }
-        
-        .scroll-container-bottom:hover .scroll-right {
-          animation-play-state: paused;
-        }
-      `}</style>
-
       <div className="max-w-full">
-        
-        {/* Top Scrolling Row - Left Direction */}
         <motion.div
           variants={childVariants}
           className="scroll-container-top mb-6 sm:mb-8 overflow-hidden"
         >
           <div className="flex scroll-left">
-            {/* First set of 9 cards */}
             <div className="flex space-x-4 sm:space-x-6 flex-shrink-0">
               {topCards.map((card, index) => renderCard(card, index))}
             </div>
-
-            {/* Duplicate set for seamless loop */}
             <div className="flex space-x-4 sm:space-x-6 flex-shrink-0 ml-4 sm:ml-6">
               {topCards.map((card, index) => renderCard(card, `duplicate-top-${index}`))}
             </div>
           </div>
         </motion.div>
 
-        {/* Center Content */}
         <motion.div
           variants={childVariants}
           className="text-center py-10 sm:py-16 px-4"
@@ -497,153 +322,94 @@ const SplitScrollingFeatures = () => {
           </h2>
         </motion.div>
 
-        {/* Bottom Scrolling Row - Right Direction */}
         <motion.div
           variants={childVariants}
           className="scroll-container-bottom mt-6 sm:mt-8 overflow-hidden"
         >
           <div className="flex scroll-right">
-            {/* First set of 9 cards */}
             <div className="flex space-x-4 sm:space-x-6 flex-shrink-0">
               {bottomCards.map((card, index) => renderCard(card, index))}
             </div>
-
-            {/* Duplicate set for seamless loop */}
             <div className="flex space-x-4 sm:space-x-6 flex-shrink-0 ml-4 sm:ml-6">
               {bottomCards.map((card, index) => renderCard(card, `duplicate-bottom-${index}`))}
             </div>
           </div>
         </motion.div>
-
       </div>
     </motion.section>
   );
 };
 
+// Landing Page Component
 export function LandingPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
-
-  // Set your hero image URL here - replace with your actual image URL
-  const heroImageUrl = ''; // Put your image URL here like: 'https://example.com/your-image.jpg'
+  const heroImageUrl = ''; // Replace with your image URL
   const heroMediaUrl = heroImageUrl;
 
-  const testimonials = [
-    {
-      name: 'Arjun Anand',
-      role: 'Final Year Pharm.D Student, Hyderabad',
-      tier: 'Genesis',
-      content: 'The live sessions with industry experts are my favorite part. It feels like having direct access to mentors who actually care about students’ growth. The case studies we worked on gave me an edge during campus placements.',
-      avatar: 'AA'
-    },
-    {
-      name: 'Keerthana Subramanian',
-      role: 'M.Pharm Student, Chennai',
-      tier: 'Genesis',
-      content: 'As someone from Tamil Nadu aiming for a clinical research career, Genesis gave me structured learning and mentorship that clarified my next steps. I even got connected with alumni working in top pharma companies.',
-      avatar: 'KS'
-    },
-    {
-      name: 'Darshan Reddy',
-      role: 'Clinical Data Management Intern, Bengaluru',
-      tier: 'Genesis',
-      content: 'Being in Bengaluru, the networking opportunities through Genesis were huge. I got to attend virtual sessions with industry leaders and it directly helped me secure my internship in clinical data management.',
-      avatar: 'DR'
-    }, 
-    {
-      name: 'Vikram Kumar',
-      role: 'BDS Student, Pune',
-      tier: 'Genesis',
-      content: 'SPARC helped me bridge the gap between academics and industry expectations. I landed a part-time internship while still in my final semester — something I never thought was possible!',
-      avatar: 'VK'
+  // State for cached data
+  const [cachedData, setCachedData] = useState({
+    features,
+    missionObjectives,
+    strategicPillars,
+    topCards,
+    bottomCards,
+    testimonials,
+    mockEvents,
+    membershipTiers,
+  });
+
+  useEffect(() => {
+    // Check for cached data
+    const cached = getCachedData(CACHE_KEY);
+    if (cached) {
+      setCachedData(cached);
+    } else {
+      // Cache the imported mock data
+      setCachedData({
+        features,
+        missionObjectives,
+        strategicPillars,
+        topCards,
+        bottomCards,
+        testimonials,
+        mockEvents,
+        membershipTiers,
+      });
     }
+  }, []);
+
+  // Currency and Pricing Data
+  const [selectedCurrency, setSelectedCurrency] = useState<string>('INR');
+  const currencyOptions = [
+    { value: 'INR', label: 'INR' },
+    { value: 'USD', label: 'USD' },
+    { value: 'AED', label: 'AED' },
+    { value: 'SAR', label: 'SAUDI RIYAL' },
+    { value: 'OMR', label: 'OMAN RIYAL' },
+    { value: 'EUR', label: 'EUROS' },
+    { value: 'AUD', label: 'AUS DOLLARS' },
   ];
 
-  const features = [
-    {
-      icon: Users,
-      title: 'Global Community',
-      description: 'Connect with pharmaceutical professionals, researchers, and students worldwide'
-    },
-    {
-      icon: TrendingUp,
-      title: 'Career Advancement',
-      description: 'Access exclusive opportunities, mentorship, and career development resources'
-    },
-    {
-      icon: Globe,
-      title: 'Industry Insights',
-      description: 'Stay ahead with cutting-edge research, trends, and market intelligence'
-    },
-    {
-      icon: Target,
-      title: 'Targeted Learning',
-      description: 'Participate in specialized programs tailored to your career stage and interests'
-    }
-  ];
+  const premiumPrices: { [key: string]: string } = {
+    INR: '₹5000 /year',
+    USD: '$199 /year',
+    EUR: '€179 /year',
+    AED: 'AED 599 /year',
+    SAR: 'SAR 599 /year',
+    OMR: 'OMR 59 /year',
+    AUD: 'AUD 299 /year',
+  };
 
-  const missionObjectives = [
-    {
-      icon: UserPlus,
-      title: 'Empower Talent',
-      description: 'Resources, events, and mentorship programs'
-    },
-    {
-      icon: Building2,
-      title: 'Build Collaborations',
-      description: 'Academia–industry–regulatory partnerships'
-    },
-    {
-      icon: Rocket,
-      title: 'Fuel Growth',
-      description: 'Career advancement and scientific progress worldwide'
-    }
-  ];
-
-  const strategicPillars = [
-    {
-      icon: BookOpen,
-      title: 'Knowledge Dissemination',
-      description: 'Webinars, panels, thought leaders'
-    },
-    {
-      icon: GraduationCap,
-      title: 'Competency Building',
-      description: 'Advanced training, workshops, certifications'
-    },
-    {
-      icon: Lightbulb,
-      title: 'Innovation Incubation',
-      description: 'Hackathons, accelerators, prototypes'
-    },
-    {
-      icon: TrendingUp,
-      title: 'Career Propulsion',
-      description: 'Mentorship, career expos, partnerships'
-    },
-    {
-      icon: Users2,
-      title: 'Leadership Cultivation',
-      description: 'Councils, regional hubs, forums'
-    },
-    {
-      icon: FileText,
-      title: 'Policy Influence',
-      description: 'Whitepapers, advocacy, reforms'
-    }
-  ];
-
-  const upcomingEvents = mockEvents
-  .filter(event => new Date(event.date) >= new Date()) // ✅ filter past events
-  .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()) // optional: order by soonest
-  .slice(0, 3); // ✅ show first 3 upcoming events
-
-
-  function isVideo(heroMediaUrl: string): boolean {
-    if (!heroMediaUrl) return false;
-    const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov'];
-    return videoExtensions.some(ext => heroMediaUrl.toLowerCase().endsWith(ext));
-  }
+  const vipPrices: { [key: string]: string } = {
+    INR: '₹15,000 /year',
+    USD: '$599 /year',
+    EUR: '€539 /year',
+    AED: 'AED 1,799 /year',
+    SAR: 'SAR 1,799 /year',
+    OMR: 'OMR 179 /year',
+    AUD: 'AUD 899 /year',
+  };
 
   const [heroRef, heroInView] = useInView({ triggerOnce: true, threshold: 0.3 });
   const [visionRef, visionInView] = useInView({ triggerOnce: true, threshold: 0.2 });
@@ -652,9 +418,20 @@ export function LandingPage() {
   const [eventsRef, eventsInView] = useInView({ triggerOnce: true, threshold: 0.2 });
   const [testimonialsRef, testimonialsInView] = useInView({ triggerOnce: true, threshold: 0.2 });
 
+  const upcomingEvents = cachedData.mockEvents
+    .filter(event => new Date(event.date) >= new Date())
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    .slice(0, 3);
+
+  function isVideo(heroMediaUrl: string): boolean {
+    if (!heroMediaUrl) return false;
+    const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov'];
+    return videoExtensions.some(ext => heroMediaUrl.toLowerCase().endsWith(ext));
+  }
+
   return (
     <div className="min-h-screen">
-      {/* Hero Section - Full Height Split Layout */}
+      {/* Hero Section */}
       <motion.section
         ref={heroRef}
         variants={sectionVariants}
@@ -662,14 +439,7 @@ export function LandingPage() {
         animate={heroInView ? "visible" : "hidden"}
         className="bg-black text-white min-h-screen flex items-center justify-center relative overflow-hidden"
       >
-        {/* Aurora Shader Background */}
-        <AuroraShader
-          colorStops={["#1e3a8a", "#3b82f6", "#1e3a8a"]}
-          amplitude={1.2}
-          blend={0.6}
-          speed={0.8}
-        />
-        {/* Optional Noise Overlay */}
+        <AuroraShader />
         <div
           className="absolute inset-0"
           style={{
@@ -680,37 +450,22 @@ export function LandingPage() {
         ></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 relative z-10">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
-            {/* Right Side - Content */}
             <div className="order-1 lg:order-2 col-span-2">
               <div className="text-left">
-                {/* Large SPARC Title */}
                 <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-bold mb-6 sm:mb-8 text-white leading-none">
                   SPARC
                 </h1>
-                {/* Subtitle */}
                 <h2 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl text-gray-200 mb-4 sm:mb-6 font-semibold">
                   Society For Pharmacy Advancement Research & Careers
                 </h2>
-                {/* Description */}
                 <p className="text-sm sm:text-lg lg:text-2xl text-gray-300 mb-6 sm:mb-8 leading-relaxed">
                   The Gold Standard for Pharma Collaboration.
                 </p>
-                {/* Buttons */}
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                   {user ? (
                     <Button
                       size="sm"
-                      className="
-                        bg-gradient-to-r from-blue-600 to-blue-700 
-                        text-white font-semibold
-                        shadow-md
-                        hover:from-blue-700 hover:to-blue-800
-                        hover:shadow-xl hover:scale-105
-                        transition-all duration-300 ease-in-out 
-                        rounded-xl
-                        group
-                        py-2 sm:py-3
-                      "
+                      className="bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold shadow-md hover:from-blue-700 hover:to-blue-800 hover:shadow-xl hover:scale-105 transition-all duration-300 ease-in-out rounded-xl group py-2 sm:py-3"
                       onClick={() => navigate("/dashboard")}
                     >
                       Go to Dashboard
@@ -721,18 +476,7 @@ export function LandingPage() {
                       <Link to="/sparcform">
                         <Button
                           size="sm"
-                          className="
-                            bg-gradient-to-r from-blue-500 to-blue-700 
-                            text-white font-semibold
-                            shadow-md
-                            hover:from-blue-600 hover:to-blue-800
-                            hover:shadow-xl hover:scale-105
-                            transition-all duration-300 ease-in-out 
-                            rounded-xl
-                            group
-                            py-2 sm:py-3
-                            w-full sm:w-auto
-                          "
+                          className="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold shadow-md hover:from-blue-600 hover:to-blue-800 hover:shadow-xl hover:scale-105 transition-all duration-300 ease-in-out rounded-xl group py-2 sm:py-3 w-full sm:w-auto"
                         >
                           Join SPARC Today
                           <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform duration-300" />
@@ -741,20 +485,7 @@ export function LandingPage() {
                       <Link to="/about">
                         <Button
                           size="sm"
-                          className="
-                            bg-blue-100 
-                            text-blue-700 font-semibold
-                            border border-blue-700
-                            shadow-md
-                            hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-800 
-                            hover:text-white
-                            hover:shadow-xl hover:scale-105
-                            transition-all duration-300 ease-in-out 
-                            rounded-xl
-                            group
-                            py-2 sm:py-3
-                            w-full sm:w-auto
-                          "
+                          className="bg-blue-100 text-blue-700 font-semibold border border-blue-700 shadow-md hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-800 hover:text-white hover:shadow-xl hover:scale-105 transition-all duration-300 ease-in-out rounded-xl group py-2 sm:py-3 w-full sm:w-auto"
                         >
                           Learn More
                           <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform duration-300" />
@@ -779,7 +510,6 @@ export function LandingPage() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-16 items-center">
-            {/* Vision - Left Side */}
             <motion.div variants={childVariants}>
               <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
                 Our Vision
@@ -788,8 +518,6 @@ export function LandingPage() {
                 To emerge as the <span className="font-bold text-blue-600">global force</span> uniting pharma education, research, and industry application — shaping the future of healthcare.
               </p>
             </motion.div>
-
-            {/* Mission Objectives - Right Side */}
             <motion.div variants={childVariants}>
               <h3 className="text-xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">
                 Mission Objectives
@@ -800,7 +528,7 @@ export function LandingPage() {
                 animate={visionInView ? "visible" : "hidden"}
                 className="space-y-4 sm:space-y-6"
               >
-                {missionObjectives.map((objective, index) => {
+                {cachedData.missionObjectives.map((objective, index) => {
                   const Icon = objective.icon;
                   return (
                     <motion.div
@@ -827,7 +555,8 @@ export function LandingPage() {
           </div>
         </div>
       </motion.section>
-      
+
+      {/* Strategic Pillars Section */}
       <motion.section
         ref={pillarsRef}
         variants={sectionVariants}
@@ -835,399 +564,185 @@ export function LandingPage() {
         animate={pillarsInView ? "visible" : "hidden"}
         className="py-12 sm:py-20 bg-gradient-to-br from-black via-blue-950 to-blue-900 relative overflow-hidden"
       >
-  
-        {/* Animated Water Drop Ripple Waves */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-          {/* Wave Ring 1 */}
-          <div className="absolute w-4 h-4 border-2 border-gray-400/30 rounded-full" style={{
-            animation: 'ripple1 8s linear infinite'
-          }}></div>
-          
-          {/* Wave Ring 2 */}
-          <div className="absolute w-4 h-4 border-2 border-gray-500/25 rounded-full" style={{
-            animation: 'ripple2 8s linear infinite 2s'
-          }}></div>
-          
-          {/* Wave Ring 3 */}
-          <div className="absolute w-4 h-4 border-2 border-gray-600/20 rounded-full" style={{
-            animation: 'ripple3 8s linear infinite 4s'
-          }}></div>
+          <div className="absolute w-4 h-4 border-2 border-gray-400/30 rounded-full" style={{ animation: 'ripple1 8s linear infinite' }}></div>
+          <div className="absolute w-4 h-4 border-2 border-gray-500/25 rounded-full" style={{ animation: 'ripple2 8s linear infinite 2s' }}></div>
+          <div className="absolute w-4 h-4 border-2 border-gray-600/20 rounded-full" style={{ animation: 'ripple3 8s linear infinite 4s' }}></div>
         </div>
 
-        {/* CSS Keyframes for cleaner water ripples */}
-        <style>{`
-          @keyframes ripple1 {
-            0% {
-              transform: scale(0);
-              opacity: 0.7;
-              border-width: 2px;
-            }
-            50% {
-              opacity: 0.4;
-              border-width: 1px;
-            }
-            100% {
-              transform: scale(50);
-              opacity: 0;
-              border-width: 1px;
-            }
-          }
-          
-          @keyframes ripple2 {
-            0% {
-              transform: scale(0);
-              opacity: 0.6;
-              border-width: 2px;
-            }
-            50% {
-              opacity: 0.3;
-              border-width: 1px;
-            }
-            100% {
-              transform: scale(60);
-              opacity: 0;
-              border-width: 1px;
-            }
-          }
-          
-          @keyframes ripple3 {
-            0% {
-              transform: scale(0);
-              opacity: 0.5;
-              border-width: 2px;
-            }
-            50% {
-              opacity: 0.2;
-              border-width: 1px;
-            }
-            100% {
-              transform: scale(70);
-              opacity: 0;
-              border-width: 1px;
-            }
-          }
-        `}</style>
-        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="block lg:hidden">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl sm:text-3xl font-bold text-white">
+                Strategic Pillars
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {cachedData.strategicPillars.map((pillar, index) => {
+                const Icon = pillar.icon;
+                return (
+                  <div
+                    key={index}
+                    className="bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-xl p-4 hover:-translate-y-1 hover:bg-opacity-30 transition-all duration-300 border border-gray-200 border-opacity-20"
+                  >
+                    <div className="flex items-center mb-2">
+                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2">
+                        <Icon className="h-4 w-4 text-blue-600" />
+                      </div>
+                      <h3 className="text-base font-bold text-white">
+                        {pillar.title}
+                      </h3>
+                    </div>
+                    <p className="text-gray-300 text-sm">
+                      {pillar.description}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
 
-        {/* Mobile-first layout */}
-<div className="block lg:hidden">
-  {/* Central Title for Mobile */}
-  <div className="text-center mb-8">
-    <h2 className="text-2xl sm:text-3xl font-bold text-white">
-      Strategic Pillars
-    </h2>
-  </div>
-
-  {/* Grid layout for mobile */}
-  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-    {strategicPillars.map((pillar, index) => (
-      <div key={index} className="bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-xl p-4 hover:-translate-y-1 hover:bg-opacity-30 transition-all duration-300 border border-gray-200 border-opacity-20">
-        <h3 className="text-base font-bold text-white mb-2">
-          {pillar.title}
-        </h3>
-        <p className="text-gray-300 text-sm">
-          {pillar.description}
-        </p>
-      </div>
-    ))}
-  </div>
-</div>
-
-{/* Desktop circular layout */}
-<div className="hidden lg:block">
-  {/* Central Title */}
-  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 text-center bg-gray-900 bg-opacity-20 backdrop-blur-md px-8 py-4 rounded-lg border border-gray-200 border-opacity-20">
-    <h2 className="text-4xl md:text-5xl font-bold text-white">
-      Strategic Pillars
-    </h2>
-  </div>
-
-  {/* Pillars arranged in a circular pattern */}
-  <div className="relative z-20 min-h-[700px]">
-    
-    {/* Top Row Pillars */}
-    <div className="absolute top-8 left-1/4 transform -translate-x-1/2">
-      <div className="group bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-xl p-6 hover:-translate-y-2 hover:bg-opacity-30 transition-all duration-300 border border-gray-200 border-opacity-20 w-72">
-        <h3 className="text-xl font-bold text-white mb-3">
-          Knowledge Dissemination
-        </h3>
-        <p className="text-gray-300">
-          Webinars, panels, thought leaders
-        </p>
-      </div>
-    </div>
-
-    <div className="absolute top-8 right-1/4 transform translate-x-1/2">
-      <div className="group bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-xl p-6 hover:-translate-y-2 hover:bg-opacity-30 transition-all duration-300 border border-gray-200 border-opacity-20 w-72">
-        <h3 className="text-xl font-bold text-white mb-3">
-          Competency Building
-        </h3>
-        <p className="text-gray-300">
-          Advanced training, workshops, certifications
-        </p>
-      </div>
-    </div>
-
-    {/* Middle Row Pillars */}
-    <div className="absolute top-1/2 left-0 transform -translate-y-1/2">
-      <div className="group bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-xl p-6 hover:-translate-y-2 hover:bg-opacity-30 transition-all duration-300 border border-gray-200 border-opacity-20 w-72">
-        <h3 className="text-xl font-bold text-white mb-3">
-          Innovation Incubation
-        </h3>
-        <p className="text-gray-300">
-          Hackathons, accelerators, prototypes
-        </p>
-      </div>
-    </div>
-
-    <div className="absolute top-1/2 right-0 transform -translate-y-1/2">
-      <div className="group bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-xl p-6 hover:-translate-y-2 hover:bg-opacity-30 transition-all duration-300 border border-gray-200 border-opacity-20 w-72">
-        <h3 className="text-xl font-bold text-white mb-3">
-          Career Propulsion
-        </h3>
-        <p className="text-gray-300">
-          Mentorship, career expos, partnerships
-        </p>
-      </div>
-    </div>
-
-    {/* Bottom Row Pillars */}
-    <div className="absolute bottom-8 left-1/4 transform -translate-x-1/2">
-      <div className="group bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-xl p-6 hover:-translate-y-2 hover:bg-opacity-30 transition-all duration-300 border border-gray-200 border-opacity-20 w-72">
-        <h3 className="text-xl font-bold text-white mb-3">
-          Leadership Cultivation
-        </h3>
-        <p className="text-gray-300">
-          Councils, regional hubs, forums
-        </p>
-      </div>
-    </div>
-
-    <div className="absolute bottom-8 right-1/4 transform translate-x-1/2">
-      <div className="group bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-xl p-6 hover:-translate-y-2 hover:bg-opacity-30 transition-all duration-300 border border-gray-200 border-opacity-20 w-72">
-        <h3 className="text-xl font-bold text-white mb-3">
-          Policy Influence
-        </h3>
-        <p className="text-gray-300">
-          Whitepapers, advocacy, reforms
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
+          <div className="hidden lg:block">
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 text-center bg-gray-900 bg-opacity-20 backdrop-blur-md px-8 py-4 rounded-lg border border-gray-200 border-opacity-20">
+              <h2 className="text-4xl md:text-5xl font-bold text-white">
+                Strategic Pillars
+              </h2>
+            </div>
+            <div className="relative z-20 min-h-[700px]">
+              {cachedData.strategicPillars.map((pillar, index) => {
+                const Icon = pillar.icon;
+                const positions = [
+                  { top: '8', left: '1/4', transform: '-translate-x-1/2' },
+                  { top: '8', right: '1/4', transform: 'translate-x-1/2' },
+                  { top: '1/2', left: '0', transform: '-translate-y-1/2' },
+                  { top: '1/2', right: '0', transform: '-translate-y-1/2' },
+                  { bottom: '8', left: '1/4', transform: '-translate-x-1/2' },
+                  { bottom: '8', right: '1/4', transform: 'translate-x-1/2' },
+                ];
+                const pos = positions[index];
+                return (
+                  <div
+                    key={index}
+                    className={`absolute ${pos.top ? `top-${pos.top}` : ''} ${pos.bottom ? `bottom-${pos.bottom}` : ''} ${pos.left ? `left-${pos.left}` : ''} ${pos.right ? `right-${pos.right}` : ''} transform ${pos.transform}`}
+                  >
+                    <div className="group bg-gray-900 bg-opacity-20 backdrop-blur-md rounded-xl p-6 hover:-translate-y-2 hover:bg-opacity-30 transition-all duration-300 border border-gray-200 border-opacity-20 w-72">
+                      <div className="flex items-center mb-3">
+                        <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2">
+                          <Icon className="h-4 w-4 text-blue-600" />
+                        </div>
+                        <h3 className="text-xl font-bold text-white">
+                          {pillar.title}
+                        </h3>
+                      </div>
+                      <p className="text-gray-300">
+                        {pillar.description}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </motion.section>
 
-      {/* Split Scrolling Features Section - Integrated Here */}
-      <SplitScrollingFeatures />
+      {/* Split Scrolling Features Section */}
+      <SplitScrollingFeatures topCards={cachedData.topCards} bottomCards={cachedData.bottomCards} />
 
       {/* Membership Tiers Section */}
-      <motion.section
-        ref={membershipRef}
-        variants={sectionVariants}
-        initial="hidden"
-        animate={membershipInView ? "visible" : "hidden"}
-        className="py-12 sm:py-20 bg-gradient-to-br from-black via-blue-950 to-blue-900"
-      >
+      <section className="py-12 sm:py-20 bg-gradient-to-br from-black via-blue-950 to-blue-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            variants={childVariants}
-            className="text-center mb-12 sm:mb-16"
-          >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">
-              Membership Tiers
-            </h2>
+          <div className="text-center mb-16 sm:mb-20">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-6">
+              SPARC Membership Tiers
+            </h1>
             <p className="text-base sm:text-xl text-white max-w-4xl mx-auto">
-              SPARC's tiered structure ensures accessibility while rewarding commitment, with scalable benefits aligned to career stages.
+              SPARC is a professional networking platform dedicated to advancing pharmaceutical innovations, clinical research, and healthcare development. Choose from our Genesis (Free), Premium, and VIP membership plans designed for professionals at every career stage.
             </p>
-          </motion.div>
-
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate={membershipInView ? "visible" : "hidden"}
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8"
-          >
-            {/* SPARC Genesis */}
-            <motion.div variants={childVariants}>
-              <Card className="bg-white bg-opacity-0 backdrop-blur-md shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-transform transition-shadow duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] relative border border-blue-800 rounded-lg">
-                <CardHeader className="text-center pb-3 sm:pb-4">
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-green-100 bg-opacity-0 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                    <Users className="w-6 h-6 sm:w-8 sm:h-8 text-green-600" />
-                  </div>
-                  <CardTitle>
-                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
-                      SPARC Genesis
-                    </h3>
-                    <p className="text-xs sm:text-sm text-gray-200 font-normal mb-2">Students & Early-Career</p>
-                    <div className="text-2xl sm:text-3xl font-bold text-white mb-1">FREE</div>
-                    <span className="bg-green-100 bg-opacity-80 text-green-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
-                      Complimentary
-                    </span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="mb-4 sm:mb-6">
-                    <p className="text-xs sm:text-sm text-gray-200 mb-3 sm:mb-4">
-                      <strong>Eligibility:</strong> Undergraduates, postgraduates, and professionals with 0–1 years of experience.
-                    </p>
-                    <h4 className="font-semibold text-white mb-2 sm:mb-3 text-sm sm:text-base">Core Benefits:</h4>
-                    <ul className="space-y-2 mb-4 sm:mb-6">
-                      <li className="flex items-start">
-                        <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 mr-2 mt-1 flex-shrink-0" />
-                        <span className="text-xs sm:text-sm text-gray-200">Full participation in student-centric activities</span>
-                      </li>
-                      <li className="flex items-start">
-                        <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 mr-2 mt-1 flex-shrink-0" />
-                        <span className="text-xs sm:text-sm text-gray-200">Career bootcamps and skill-building sessions</span>
-                      </li>
-                      <li className="flex items-start">
-                        <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 mr-2 mt-1 flex-shrink-0" />
-                        <span className="text-xs sm:text-sm text-gray-200">Networking cohorts and research presentations</span>
-                      </li>
-                    </ul>
-                    <div className="bg-green-50 bg-opacity-80 p-2 sm:p-3 rounded-lg text-center border border-green-200">
-                      <p className="text-green-700 text-xs sm:text-sm font-medium">
-                        Build foundational skills and network
-                      </p>
-                    </div>
-                  </div>
-                  {!user && (
-                    <Link to="/sparcform" state={{ selectedTier: 'genesis' }}>
-                      <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-semibold text-sm sm:text-base">
-                        Get Started Free
-                      </Button>
-                    </Link>
-                  )}
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* SPARC Professional */}
-            <motion.div variants={childVariants}>
-              <Card className="bg-white bg-opacity-0 backdrop-blur-md shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-transform transition-shadow duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] relative border border-blue-800 rounded-lg">
-                <div className="absolute top-4 right-4 bg-gray-600 text-white px-2 py-1 rounded-full text-xs font-medium">
-                  Coming Soon
-                </div>
-                {/* Centered Lock Icon */}
-                <div className="absolute inset-0 flex items-center justify-center z-20">
-                  <div>
-                   
-                  </div>
-                </div>
-                <CardHeader className="text-center pb-3 sm:pb-4 relative z-30">
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-100 bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                    <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
-                  </div>
-                  <CardTitle>
-                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
-                      SPARC Professional
-                    </h3>
-                    <p className="text-xs sm:text-sm text-gray-200 font-normal mb-2">Mid-to-Senior Level</p>
-                    <div className="text-2xl sm:text-3xl font-bold text-white mb-1">$199</div>
-                    <span className="bg-blue-100 bg-opacity-80 text-blue-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
-                      Annual Subscription
-                    </span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="relative z-30">
-                  <div className="mb-4 sm:mb-6">
-                    <p className="text-xs sm:text-sm text-gray-200 mb-3 sm:mb-4">
-                      <strong>Eligibility:</strong> Mid-to-senior level pharmaceutical professionals.
-                    </p>
-                    <h4 className="font-semibold text-white mb-2 sm:mb-3 text-sm sm:text-base">Core Benefits:</h4>
-                    <ul className="space-y-2 mb-4 sm:mb-6">
-                      <li className="flex items-start">
-                        <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-blue-500 mr-2 mt-1 flex-shrink-0" />
-                        <span className="text-xs sm:text-sm text-gray-200">Executive masterclasses by industry pioneers</span>
-                      </li>
-                      <li className="flex items-start">
-                        <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-blue-500 mr-2 mt-1 flex-shrink-0" />
-                        <span className="text-xs sm:text-sm text-gray-200">Premium networking and international symposia</span>
-                      </li>
-                      <li className="flex items-start">
-                        <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-blue-500 mr-2 mt-1 flex-shrink-0" />
-                        <span className="text-xs sm:text-sm text-gray-200">Collaborative research and ZANE publications</span>
-                      </li>
-                    </ul>
-                    <div className="bg-blue-50 bg-opacity-80 p-2 sm:p-3 rounded-lg text-center border border-blue-200">
-                      <p className="text-blue-700 text-xs sm:text-sm font-medium">
-                        Advance your career with premium access
-                      </p>
-                    </div>
-                  </div>
-                  <Button className="w-full bg-gray-400 text-gray-700 py-2 rounded-lg font-semibold cursor-not-allowed text-sm sm:text-base" disabled>
-                    Coming Soon
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* SPARC Fellows */}
-            <motion.div variants={childVariants}>
-              <Card className="bg-white bg-opacity-0 backdrop-blur-md shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-transform transition-shadow duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] relative border border-blue-800 rounded-lg">
-                <div className="absolute top-4 right-4 bg-gray-600 text-white px-2 py-1 rounded-full text-xs font-medium">
-                  Coming Soon
-                </div>
-                {/* Centered Lock Icon */}
-                <div className="absolute inset-0 flex items-center justify-center z-20">
-                  <div>
-                   
-                  </div>
-                </div>
-                <CardHeader className="text-center pb-3 sm:pb-4 relative z-30">
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-purple-100 bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                    <Award className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600" />
-                  </div>
-                  <CardTitle>
-                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
-                      SPARC Fellows
-                    </h3>
-                    <p className="text-xs sm:text-sm text-gray-200 font-normal mb-2">Elite Leadership</p>
-                    <div className="text-2xl sm:text-3xl font-bold text-white mb-1">Exclusive</div>
-                    <span className="bg-purple-100 bg-opacity-80 text-purple-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
-                      Invitation-Only
-                    </span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="relative z-30">
-                  <div className="mb-4 sm:mb-6">
-                    <p className="text-xs sm:text-sm text-gray-200 mb-3 sm:mb-4">
-                      <strong>Eligibility:</strong> C-suite executives, renowned researchers, and influential academics.
-                    </p>
-                    <h4 className="font-semibold text-white mb-2 sm:mb-3 text-sm sm:text-base">Premium Privileges:</h4>
-                    <ul className="space-y-2 mb-4 sm:mb-6">
-                      <li className="flex items-start">
-                        <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-purple-500 mr-2 mt-1 flex-shrink-0" />
-                        <span className="text-xs sm:text-sm text-gray-200">Advisory board seats for strategic influence</span>
-                      </li>
-                      <li className="flex items-start">
-                        <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-purple-500 mr-2 mt-1 flex-shrink-0" />
-                        <span className="text-xs sm:text-sm text-gray-200">SPARC Fellow designation with visibility</span>
-                      </li>
-                      <li className="flex items-start">
-                        <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-purple-500 mr-2 mt-1 flex-shrink-0" />
-                        <span className="text-xs sm:text-sm text-gray-200">Thought leadership and high-level discourse</span>
-                      </li>
-                    </ul>
-                    <div className="bg-purple-50 bg-opacity-80 p-2 sm:p-3 rounded-lg text-center border border-purple-200">
-                      <p className="text-purple-700 text-xs sm:text-sm font-medium">
-                        Shape the future of pharmaceutical innovation
-                      </p>
-                    </div>
-                  </div>
-                  <Button className="w-full bg-gray-400 text-gray-700 py-2 rounded-lg font-semibold cursor-not-allowed text-sm sm:text-base" disabled>
-                    Coming Soon
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </motion.div>
+          </div>
+         
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12">
+            {cachedData.membershipTiers.map((tier, index) => {
+              const Icon = tier.icon;
+              const price = tier.name === 'SPARC Genesis' ? tier.price : tier.name === 'SPARC Premium' ? premiumPrices[selectedCurrency] : vipPrices[selectedCurrency];
+              return (
+                <article key={index} itemScope itemType="https://schema.org/Service">
+                  <Card className="bg-gradient-to-br from-gray-900 via-blue-950 to-black backdrop-blur-md shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-transform transition-shadow duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] relative border border-blue-800 rounded-lg">
+                    <CardHeader className="text-center pb-4 sm:pb-6 relative z-30">
+                      <div className={`w-12 h-12 sm:w-16 sm:h-16 bg-${tier.color}-100 bg-opacity-0 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6`}>
+                        <Icon className={`w-6 h-6 sm:w-8 sm:h-8 text-${tier.color}-600`} />
+                      </div>
+                      <CardTitle>
+                        <h2 itemProp="name" className={`text-xl sm:text-4xl font-bold text-${tier.color}-600 mb-3`}>
+                          {tier.name}
+                        </h2>
+                        <p className="text-xs sm:text-sm text-gray-200 font-normal mb-3">{tier.description}</p>
+                        <div className="text-2xl sm:text-3xl font-bold text-white mb-2" itemProp="offers" itemScope itemType="https://schema.org/Offer">
+                          <span itemProp="price">{price.replace('/year', '')}</span>
+                          <span itemProp="priceSpecification">/year</span>
+                        </div>
+                        <span className={`bg-${tier.color}-100 bg-opacity-0 text-${tier.color}-700 px-3 py-1 rounded-full text-xs sm:text-sm font-medium`}>
+                          {tier.name === 'SPARC Genesis' ? 'Complimentary' : tier.name === 'SPARC Premium' ? 'Annual Subscription' : 'Invitation-Only'}
+                        </span>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-6 relative z-30">
+                      <div className="mb-6 sm:mb-8">
+                        <p className="text-xs sm:text-sm text-gray-200 mb-4 sm:mb-6">
+                          <strong>Eligibility:</strong> {tier.eligibility}
+                        </p>
+                        <h3 className="font-semibold text-white mb-3 sm:mb-4 text-sm sm:text-base">Core Benefits:</h3>
+                        <ul className="space-y-3 mb-6 sm:mb-8" itemProp="features">
+                          {tier.benefits.map((benefit, idx) => (
+                            <li key={idx} className="flex items-start">
+                              <CheckCircle className={`h-3 w-3 sm:h-4 sm:w-4 text-${tier.color}-500 mr-2 mt-1 flex-shrink-0`} />
+                              <span className="text-xs sm:text-sm text-gray-200">{benefit}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        <div className={`bg-${tier.color}-50 bg-opacity-0 p-3 sm:p-4 rounded-lg text-center border border-${tier.color}-200`}>
+                          <p className={`text-${tier.color}-500 text-xs sm:text-lg font-medium`}>
+                            {tier.name === 'SPARC Genesis' ? 'Kickstart your career with exclusive opportunities' : tier.name === 'SPARC Premium' ? 'Unlock advanced opportunities for growth' : 'Elite Access & Opportunities for Top-Tier Professionals'}
+                          </p>
+                        </div>
+                      </div>
+                      {!user && tier.name === 'SPARC Genesis' && (
+                        <Link to="/sparcform" state={{ selectedTier: 'genesis' }}>
+                          <Button className={`w-full bg-${tier.color}-600 hover:bg-${tier.color}-700 text-white py-3 rounded-lg font-semibold text-sm sm:text-base`}>
+                            Get Started Free
+                          </Button>
+                        </Link>
+                      )}
+                      {!user && tier.name === 'SPARC Premium' && (
+                        <a
+                          href="https://pages.razorpay.com/pl_RMEa6ViiASX7Zq/view"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label="Subscribe to SPARC Premium membership"
+                        >
+                          <Button className={`w-full bg-${tier.color}-600 hover:bg-${tier.color}-700 text-white py-3 rounded-lg font-semibold text-sm sm:text-base`}>
+                            Subscribe
+                          </Button>
+                        </a>
+                      )}
+                      {tier.name === 'SPARC VIP' && (
+                        <Button
+                          className={`w-full bg-${tier.color}-600 hover:bg-${tier.color}-500 text-white py-3 rounded-lg font-semibold text-sm sm:text-base`}
+                          onClick={() => window.open("https://mail.google.com/mail/?view=cm&fs=1&to=support@zanepreod.com", "_blank")}
+                        >
+                          Contact Us
+                        </Button>
+                      )}
+                    </CardContent>
+                  </Card>
+                </article>
+              );
+            })}
+          </div>
         </div>
-      </motion.section>
+      </section>
 
-      {/* Upcoming Events Section - Simplified */}
+      {/* Upcoming Events Section */}
       <motion.section
         ref={eventsRef}
         variants={sectionVariants}
@@ -1254,7 +769,6 @@ export function LandingPage() {
               </Button>
             </Link>
           </motion.div>
-
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -1263,9 +777,7 @@ export function LandingPage() {
           >
             {upcomingEvents.map((event, index) => (
               <motion.div variants={childVariants} key={event.id}>
-                <Card 
-                  className="bg-white shadow-md"
-                >
+                <Card className="bg-white shadow-md">
                   <CardHeader>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-xs sm:text-sm font-medium text-white bg-blue-500 px-2 sm:px-3 py-1 rounded-full">
@@ -1291,7 +803,7 @@ export function LandingPage() {
                         {event.registered}/{event.capacity} registered
                       </span>
                       <Link to={`/events/${event.id}`}>
-                       
+                        {/* Add button or link content if needed */}
                       </Link>
                     </div>
                   </CardContent>
@@ -1302,7 +814,7 @@ export function LandingPage() {
         </div>
       </motion.section>
 
-      {/* Testimonials Section - Auto Scrolling with Dark Theme */}
+      {/* Testimonials Section */}
       <motion.section
         ref={testimonialsRef}
         variants={sectionVariants}
@@ -1322,30 +834,22 @@ export function LandingPage() {
               Hear from professionals who have transformed their careers with SPARC
             </p>
           </motion.div>
-          
-          {/* Auto-scrolling container */}
           <motion.div
             variants={childVariants}
             className="relative overflow-hidden"
           >
             <div className="flex animate-scroll space-x-4 sm:space-x-6">
-              {/* Duplicate testimonials for seamless loop */}
-              {[...testimonials, ...testimonials].map((testimonial, index) => (
+              {[...cachedData.testimonials, ...cachedData.testimonials].map((testimonial, index) => (
                 <div
                   key={index}
                   className="flex-shrink-0 w-64 h-72 sm:w-80 sm:h-80 bg-transparent rounded-lg p-4 sm:p-6 flex flex-col justify-between border border-gray-200 opacity-90"
                 >
-                  {/* Quote Icon */}
                   <div className="mb-3 sm:mb-4">
                     <Quote className="h-6 w-6 sm:h-8 sm:w-8 text-gray-300" />
                   </div>
-                  
-                  {/* Testimonial Content */}
                   <p className="text-white text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6 flex-grow text-center">
                     "{testimonial.content}"
                   </p>
-                  
-                  {/* Author Info */}
                   <div className="flex items-center">
                     <div className="h-8 w-8 sm:h-10 sm:w-10 bg-gray-600 rounded-full flex items-center justify-center mr-2 sm:mr-3">
                       <span className="text-xs sm:text-sm font-medium text-white">
@@ -1370,25 +874,6 @@ export function LandingPage() {
           </motion.div>
         </div>
       </motion.section>
-
-      <style>{`
-        @keyframes scroll {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-        
-        .animate-scroll {
-          animation: scroll 20s linear infinite;
-        }
-        
-        .animate-scroll:hover {
-          animation-play-state: paused;
-        }
-      `}</style>
     </div>
   );
 }

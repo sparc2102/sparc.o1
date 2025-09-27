@@ -31,6 +31,7 @@ import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
 import { AuthCallback } from './pages/auth/AuthCallback';
 import SparcForm from './pages/sparcform';
 import RegistrationSuccess from './pages/RegistrationSuccess';
+import PremiumMembers from './pages/Memberspage/PremiumMembers';
 
 function App() {
   return (
@@ -68,6 +69,7 @@ function App() {
               <Route path="/auth/callback" element={<AuthCallback />} />
               <Route path="/sparcform" element={<SparcForm />} />
               <Route path="/registration-success" element={<RegistrationSuccess />} />
+              <Route path="/premium-members" element={<PremiumMembers />} />
             </Routes>
           </main>
           <Footer />
