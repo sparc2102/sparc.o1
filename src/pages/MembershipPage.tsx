@@ -335,9 +335,9 @@ export function MembershipPage() {
         <table className="w-full min-w-[700px]" role="table" aria-label="SPARC membership comparison table">
           <thead>
             <tr>
-              <th className="px-6 py-4 text-left text-2xl font-medium text-white w-2/3">Features</th>
-              <th className="px-6 py-4 text-center text-2xl font-medium text-green-400 w-1/6">Genesis</th>
-              <th className="px-6 py-4 text-center text-2xl font-medium text-blue-400 w-1/6">Premium</th>
+              <th className="px-6 py-4 text-left text-2xl font-medium text-white w-1/2">Features</th>
+              <th className="px-6 py-4 text-center text-2xl font-medium text-green-400 w-1/4">Genesis</th>
+              <th className="px-6 py-4 text-center text-2xl font-medium text-blue-400 w-1/4">Premium</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-800 divide-opacity-20">
@@ -375,13 +375,16 @@ export function MembershipPage() {
             </tr>
             <tr className="hover:bg-gray-800 hover:bg-opacity-30 transition-colors">
               <td className="px-6 py-4 text-lg font-medium text-white border-r border-gray-700 border-opacity-20">
-                Entitle Program
+                Scholarly contest
                 <p className="text-sm text-gray-400 mt-1">Participate in article writing competitions and win exclusive rewards.</p>
               </td>
+              
               <td className="px-6 py-4 text-center border-r border-gray-700 border-opacity-20">
                 <CheckCircle className="inline-block w-4 h-4 text-green-500" aria-label="Available" />
               </td>
-              <td className="px-6 py-4 text-center text-gray-400">—</td>
+              <td className="px-6 py-4 text-center">
+                <CheckCircle className="inline-block w-4 h-4 text-blue-500" aria-label="Available" />
+              </td>
             </tr>
             <tr className="hover:bg-gray-800 hover:bg-opacity-30 transition-colors">
               <td className="px-6 py-4 text-lg font-medium text-white border-r border-gray-700 border-opacity-20">
@@ -395,13 +398,15 @@ export function MembershipPage() {
             </tr>
             <tr className="hover:bg-gray-800 hover:bg-opacity-30 transition-colors">
               <td className="px-6 py-4 text-lg font-medium text-white border-r border-gray-700 border-opacity-20">
-                Zane Omega Trials
+                Free online courses
                 <p className="text-sm text-gray-400 mt-1">Access real-time case simulations and free courses through Zane Pro Ed collaboration.</p>
               </td>
               <td className="px-6 py-4 text-center border-r border-gray-700 border-opacity-20">
                 <CheckCircle className="inline-block w-4 h-4 text-green-500" aria-label="Available" />
               </td>
-              <td className="px-6 py-4 text-center text-gray-400">—</td>
+              <td className="px-6 py-4 text-center">
+                <CheckCircle className="inline-block w-4 h-4 text-blue-500" aria-label="Available" />
+              </td>
             </tr>
             <tr className="hover:bg-gray-800 hover:bg-opacity-30 transition-colors">
               <td className="px-6 py-4 text-lg font-medium text-white border-r border-gray-700 border-opacity-20">
