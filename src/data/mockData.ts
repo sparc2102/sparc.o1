@@ -546,7 +546,7 @@ export const leadership = [
     name: 'Tharaneeshwaran', 
     title: 'Partnership & Sponsorship Associate', 
     bio: 'Supports partnership efforts by identifying opportunities and maintaining strong sponsor relationships.', 
-    avatar: 'MK' 
+    avatar: 'https://avatar.iran.liara.run/public/40' 
   },
   { 
     name: 'Arudhra', 
@@ -558,13 +558,13 @@ export const leadership = [
     name: 'Praveen P', 
     title: 'Event Coordinator', 
     bio: 'Coordinates event logistics, ensuring smooth operations and a professional experience for participants.', 
-    avatar: 'PP' 
+    avatar: 'https://avatar.iran.liara.run/public/40' 
   },
   { 
     name: 'Sowjanya R', 
     title: 'Member Engagement Coordinator', 
     bio: 'Facilitates member participation and supports programs designed to boost engagement and collaboration.', 
-    avatar: 'https://avatar.iran.liara.run/public/39' 
+    avatar: 'https://avatar.iran.liara.run/public/80' 
   },
   { 
     name: 'Sreenidhi V', 
