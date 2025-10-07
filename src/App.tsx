@@ -10,7 +10,7 @@ import { Dashboard } from './pages/Dashboard';
 import { EventsPage } from './pages/EventsPage';
 import { ResourcesPage } from './pages/ResourcesPage';
 import { CommunityPage } from './pages/CommunityPage';
-import { CareersPage } from './pages/CareersPage';
+import { CareersPage } from './pages/Blog/CareersPage';
 import { AboutPage } from './pages/AboutPage';
 import { MembershipPage } from './pages/MembershipPage';
 import { ProfilePage } from './pages/ProfilePage';
@@ -32,6 +32,9 @@ import { AuthCallback } from './pages/auth/AuthCallback';
 import SparcForm from './pages/sparcform';
 import RegistrationSuccess from './pages/RegistrationSuccess';
 import PremiumMembers from './pages/Memberspage/PremiumMembers';
+import FAQPage from './pages/FAQPage'; 
+import BlogPage from './pages/BlogPage';
+import BlogDetailsPage from './pages/Blog/BlogDetailsPage';
 
 function App() {
   return (
@@ -70,6 +73,11 @@ function App() {
               <Route path="/sparcform" element={<SparcForm />} />
               <Route path="/registration-success" element={<RegistrationSuccess />} />
               <Route path="/premium-members" element={<PremiumMembers />} />
+              <Route path="/faq" element={<FAQPage />} />
+              <Route path="/blog" element={<BlogPage />} />
+              <Route path="/blog/:id" element={<BlogDetailsPage />} />
+              <Route path="/events/:id" element={<EventDetailPage />} />
+
             </Routes>
           </main>
           <Footer />

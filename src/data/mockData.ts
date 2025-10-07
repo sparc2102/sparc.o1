@@ -1,7 +1,4 @@
 import { Event, Resource, MembershipTier, ForumPost, Job } from '../types';
-
-
-
 export const mockEvents: Event[] = [
   {
     id: '1',
@@ -18,7 +15,42 @@ export const mockEvents: Event[] = [
     location: 'Virtual',
     tags: ['career-guidance', 'research-guidance', 'pharmaceutical-innovation', 'SPARC'],
     link: 'https://meet.google.com/jte-ncci-qud' 
-}
+},
+{
+    id: '2',
+    title: 'ONLINE E-POSTER COMPETITION 2025: AI in Diagnostic and Clinical Decision Making',
+    date: '2025-10-17T10:00:00+05:30',
+    type: 'competition',
+    description: 'SPARC invites students, interns, researchers, and healthcare professionals to present original e-posters on AI applications in diagnostics and clinical decision-making. Explore disease prediction, AI in radiology/pathology, clinical decision support systems, and ethical considerations in healthcare AI.',
+    accessTiers: ['genesis', 'standard'],
+    capacity: 500,
+    registered: 0,
+    speaker: 'Organized by SPARC',
+    category: 'e-poster-competition',
+    duration: 'All Day Online',
+    location: 'Virtual',
+    tags: ['AI-in-healthcare', 'diagnostics', 'clinical-decision-making', 'innovation', 'SPARC'],
+    link: 'https://sparc.zaneproed.com/',
+    submission: {
+        email: 'zanesparc@gmail.com',
+        deadline: '2025-10-16',
+        fileFormat: ['JPEG', 'PNG', 'PDF'],
+        fileNameFormat: 'ParticipantName_InstituteName',
+        entryFee: 100,
+        paymentMethods: ['UPI', 'QR', 'SPARC payment link'],
+    },
+    eligibility: ['Students', 'Interns', 'Researchers', 'Healthcare Professionals'],
+    evaluationCriteria: ['Relevance to theme', 'Scientific accuracy', 'Creativity and innovation', 'Clarity and presentation quality'],
+    rewards: {
+        top: ['Digital Certificate of Excellence', 'Feature on SPARC website', 'Social Media Recognition'],
+        participants: ['E-Certificate of Participation', 'SPARC Credits'],
+    },
+    importantDates: {
+        abstractSubmission: '2025-10-13',
+        posterSubmission: '2025-10-16',
+        presentationDate: '2025-10-17',
+    },
+  },
 ];
 
 export const mockResources: Resource[] = [

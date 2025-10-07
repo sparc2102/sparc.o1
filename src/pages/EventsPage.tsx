@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
+import { Link } from 'react-router-dom';
 import { 
   Calendar, 
   Clock, 
@@ -114,78 +115,102 @@ export function EventsPage() {
             const isUpcoming = eventDate >= now;
 
             return (
-              <Card 
-                key={event.id} 
-                className="bg-white/5 backdrop-blur-lg border border-white/20 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:bg-white/10"
+              <Card
+  key={event.id}
+  className="bg-white/5 backdrop-blur-lg border border-white/20 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:bg-white/10 flex flex-col justify-between"
+>
+  <CardHeader>
+    <div className="flex items-center justify-between mb-2">
+      <span
+        className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getTypeColor(event.type)}`}
+      >
+        {getTypeIcon(event.type)}
+        <span className="ml-1">{event.type.charAt(0).toUpperCase() + event.type.slice(1)}</span>
+      </span>
+      <span className="text-sm text-gray-300">
+        {format(eventDate, 'MMM dd')}
+      </span>
+    </div>
+    <CardTitle className="text-lg font-semibold line-clamp-2">{event.title}</CardTitle>
+  </CardHeader>
+
+  <CardContent className="flex-1 flex flex-col justify-between">
+    {/* Event Info */}
+    <div className="space-y-2 mb-4 text-sm text-gray-300">
+      <div className="flex items-center">
+        <Clock className="h-4 w-4 mr-2" /> {format(eventDate, 'PPp')}
+      </div>
+      <div className="flex items-center">
+        <MapPin className="h-4 w-4 mr-2" /> {event.location || 'Virtual Event'}
+      </div>
+      <div className="flex items-center">
+        <UserCheck className="h-4 w-4 mr-2" /> {event.speaker}
+      </div>
+      <div className="flex items-center">
+        <Users className="h-4 w-4 mr-2" /> {event.registered}/{event.capacity} registered
+      </div>
+    </div>
+
+    {/* Access Tiers */}
+    <div className="flex flex-wrap gap-1 mb-4">
+      {event.accessTiers.map((tier) => (
+        <span
+          key={tier}
+          className={`px-2 py-1 text-xs rounded-full ${
+            tier === 'genesis'
+              ? 'bg-green-100 text-green-700'
+              : tier === 'professional'
+              ? 'bg-blue-100 text-blue-700'
+              : 'bg-purple-100 text-purple-700'
+          }`}
+        >
+          {tier.charAt(0).toUpperCase() + tier.slice(1)}
+        </span>
+      ))}
+    </div>
+
+    {/* CTA Buttons */}
+    <div className="mt-auto flex flex-col sm:flex-row gap-2 w-full">
+      {isUpcoming ? (
+        <>
+          {event.link && (
+            <a
+              href={event.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto"
+            >
+              <Button
+                size="sm"
+                className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 flex items-center justify-center gap-1"
               >
-                <CardHeader>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getTypeColor(event.type)}`}>
-                      {getTypeIcon(event.type)}
-                      <span className="ml-1">{event.type.charAt(0).toUpperCase() + event.type.slice(1)}</span>
-                    </span>
-                    <span className="text-sm text-gray-300">
-                      {format(eventDate, 'MMM dd')}
-                    </span>
-                  </div>
-                  <CardTitle className="text-lg line-clamp-2 hover:text-blue-400 transition-colors duration-300">{event.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-300 mb-4 line-clamp-3">{event.description}</p>
-
-                  <div className="space-y-2 mb-4">
-                    <div className="flex items-center text-sm text-gray-300">
-                      <Clock className="h-4 w-4 mr-2" />
-                      {format(eventDate, 'PPp')}
-                    </div>
-                    <div className="flex items-center text-sm text-gray-300">
-                      <MapPin className="h-4 w-4 mr-2" />
-                      {event.location || 'Virtual Event'}
-                    </div>
-                    <div className="flex items-center text-sm text-gray-300">
-                      <UserCheck className="h-4 w-4 mr-2" />
-                      {event.speaker}
-                    </div>
-                    <div className="flex items-center text-sm text-gray-300">
-                      <Users className="h-4 w-4 mr-2" />
-                      {event.registered}/{event.capacity} registered
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex space-x-1">
-                      {event.accessTiers.map(tier => (
-                        <span key={tier} className={`px-2 py-1 text-xs rounded-full ${
-                          tier === 'genesis' ? 'bg-green-100 text-green-700' :
-                          tier === 'professional' ? 'bg-blue-100 text-blue-700' :
-                          'bg-purple-100 text-purple-700'
-                        }`}>
-                          {tier.charAt(0).toUpperCase() + tier.slice(1)}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* CTA Button Logic */}
-                    {isUpcoming && event.link ? (
-                      <a href={event.link} target="_blank" rel="noopener noreferrer">
-                        <Button size="sm" className="bg-blue-600 hover:bg-blue-700 flex items-center gap-1">
-                          <LinkIcon className="h-4 w-4" /> Go to Webinar
-                        </Button>
-                      </a>
-                    ) : isUpcoming ? (
-                      user ? (
-                        <Button size="sm" className="bg-blue-600 hover:bg-blue-700">Register</Button>
-                      ) : (
-                        <Button size="sm" variant="outline" className="border-gray-600 text-white hover:bg-blue-600 hover:border-blue-600">View Details</Button>
-                      )
-                    ) : (
-                      <Button size="sm" variant="outline" className="border-gray-600 text-gray-400 cursor-not-allowed" disabled>
-                        Event Ended
-                      </Button>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
+                <LinkIcon className="h-4 w-4" /> Go to Event
+              </Button>
+            </a>
+          )}
+          <Link to={`/events/${event.id}`} className="w-full sm:w-auto">
+           <Button
+  size="sm"
+  variant="outline"
+  className="w-full sm:w-auto border-gray-600 text-black hover:!bg-blue-900 hover:!text-white flex items-center justify-center gap-1"
+>
+  <LinkIcon className="h-4 w-4" /> View Details
+</Button>
+          </Link>
+        </>
+      ) : (
+        <Button
+          size="sm"
+          variant="outline"
+          className="w-full border-gray-600 text-gray-400 cursor-not-allowed"
+          disabled
+        >
+          Event Ended
+        </Button>
+      )}
+    </div>
+  </CardContent>
+</Card>
             );
           })}
         </div>

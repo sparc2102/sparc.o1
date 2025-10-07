@@ -20,7 +20,7 @@ export interface Event {
   id: string;
   title: string;
   date: string;
-  type: 'webinar' | 'workshop' | 'networking' | 'bootcamp' | 'masterclass' | 'forum';
+  type: 'webinar' | 'workshop' | 'networking' | 'bootcamp' | 'masterclass' | 'forum' | 'competition';
   description: string;
   accessTiers: string[];
   capacity: number;
@@ -31,7 +31,27 @@ export interface Event {
   location?: string;
   duration?: string;
   tags?: string[];
-  link?: string; // ← Add this line
+  link?: string;
+  // Extended fields for competitions
+  submission?: {
+    email: string;
+    deadline: string;
+    fileFormat: string[];
+    fileNameFormat: string;
+    entryFee?: number;
+    paymentMethods?: string[];
+  };
+  eligibility?: string[];
+  evaluationCriteria?: string[];
+  rewards?: {
+    top?: string[];
+    participants?: string[];
+  };
+  importantDates?: {
+    abstractSubmission?: string;
+    posterSubmission?: string;
+    presentationDate?: string;
+  };
 }
 
 export interface Resource {
