@@ -6,12 +6,11 @@ const FAQPage = () => {
     <div className="min-h-screen bg-white text-black">
       <div className="relative z-10">
         {/* Hero Section */}
-        <section className="py-20 border-b border-gray-200">
+        <section className="py-12 border-b border-gray-200">
           <div className="max-w-5xl mx-auto px-4 text-center">
-            <h1 className="text-4xl font-bold mb-4 tracking-tight">FAQs for SPARC</h1>
+            <h1 className="text-4xl font-bold mb-4 tracking-tight">FAQs</h1>
             <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-              Find answers to common questions about the Society for Pharmacy Advancement Research & Careers (SPARC), powered by 
-              <span className="font-semibold text-black"> ZANE ProEd</span>.
+            
             </p>
           </div>
         </section>
