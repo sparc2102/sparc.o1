@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from '../contexts/AuthContext';
 import { motion, Variants } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { ArrowRight, CheckCircle, Quote } from 'lucide-react';
+import { ArrowRight, CheckCircle, Quote, LinkIcon } from 'lucide-react';
 import { 
   features, missionObjectives, strategicPillars, topCards, bottomCards, 
   testimonials, mockEvents, membershipTiers, FeatureCard, ColorKey 
@@ -905,7 +905,13 @@ export function LandingPage() {
                         {event.registered}/{event.capacity} registered
                       </span>
                       <Link to={`/events/${event.id}`}>
-                        {/* Add button or link content if needed */}
+                        <Button
+      size="sm"
+      variant="outline"
+      className="w-full sm:w-auto border-gray-600 text-black hover:!bg-blue-900 hover:!text-white flex items-center justify-center gap-1"
+    >
+      <LinkIcon className="h-4 w-4" /> View Details
+    </Button>
                       </Link>
                     </div>
                   </CardContent>
