@@ -19,12 +19,12 @@ export const mockEvents: Event[] = [
 {
     id: '2',
     title: 'E-POSTER COMPETITION 2025: AI in Diagnostic and Clinical Decision Making',
-    date: '2025-10-17T10:00:00+05:30',
+    date: '2025-10-16T10:00:00+05:30',
     type: 'competition',
     description: 'SPARC invites students, interns, researchers, and healthcare professionals to present original e-posters on AI applications in diagnostics and clinical decision-making. Explore disease prediction, AI in radiology/pathology, clinical decision support systems, and ethical considerations in healthcare AI.',
     accessTiers: ['genesis', 'standard'],
-    capacity: 300,
-    registered: 192,
+    capacity: 100,
+    registered: 30,
     speaker: 'Organized by SPARC',
     category: 'e-poster-competition',
     duration: 'All Day Online',
@@ -48,8 +48,8 @@ export const mockEvents: Event[] = [
     },
     importantDates: {
         abstractSubmission: '2025-10-13',
-        posterSubmission: '2025-10-16',
-        presentationDate: '2025-10-17',
+        posterSubmission: '2025-10-14',
+        presentationDate: '2025-10-16',
     },
   },
 ];
